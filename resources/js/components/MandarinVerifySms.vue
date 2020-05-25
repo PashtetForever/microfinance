@@ -1,0 +1,44 @@
+<template>
+  <v-row>
+    <v-col xs="12" md="11" offset-sm="1">
+      <app-headers h1="Подтвердить документы и отправить заявку"/>
+      <p>На ранее указаный Вами номер была отправлена СМС к кодом подтверждения. Введите его ниже</p>
+      <v-form @submit.prevent="checkCode">
+        <v-text-field
+          type="text"
+          v-model="code"
+          placeholder="Введите код из СМС">
+        </v-text-field>
+        <a class="btn btn-nav" @click="checkCode">Подтвердить</a>
+      </v-form>
+    </v-col>
+  </v-row>
+</template>
+
+<script>
+  export default {
+    name: "MandarinVerifySms",
+    data: () => ({
+      code: ''
+    }),
+    methods: {
+      async checkCode() {
+        await this.$store.dispatch('sendMandarinSmsCode', this.code);
+        const isVerify = await this.$store.dispatch('checkMandarinSmsStatus');
+        await this.$store.dispatch('createLoan');
+        if(isVerify){
+          this.$store.commit('smsCode', this.code);
+          await this.$store.dispatch('createLoan');
+          this.$store.commit('isExistLoan', true);
+          this.$router.push('/profile')
+        } else {
+          await this.$store.dispatch('error', 'Веден неверный код. Повторите попытку')
+        }
+      }
+    }
+  }
+</script>
+
+<style scoped>
+
+</style>
