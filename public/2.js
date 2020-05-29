@@ -112,7 +112,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   name: "PersonalLoan",
   data: function data() {
     return {
-      documents: [],
       dialog: false,
       agreeThree: false,
       agreeContract: false,
@@ -125,6 +124,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loanData: function loanData() {
       return this.$store.getters.loanData;
     },
+    documents: function documents() {
+      return this.$store.getters.documents;
+    },
     isExistSignContract: function isExistSignContract() {
       var contract = this.documents.find(function (item) {
         return item.name === 'Договор потребительского займа';
@@ -133,7 +135,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     isExistFilledContract: function isExistFilledContract() {
       var contract = this.documents.find(function (item) {
-        return item.name === 'Договор займа';
+        return item.name === 'Договор займа (заполненный)';
       });
       return !!contract;
     },
@@ -194,7 +196,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 _context2.next = 3;
-                return _this.$store.dispatch('sendSmsSignContract');
+                return _this.$store.dispatch('sendPhoneVerifyCode');
 
               case 3:
               case "end":
@@ -219,12 +221,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 _context3.next = 3;
-                return _this2.$store.dispatch('checkContractSms', _this2.smsCode);
+                return _this2.$store.dispatch('checkVerificationCode', {
+                  code: _this2.smsCode
+                });
 
               case 3:
                 result = _context3.sent;
 
-                if (!(result.status !== 200)) {
+                if (result) {
                   _context3.next = 8;
                   break;
                 }
@@ -240,13 +244,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _this2.$store.dispatch('signContract', _this2.smsCode);
 
               case 12:
-                _context3.next = 14;
-                return _this2.$store.dispatch('getContract', _this2.smsCode);
-
-              case 14:
                 location.reload();
 
-              case 15:
+              case 13:
               case "end":
                 return _context3.stop();
             }
@@ -267,40 +267,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               return _this3.$store.dispatch('getLoanData');
 
             case 2:
-              if (_this3.documents.length) {
-                _context4.next = 5;
-                break;
-              }
-
-              _context4.next = 5;
-              return _this3.$store.dispatch('requestUserDocuments');
-
-            case 5:
-              _context4.next = 7;
-              return _this3.$store.dispatch('getDocumentsByLoan');
-
-            case 7:
-              _this3.documents = _context4.sent;
-              _this3.documents = _this3.documents.filter(function (item) {
-                return item.name !== '';
-              });
-
-              if (!(!_this3.isExistFilledContract && !_this3.isExistSignContract)) {
-                _context4.next = 15;
-                break;
-              }
-
-              _context4.next = 12;
-              return _this3.$store.dispatch('getFillContract');
-
-            case 12:
-              _context4.next = 14;
-              return _this3.$store.dispatch('requestUserDocuments');
-
-            case 14:
-              _this3.documents = _context4.sent;
-
-            case 15:
             case "end":
               return _context4.stop();
           }

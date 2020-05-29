@@ -22,6 +22,6 @@ class PersonalContactsController extends Controller
     }
     public function setPersonalContacts(Request $request)
     {
-        $this->api->setContactPersons($request['sessionId'], $request['data']);
+        return $this->api->setContactPersons($request['sessionId'], $request['data']);
     }
 }

@@ -60,33 +60,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 isVerify = _context.sent;
-                _context.next = 7;
-                return _this.$store.dispatch('createLoan');
 
-              case 7:
                 if (!isVerify) {
-                  _context.next = 15;
+                  _context.next = 13;
                   break;
                 }
 
                 _this.$store.commit('smsCode', _this.code);
 
-                _context.next = 11;
+                _context.next = 9;
                 return _this.$store.dispatch('createLoan');
 
-              case 11:
+              case 9:
                 _this.$store.commit('isExistLoan', true);
 
                 _this.$router.push('/profile');
 
-                _context.next = 17;
+                _context.next = 15;
                 break;
 
-              case 15:
-                _context.next = 17;
+              case 13:
+                _context.next = 15;
                 return _this.$store.dispatch('error', 'Веден неверный код. Повторите попытку');
 
-              case 17:
+              case 15:
               case "end":
                 return _context.stop();
             }

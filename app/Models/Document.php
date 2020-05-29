@@ -36,7 +36,11 @@ class Document extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['*'];
+    protected $fillable = ['loan_id', 'file_name', 'name', 'sign_code', 'signed_at'];
+
+    protected $casts = [
+        'signed_at' => 'datetime'
+    ];
 
     public function loan()
     {

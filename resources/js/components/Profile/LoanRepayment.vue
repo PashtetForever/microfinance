@@ -4,8 +4,8 @@
       <v-row>
         <v-col>
           <v-alert color="success m-4 mb-0">
-            Вы можете погасить заём, используя вашу банковскую карту. Для этого Вам  необходимо перейти по ссылке,
-            нажав на кнопку «Оплатить». Обращаем Ваше  внимание, что сумма платежа составляет <b>{{sum()}} руб.</b>
+            Вы можете погасить заём, используя вашу банковскую карту. Для этого Вам необходимо перейти по ссылке,
+            нажав на кнопку «Оплатить». Обращаем Ваше внимание, что сумма платежа составляет <b>{{sum()}} руб.</b>
           </v-alert>
         </v-col>
       </v-row>
@@ -15,12 +15,29 @@
           <template v-slot:default>
             <tbody>
             <tr>
-            <tr><td><b>Сумма займа:</b></td><td> {{data.Sum}} руб.</td></tr>
-            <tr><td><b>Срок займа (дней):</b></td><td> {{data.Days}}</td></tr>
-            <tr><td><b>Дата возврата займа:</b></td><td> {{data.ReturnDate}}</td></tr>
-            <tr><td><b>Сумма процентов на текущий день:</b></td><td> {{data.PercentSum}} руб.</td></tr>
-            <tr><td><b>Процент:</b></td><td> {{data.Percent}} %</td></tr>
-            <tr><td><b>Пени:</b></td><td> {{data.Penalty}}</td>
+            <tr>
+              <td><b>Сумма займа:</b></td>
+              <td> {{data.Sum}} руб.</td>
+            </tr>
+            <tr>
+              <td><b>Срок займа (дней):</b></td>
+              <td> {{data.Days}}</td>
+            </tr>
+            <tr>
+              <td><b>Дата возврата займа:</b></td>
+              <td> {{data.ReturnDate}}</td>
+            </tr>
+            <tr>
+              <td><b>Сумма процентов на текущий день:</b></td>
+              <td> {{data.PercentSum}} руб.</td>
+            </tr>
+            <tr>
+              <td><b>Процент:</b></td>
+              <td> {{data.Percent}} %</td>
+            </tr>
+            <tr>
+              <td><b>Пени:</b></td>
+              <td> {{data.Penalty}}</td>
             </tr>
             </tbody>
           </template>
@@ -42,26 +59,26 @@
   export default {
     name: "LoanRepayment",
     data: () => ({
-        data: []
+      data: []
     }),
     methods: {
       async repayment() {
-          const response = await this.$store.dispatch('sendRepaymentData', this.sum());
+        const response = await this.$store.dispatch('repayment', this.sum());
 
-        if(response.hasOwnProperty('userWebLink')) {
-            location.replace(response.userWebLink);
+        if (response.hasOwnProperty('userWebLink')) {
+          location.replace(response.userWebLink);
         }
       },
       sum() {
-            let summ = this.data.Sum;
-            summ = +summ.replace(/\s/g, '');
-            return _.ceil(_.toNumber(this.data.PercentSum) + _.toNumber(this.data.Penalty) + summ, 2)
-        }
+        let summ = this.data.Sum;
+        summ = +summ.replace(/\s/g, '');
+        return _.ceil(_.toNumber(this.data.PercentSum) + _.toNumber(this.data.Penalty) + summ, 2)
+      }
     },
     async mounted() {
       this.data = await this.$store.dispatch('getValidContract');
-      if(!this.$store.getters.email) {
-          await this.$store.dispatch('loadContactData');
+      if (!this.$store.getters.email) {
+        await this.$store.dispatch('loadContactData');
       }
     }
   }

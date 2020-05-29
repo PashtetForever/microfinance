@@ -49,6 +49,23 @@ class MandarinPayService
         return $this->request('GET', '/api/personidentification/' . $smsId);
     }
 
+    public function payment($orderId, $price, $email, $returnUrl, $callbackUrl)
+    {
+        return $this->request('POST', '/api/transactions', [
+            'payment' => [
+                'orderId' => $orderId,
+                'action' => 'pay',
+                'price' => $price
+            ],
+            'customerInfo' => [
+                'email' => $email
+            ],
+            'urls' => [
+                'return' => $returnUrl,
+                'callback' => $callbackUrl
+            ]
+        ]);
+    }
 
     private function request($method, $urn, $body = null)
     {

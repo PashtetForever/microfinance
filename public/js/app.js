@@ -102727,7 +102727,7 @@ var _default = /*#__PURE__*/function () {
   }, {
     key: "createLoan",
     value: function () {
-      var _createLoan = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee16(sessionId, days, sum) {
+      var _createLoan = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee16(sessionId, days, sum, smsCode, userGuid) {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee16$(_context16) {
           while (1) {
             switch (_context16.prev = _context16.next) {
@@ -102736,7 +102736,9 @@ var _default = /*#__PURE__*/function () {
                 return _Request__WEBPACK_IMPORTED_MODULE_1__["default"].request('POST', '/api/loan/create', {
                   sessionId: sessionId,
                   days: days,
-                  sum: sum
+                  sum: sum,
+                  smsCode: smsCode,
+                  userGuid: userGuid
                 });
 
               case 2:
@@ -102750,11 +102752,193 @@ var _default = /*#__PURE__*/function () {
         }, _callee16);
       }));
 
-      function createLoan(_x31, _x32, _x33) {
+      function createLoan(_x31, _x32, _x33, _x34, _x35) {
         return _createLoan.apply(this, arguments);
       }
 
       return createLoan;
+    }()
+  }, {
+    key: "getCurrentLoan",
+    value: function () {
+      var _getCurrentLoan = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee17(sessionId, userGuid) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee17$(_context17) {
+          while (1) {
+            switch (_context17.prev = _context17.next) {
+              case 0:
+                _context17.next = 2;
+                return _Request__WEBPACK_IMPORTED_MODULE_1__["default"].request('GET', "/api/loan/current?sessionId=".concat(sessionId, "&userGuid=").concat(userGuid));
+
+              case 2:
+                return _context17.abrupt("return", _context17.sent);
+
+              case 3:
+              case "end":
+                return _context17.stop();
+            }
+          }
+        }, _callee17);
+      }));
+
+      function getCurrentLoan(_x36, _x37) {
+        return _getCurrentLoan.apply(this, arguments);
+      }
+
+      return getCurrentLoan;
+    }()
+  }, {
+    key: "sendSmsCode",
+    value: function () {
+      var _sendSmsCode = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee18(phone) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee18$(_context18) {
+          while (1) {
+            switch (_context18.prev = _context18.next) {
+              case 0:
+                _context18.next = 2;
+                return _Request__WEBPACK_IMPORTED_MODULE_1__["default"].request('POST', '/api/user/send-sms-verify', {
+                  phone: phone
+                });
+
+              case 2:
+                return _context18.abrupt("return", _context18.sent);
+
+              case 3:
+              case "end":
+                return _context18.stop();
+            }
+          }
+        }, _callee18);
+      }));
+
+      function sendSmsCode(_x38) {
+        return _sendSmsCode.apply(this, arguments);
+      }
+
+      return sendSmsCode;
+    }()
+  }, {
+    key: "getSignContract",
+    value: function () {
+      var _getSignContract = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee19(userGuid, smsCode, sessionId) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee19$(_context19) {
+          while (1) {
+            switch (_context19.prev = _context19.next) {
+              case 0:
+                _context19.next = 2;
+                return _Request__WEBPACK_IMPORTED_MODULE_1__["default"].request('POST', '/api/loan/sign-contract', {
+                  userGuid: userGuid,
+                  smsCode: smsCode,
+                  sessionId: sessionId
+                });
+
+              case 2:
+                return _context19.abrupt("return", _context19.sent);
+
+              case 3:
+              case "end":
+                return _context19.stop();
+            }
+          }
+        }, _callee19);
+      }));
+
+      function getSignContract(_x39, _x40, _x41) {
+        return _getSignContract.apply(this, arguments);
+      }
+
+      return getSignContract;
+    }()
+  }, {
+    key: "getContractData",
+    value: function () {
+      var _getContractData = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee20(sessionId, loanGuid) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee20$(_context20) {
+          while (1) {
+            switch (_context20.prev = _context20.next) {
+              case 0:
+                _context20.next = 2;
+                return _Request__WEBPACK_IMPORTED_MODULE_1__["default"].request('GET', "/api/loan/contract?loanGuid=".concat(loanGuid, "&sessionId=").concat(sessionId));
+
+              case 2:
+                return _context20.abrupt("return", _context20.sent);
+
+              case 3:
+              case "end":
+                return _context20.stop();
+            }
+          }
+        }, _callee20);
+      }));
+
+      function getContractData(_x42, _x43) {
+        return _getContractData.apply(this, arguments);
+      }
+
+      return getContractData;
+    }()
+  }, {
+    key: "repayment",
+    value: function () {
+      var _repayment = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee21(orderId, price, email) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee21$(_context21) {
+          while (1) {
+            switch (_context21.prev = _context21.next) {
+              case 0:
+                _context21.next = 2;
+                return _Request__WEBPACK_IMPORTED_MODULE_1__["default"].request('POST', "/api/mandarin/repayment-loan", {
+                  orderId: orderId,
+                  price: price,
+                  email: email
+                });
+
+              case 2:
+                return _context21.abrupt("return", _context21.sent);
+
+              case 3:
+              case "end":
+                return _context21.stop();
+            }
+          }
+        }, _callee21);
+      }));
+
+      function repayment(_x44, _x45, _x46) {
+        return _repayment.apply(this, arguments);
+      }
+
+      return repayment;
+    }()
+  }, {
+    key: "extensionPayPercent",
+    value: function () {
+      var _extensionPayPercent = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee22(orderId, price, email) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee22$(_context22) {
+          while (1) {
+            switch (_context22.prev = _context22.next) {
+              case 0:
+                _context22.next = 2;
+                return _Request__WEBPACK_IMPORTED_MODULE_1__["default"].request('POST', "/api/mandarin/payment-extension-percent", {
+                  orderId: orderId,
+                  price: price,
+                  email: email
+                });
+
+              case 2:
+                return _context22.abrupt("return", _context22.sent);
+
+              case 3:
+              case "end":
+                return _context22.stop();
+            }
+          }
+        }, _callee22);
+      }));
+
+      function extensionPayPercent(_x47, _x48, _x49) {
+        return _extensionPayPercent.apply(this, arguments);
+      }
+
+      return extensionPayPercent;
     }()
   }]);
 
@@ -102777,11 +102961,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _default; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../store */ "./resources/js/store/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store */ "./resources/js/store/index.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -102793,7 +102975,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 
 
 
@@ -102811,9 +102992,10 @@ var _default = /*#__PURE__*/function () {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _store__WEBPACK_IMPORTED_MODULE_3__["default"].commit('setLoading', true);
-                _context.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_2___default()({
+                _store__WEBPACK_IMPORTED_MODULE_2__["default"].commit('setLoading', true);
+                url = "http://localhost" + url;
+                _context.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default()({
                   method: method,
                   url: url,
                   data: data
@@ -102822,15 +103004,15 @@ var _default = /*#__PURE__*/function () {
 
                   return (_response$data$origin = response.data.original) !== null && _response$data$origin !== void 0 ? _response$data$origin : response.data;
                 })["catch"](function (error) {
-                  return _store__WEBPACK_IMPORTED_MODULE_3__["default"].dispatch('error', error.response.data.error);
+                  return _store__WEBPACK_IMPORTED_MODULE_2__["default"].dispatch('error', error.response.data.error);
                 })["finally"](function () {
-                  _store__WEBPACK_IMPORTED_MODULE_3__["default"].commit('setLoading', false);
+                  _store__WEBPACK_IMPORTED_MODULE_2__["default"].commit('setLoading', false);
                 });
 
-              case 3:
+              case 4:
                 return _context.abrupt("return", _context.sent);
 
-              case 4:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -104140,7 +104322,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loanId: '',
     loanGuid: '',
     fillContractName: '',
-    isExistLoan: false
+    isExistLoan: false,
+    documents: []
   },
   mutations: {
     loanData: function loanData(s, payload) {
@@ -104157,6 +104340,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     isExistLoan: function isExistLoan(s, payload) {
       return s.isExistLoan = payload;
+    },
+    documents: function documents(s, payload) {
+      return s.documents = payload;
     }
   },
   getters: {
@@ -104174,6 +104360,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     isExistLoan: function isExistLoan(s) {
       return s.isExistLoan;
+    },
+    documents: function documents(s) {
+      return s.documents;
     }
   },
   actions: {
@@ -104186,15 +104375,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 getters = _ref.getters, commit = _ref.commit;
                 _context.next = 3;
-                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].Api1C.getCurrentLoan(getters.sessionId, getters.loanGuid);
+                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].getCurrentLoan(getters.sessionId, getters.guid);
 
               case 3:
                 response = _context.sent;
-                commit('loanData', response.body);
-                commit('loanId', response.body.Number);
-                return _context.abrupt("return", response.body);
+                commit('loanData', response.loan);
+                commit('loanId', response.loan.Number);
+                commit('documents', response.documents);
+                return _context.abrupt("return", response);
 
-              case 7:
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -104211,13 +104401,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 commit = _ref2.commit, getters = _ref2.getters;
                 _context2.next = 3;
-                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].createLoan(getters.sessionId, getters.getSum, getters.getDays);
+                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].createLoan(getters.sessionId, getters.getSum, getters.getDays, getters.smsCode, getters.guid);
 
               case 3:
                 response = _context2.sent;
-                commit('loanGuid', response);
+                commit('loanData', response.loan);
+                commit('documents', response.documents);
+                commit('loanGuid', response.loan.GUID);
 
-              case 5:
+              case 7:
               case "end":
                 return _context2.stop();
             }
@@ -104225,22 +104417,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    getDocumentsByLoan: function getDocumentsByLoan(_ref3) {
+    signContract: function signContract(_ref3, payload) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var getters, commit, response;
+        var commit, getters;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                getters = _ref3.getters, commit = _ref3.commit;
+                commit = _ref3.commit, getters = _ref3.getters;
                 _context3.next = 3;
-                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].ApiSite.getDocumentsByLoan(getters.loanId, getters.guid, getters.loanGuid);
+                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].getSignContract(getters.guid, payload, getters.sessionId);
 
               case 3:
-                response = _context3.sent;
-                return _context3.abrupt("return", response.body);
-
-              case 5:
               case "end":
                 return _context3.stop();
             }
@@ -104248,22 +104436,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    getFillContract: function getFillContract(_ref4) {
+    getValidContract: function getValidContract(_ref4) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-        var getters, commit, response;
+        var getters, commit;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 getters = _ref4.getters, commit = _ref4.commit;
                 _context4.next = 3;
-                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].ApiSite.getFillContract(getters.sessionId, getters.loanGuid, getters.loanGuid);
+                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].getContractData(getters.sessionId, getters.loanGuid);
 
               case 3:
-                response = _context4.sent;
-                commit('fillContractName', response.contractFileName);
+                return _context4.abrupt("return", _context4.sent);
 
-              case 5:
+              case 4:
               case "end":
                 return _context4.stop();
             }
@@ -104271,7 +104458,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     },
-    checkContractSms: function checkContractSms(_ref5, payload) {
+    loanReturn: function loanReturn(_ref5) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
         var getters;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
@@ -104280,12 +104467,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 getters = _ref5.getters;
                 _context5.next = 3;
-                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].ApiSite.checkSmsSignContract(getters.phone, payload);
+                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].Api1C.loanReturn(getters.sessionId, getters.guid);
 
               case 3:
-                return _context5.abrupt("return", _context5.sent);
-
-              case 4:
               case "end":
                 return _context5.stop();
             }
@@ -104293,21 +104477,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee5);
       }))();
     },
-    getValidContract: function getValidContract(_ref6) {
+    isExistLoan: function isExistLoan(_ref6) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-        var getters, commit, result;
+        var getters, commit, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
                 getters = _ref6.getters, commit = _ref6.commit;
                 _context6.next = 3;
-                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].Api1C.getValidContract(getters.sessionId, getters.loanGuid);
+                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].ApiSite.isExistLoan(getters.guid);
 
               case 3:
-                result = _context6.sent;
-                result.body.Penalty = lodash__WEBPACK_IMPORTED_MODULE_2___default.a.ceil(result.body.Penalty, 2);
-                return _context6.abrupt("return", result.body);
+                response = _context6.sent;
+                commit('isExistLoan', response.response);
+                if (response.response) commit('loanGuid', response.loanGuid);
 
               case 6:
               case "end":
@@ -104317,16 +104501,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee6);
       }))();
     },
-    loanReturn: function loanReturn(_ref7) {
+    extensionLoanTo1C: function extensionLoanTo1C(_ref7, payload) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
-        var getters;
+        var commit, getters;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                getters = _ref7.getters;
+                commit = _ref7.commit, getters = _ref7.getters;
                 _context7.next = 3;
-                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].Api1C.loanReturn(getters.sessionId, getters.guid);
+                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].Api1C.extensionLoan(getters.loanGuid, payload.dateEndLoan);
 
               case 3:
               case "end":
@@ -104334,49 +104518,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee7);
-      }))();
-    },
-    isExistLoan: function isExistLoan(_ref8) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
-        var getters, commit, response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
-          while (1) {
-            switch (_context8.prev = _context8.next) {
-              case 0:
-                getters = _ref8.getters, commit = _ref8.commit;
-                _context8.next = 3;
-                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].ApiSite.isExistLoan(getters.guid);
-
-              case 3:
-                response = _context8.sent;
-                commit('isExistLoan', response.response);
-                if (response.response) commit('loanGuid', response.loanGuid);
-
-              case 6:
-              case "end":
-                return _context8.stop();
-            }
-          }
-        }, _callee8);
-      }))();
-    },
-    extensionLoanTo1C: function extensionLoanTo1C(_ref9, payload) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
-        var commit, getters;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
-          while (1) {
-            switch (_context9.prev = _context9.next) {
-              case 0:
-                commit = _ref9.commit, getters = _ref9.getters;
-                _context9.next = 3;
-                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].Api1C.extensionLoan(getters.loanGuid, payload.dateEndLoan);
-
-              case 3:
-              case "end":
-                return _context9.stop();
-            }
-          }
-        }, _callee9);
       }))();
     }
   }
@@ -104571,7 +104712,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     },
-    sendRepaymentData: function sendRepaymentData(_ref5, payload) {
+    repayment: function repayment(_ref5, payload) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
         var getters;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
@@ -104579,31 +104720,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context5.prev = _context5.next) {
               case 0:
                 getters = _ref5.getters;
+                _context5.next = 3;
+                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].repayment(getters.loanGuid, payload, getters.email);
 
-                if (!payload.hasOwnProperty('callback')) {
-                  _context5.next = 7;
-                  break;
-                }
-
-                _context5.next = 4;
-                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].ApiSite.sendRepaymentData(getters.loanGuid, getters.email, payload.sum, payload.returnUri, payload.callback);
+              case 3:
+                return _context5.abrupt("return", _context5.sent);
 
               case 4:
-                return _context5.abrupt("return", _context5.sent);
-
-              case 7:
-                _context5.next = 9;
-                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].ApiSite.sendRepaymentData(getters.loanGuid, getters.email, payload);
-
-              case 9:
-                return _context5.abrupt("return", _context5.sent);
-
-              case 10:
               case "end":
                 return _context5.stop();
             }
           }
         }, _callee5);
+      }))();
+    },
+    extensionPayPercent: function extensionPayPercent(_ref6, payload) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+        var getters;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                getters = _ref6.getters;
+                _context6.next = 3;
+                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].extensionPayPercent(getters.loanGuid, payload, getters.email);
+
+              case 3:
+                return _context6.abrupt("return", _context6.sent);
+
+              case 4:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
       }))();
     }
   }
@@ -104854,35 +105004,54 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    setSum: function setSum(_ref4, payload) {
-      var commit = _ref4.commit;
-      commit('setSum', payload);
-    },
-    setDays: function setDays(_ref5, payload) {
-      var commit = _ref5.commit;
-      commit('setDays', payload);
-    },
-    changeOldPassword: function changeOldPassword(_ref6, _ref7) {
+    sendPhoneVerifyCode: function sendPhoneVerifyCode(_ref4) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-        var getters, oldPassword, newPassword;
+        var getters;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                getters = _ref6.getters;
-                oldPassword = _ref7.oldPassword, newPassword = _ref7.newPassword;
-                _context4.next = 4;
-                return Api1C.changePassword(getters.sessionId, oldPassword, newPassword);
+                getters = _ref4.getters;
+                _context4.next = 3;
+                return _api_Api__WEBPACK_IMPORTED_MODULE_2__["default"].sendSmsCode(getters.phone);
 
-              case 4:
-                return _context4.abrupt("return", _context4.sent);
-
-              case 5:
+              case 3:
               case "end":
                 return _context4.stop();
             }
           }
         }, _callee4);
+      }))();
+    },
+    setSum: function setSum(_ref5, payload) {
+      var commit = _ref5.commit;
+      commit('setSum', payload);
+    },
+    setDays: function setDays(_ref6, payload) {
+      var commit = _ref6.commit;
+      commit('setDays', payload);
+    },
+    changeOldPassword: function changeOldPassword(_ref7, _ref8) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        var getters, oldPassword, newPassword;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                getters = _ref7.getters;
+                oldPassword = _ref8.oldPassword, newPassword = _ref8.newPassword;
+                _context5.next = 4;
+                return Api1C.changePassword(getters.sessionId, oldPassword, newPassword);
+
+              case 4:
+                return _context5.abrupt("return", _context5.sent);
+
+              case 5:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
       }))();
     }
   }

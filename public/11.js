@@ -57,6 +57,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "LoanRepayment",
@@ -76,7 +93,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this.$store.dispatch('sendRepaymentData', _this.sum());
+                return _this.$store.dispatch('repayment', _this.sum());
 
               case 2:
                 response = _context.sent;
@@ -163,7 +180,7 @@ var render = function() {
                     [
                       _c("v-alert", { attrs: { color: "success m-4 mb-0" } }, [
                         _vm._v(
-                          "\n          Вы можете погасить заём, используя вашу банковскую карту. Для этого Вам  необходимо перейти по ссылке,\n          нажав на кнопку «Оплатить». Обращаем Ваше  внимание, что сумма платежа составляет "
+                          "\n          Вы можете погасить заём, используя вашу банковскую карту. Для этого Вам необходимо перейти по ссылке,\n          нажав на кнопку «Оплатить». Обращаем Ваше внимание, что сумма платежа составляет "
                         ),
                         _c("b", [_vm._v(_vm._s(_vm.sum()) + " руб.")])
                       ])
@@ -193,6 +210,7 @@ var render = function() {
                                 _c("tr"),
                                 _c("tr", [
                                   _c("td", [_c("b", [_vm._v("Сумма займа:")])]),
+                                  _vm._v(" "),
                                   _c("td", [
                                     _vm._v(" " + _vm._s(_vm.data.Sum) + " руб.")
                                   ])
@@ -202,6 +220,7 @@ var render = function() {
                                   _c("td", [
                                     _c("b", [_vm._v("Срок займа (дней):")])
                                   ]),
+                                  _vm._v(" "),
                                   _c("td", [
                                     _vm._v(" " + _vm._s(_vm.data.Days))
                                   ])
@@ -211,6 +230,7 @@ var render = function() {
                                   _c("td", [
                                     _c("b", [_vm._v("Дата возврата займа:")])
                                   ]),
+                                  _vm._v(" "),
                                   _c("td", [
                                     _vm._v(" " + _vm._s(_vm.data.ReturnDate))
                                   ])
@@ -222,6 +242,7 @@ var render = function() {
                                       _vm._v("Сумма процентов на текущий день:")
                                     ])
                                   ]),
+                                  _vm._v(" "),
                                   _c("td", [
                                     _vm._v(
                                       " " +
@@ -233,6 +254,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("tr", [
                                   _c("td", [_c("b", [_vm._v("Процент:")])]),
+                                  _vm._v(" "),
                                   _c("td", [
                                     _vm._v(
                                       " " + _vm._s(_vm.data.Percent) + " %"
@@ -242,6 +264,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("tr", [
                                   _c("td", [_c("b", [_vm._v("Пени:")])]),
+                                  _vm._v(" "),
                                   _c("td", [
                                     _vm._v(" " + _vm._s(_vm.data.Penalty))
                                   ])
@@ -254,7 +277,7 @@ var render = function() {
                       ],
                       null,
                       false,
-                      3487207584
+                      3844205472
                     )
                   }),
                   _vm._v(" "),

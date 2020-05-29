@@ -4,6 +4,9 @@
 namespace App\Services\Exchange1C;
 
 
+use Illuminate\Http\File;
+use Illuminate\Support\Facades\Storage;
+
 class API
 {
     private Receiver $receiver;
@@ -72,11 +75,12 @@ class API
         ]);
     }
 
-    public function getFile($sessionId, $filePath)
+    public function getFile($sessionId, $filePath, $sinkFile)
     {
-        return $this->request('POST', 'dunay/hs/cabinet/file/' . $sessionId, [
+        $response = $this->receiver->request('POST', 'dunay/hs/cabinet/file/' . $sessionId, [
             'file' => $filePath
-        ]);
+        ], ['sink' => storage_path('app') . '/' . $sinkFile]);
+        Storage::put($sinkFile, $response);
     }
 
     public function requestCreateLoan($sessionId, int $sum, int $days)
@@ -111,10 +115,11 @@ class API
         ]);
     }
 
-    public function requestReturnLoan($sessionId, $loanGuid)
+    public function requestReturnLoan($loanGuid, $sum)
     {
-        return $this->request('GET', "dunay/'/hs/cabinet/loanreturn/$sessionId,", [
-            'GUID' => $loanGuid
+        return $this->request('GET', "dunay/'/hs/cabinet/loanreturn,", [
+            'GUID' => $loanGuid,
+            'Sum' => $sum
         ]);
     }
 
@@ -151,6 +156,8 @@ class API
             return response()
                 ->json(['message' => $exception->getMessage()])
                 ->setStatusCode(500);
+        } catch (\Exception $exception) {
+            return response()->json(['message' => $exception->getMessage()], 500);
         }
     }
 }

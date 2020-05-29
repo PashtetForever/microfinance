@@ -61,8 +61,13 @@ class UserController extends Controller
 
     public function setMandarin(Request $request)
     {
-        return response()->json(
-            $this->api->setMandarin($request['sessionId'], $request['mandarinId'], $request['phone'], $request['email'])
-        );
+        $response = $this->api->setMandarin($request['sessionId'], $request['mandarinId'], $request['phone'], $request['email']);
+        \Log::info('Отправка mandarinid для привязки в 1С. Ответ - ' . $response->getData()->Message);
+        return $response;
+    }
+
+    public function sendSmsCode(Request $request)
+    {
+        $this->authService->sendVerifyCode($request['phone']);
     }
 }

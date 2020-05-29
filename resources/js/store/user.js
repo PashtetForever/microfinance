@@ -86,6 +86,9 @@ export default {
         commit('isVerify', true);
       return result;
     },
+    async sendPhoneVerifyCode({getters}){
+      await Api.sendSmsCode(getters.phone);
+    },
     setSum({commit}, payload) {
       commit('setSum', payload);
     },

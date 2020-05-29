@@ -70,11 +70,11 @@ export default {
       const result = await api.mandarinGetIdentify(getters.smsId);
       return result.phoneVerified;
     },
-    async sendRepaymentData({getters}, payload) {
-      if (payload.hasOwnProperty('callback'))
-        return await api.ApiSite.sendRepaymentData(getters.loanGuid, getters.email, payload.sum, payload.returnUri, payload.callback);
-      else
-        return await api.ApiSite.sendRepaymentData(getters.loanGuid, getters.email, payload);
+    async repayment({getters}, payload) {
+      return await api.repayment(getters.loanGuid, payload, getters.email)
+    },
+    async extensionPayPercent({getters}, payload) {
+      return await api.extensionPayPercent(getters.loanGuid, payload, getters.email)
     }
   }
 }

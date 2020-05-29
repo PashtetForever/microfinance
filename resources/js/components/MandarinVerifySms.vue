@@ -25,7 +25,6 @@
       async checkCode() {
         await this.$store.dispatch('sendMandarinSmsCode', this.code);
         const isVerify = await this.$store.dispatch('checkMandarinSmsStatus');
-        await this.$store.dispatch('createLoan');
         if(isVerify){
           this.$store.commit('smsCode', this.code);
           await this.$store.dispatch('createLoan');

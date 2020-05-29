@@ -93,7 +93,6 @@
   export default {
     name: "PersonalLoan",
     data: () => ({
-      documents: [],
       dialog: false,
       agreeThree: false,
       agreeContract: false,
@@ -105,6 +104,9 @@
       loanData() {
         return this.$store.getters.loanData
       },
+      documents() {
+        return this.$store.getters.documents
+      },
       isExistSignContract() {
         const contract = this.documents.find(item => {
           return (item.name === 'Договор потребительского займа')
@@ -114,7 +116,7 @@
       },
       isExistFilledContract() {
         const contract = this.documents.find(item => {
-          return (item.name === 'Договор займа')
+          return (item.name === 'Договор займа (заполненный)')
         });
 
         return !!contract;
@@ -146,37 +148,23 @@
       },
       async sendSms() {
         if (!this.isSendSms)
-          await this.$store.dispatch('sendSmsSignContract');
+          await this.$store.dispatch('sendPhoneVerifyCode');
       },
       async signContract() {
         if (this.smsCode) {
-          const result = await this.$store.dispatch('checkContractSms', this.smsCode);
-          if (result.status !== 200)
+          const result = await this.$store.dispatch('checkVerificationCode', {code: this.smsCode});
+          if (!result)
             return this.$store.dispatch('error', 'Проверьте правильность введеного кода подписи');
           else
             this.isSendSms = true;
         }
         this.dialog = false;
         await this.$store.dispatch('signContract', this.smsCode);
-        await this.$store.dispatch('getContract', this.smsCode);
         location.reload();
       }
     },
     async mounted() {
       await this.$store.dispatch('getLoanData');
-
-      if (!this.documents.length) {
-        await this.$store.dispatch('requestUserDocuments');
-      }
-      this.documents = await this.$store.dispatch('getDocumentsByLoan');
-      this.documents = this.documents.filter((item) => {
-        return item.name !== ''
-      });
-
-      if (!this.isExistFilledContract && !this.isExistSignContract) {
-        await this.$store.dispatch('getFillContract');
-        this.documents = await this.$store.dispatch('requestUserDocuments');
-      }
     }
   }
 </script>

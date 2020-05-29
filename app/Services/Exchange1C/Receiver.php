@@ -19,29 +19,34 @@ class Receiver
         $this->login = $login;
         $this->password = $password;
         $this->httpClient = new Client([
-            'timeout' => 30,
+            'timeout' => 60,
         ]);
     }
 
-    public function request($method, $urn, $data = null)
+    public function request($method, $urn, $data = null, $addOptions = null)
     {
         try {
-            $response = $this->httpClient->request($method, $this->baseUri . $urn, [
+            $options = [
                 'auth' => [$this->login, $this->password],
                 'headers' => [
                     'Accept' => 'application/json',
                 ],
-                'json' => $data
-            ]);
+                'json' => $data,
+            ];
+
+            if($addOptions)
+                array_merge($options, $addOptions);
+
+            $response = $this->httpClient->request($method, $this->baseUri . $urn, $options);
+
         } catch (ServerException $exception) {
             $response = $exception->getResponse();
             throw new \DomainException("Ошибка запроса на сервер. Код {$response->getStatusCode()} Ответ: {$response->getBody()->getContents()}");
-        } catch (\Exception $exception) {
-            return $exception->getMessage();
         }
+        if(stristr($urn, '/cabinet/file/'))
+            return $response->getBody()->getContents();
 
         $contents = (array)json_decode($response->getBody()->getContents());
-
         if (Arr::exists($contents, 'Result'))
             if ($contents['Result'] != true)
                 throw new \DomainException($contents['Message']);

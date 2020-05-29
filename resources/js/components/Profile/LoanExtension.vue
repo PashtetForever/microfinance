@@ -60,12 +60,8 @@
     },
     methods: {
       async payment() {
-        const data = {
-          returnUri: process.env.VUE_APP_MANDARIN_RETURN_URI_EXTENTION_LOAN,
-          callback: process.env.VUE_APP_MANDARIN_CALLBACK_URI_EXTENTION_LOAN,
-          sum: this.percentSum
-        }
-        const response = await this.$store.dispatch('sendRepaymentData', data);
+
+        const response = await this.$store.dispatch('extensionPayPercent', this.percentSum);
 
         if(response.hasOwnProperty('userWebLink')) {
           location.replace(response.userWebLink);

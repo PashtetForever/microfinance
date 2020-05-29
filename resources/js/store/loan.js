@@ -8,6 +8,7 @@ export default {
     loanGuid: '',
     fillContractName: '',
     isExistLoan: false,
+    documents: []
   },
   mutations: {
     loanData: (s, payload) => s.loanData = payload,
@@ -15,6 +16,7 @@ export default {
     loanGuid: (s, payload) => s.loanGuid = payload,
     fillContractName: (s, payload) => s.fillContractName = payload,
     isExistLoan: (s, payload) => s.isExistLoan = payload,
+    documents: (s, payload) => s.documents = payload,
   },
   getters: {
     loanData: (s) => s.loanData,
@@ -22,38 +24,28 @@ export default {
     loanGuid: (s) => s.loanGuid,
     fillContractName: (s) => s.fillContractName,
     isExistLoan: (s) => s.isExistLoan,
+    documents: (s) => s.documents,
   },
   actions: {
     async getLoanData({getters, commit}) {
-      const response = await api.Api1C.getCurrentLoan(getters.sessionId, getters.loanGuid);
-      commit('loanData', response.body);
-      commit('loanId', response.body.Number);
-      return response.body;
+      const response = await api.getCurrentLoan(getters.sessionId, getters.guid);
+      commit('loanData', response.loan);
+      commit('loanId', response.loan.Number);
+      commit('documents', response.documents);
+      return response;
     },
     async createLoan({commit, getters}) {
-      const response = await api.createLoan(getters.sessionId, getters.getSum, getters.getDays);
-      commit('loanGuid', response)
+      const response = await api.createLoan(getters.sessionId, getters.getSum, getters.getDays, getters.smsCode, getters.guid);
+      commit('loanData', response.loan)
+      commit('documents', response.documents)
+      commit('loanGuid', response.loan.GUID)
     },
-    async getDocumentsByLoan({getters, commit}) {
-      const response = await api.ApiSite.getDocumentsByLoan(getters.loanId, getters.guid, getters.loanGuid);
-      return response.body;
+    async signContract({commit, getters}, payload) {
+      await api.getSignContract(getters.guid, payload, getters.sessionId)
     },
-
-    async getFillContract({getters, commit}) {
-      const response = await api.ApiSite.getFillContract(getters.sessionId, getters.loanGuid, getters.loanGuid);
-      commit('fillContractName', response.contractFileName);
-    },
-
-    async checkContractSms({getters}, payload) {
-      return await api.ApiSite.checkSmsSignContract(getters.phone, payload)
-    },
-
     async getValidContract({getters, commit}) {
-      const result = await api.Api1C.getValidContract(getters.sessionId, getters.loanGuid);
-      result.body.Penalty = _.ceil(result.body.Penalty, 2);
-      return result.body;
+      return await api.getContractData(getters.sessionId, getters.loanGuid);
     },
-
     async loanReturn({getters}) {
       await api.Api1C.loanReturn(getters.sessionId, getters.guid)
     },
