@@ -3045,7 +3045,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      //todo: перенести документы на бэк
       emailRules: [function (v) {
         return !!v || 'Требуется ввести Email';
       }, function (v) {
@@ -3549,7 +3548,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   methods: {
     logout: function logout() {
       this.$store.dispatch('logoutUser');
-      this.$router.push('/login');
+      this.$router.push({
+        name: 'login'
+      });
       location.reload();
     }
   }
@@ -103278,6 +103279,37 @@ var _default = /*#__PURE__*/function () {
 
       return extensionPayPercent;
     }()
+  }, {
+    key: "extensionLoan",
+    value: function () {
+      var _extensionLoan = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee23(loanGuid, returnDate) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee23$(_context23) {
+          while (1) {
+            switch (_context23.prev = _context23.next) {
+              case 0:
+                _context23.next = 2;
+                return _Request__WEBPACK_IMPORTED_MODULE_1__["default"].request('POST', "/api/loan/extension", {
+                  loanGuid: loanGuid,
+                  returnDate: returnDate
+                });
+
+              case 2:
+                return _context23.abrupt("return", _context23.sent);
+
+              case 3:
+              case "end":
+                return _context23.stop();
+            }
+          }
+        }, _callee23);
+      }));
+
+      function extensionLoan(_x50, _x51) {
+        return _extensionLoan.apply(this, arguments);
+      }
+
+      return extensionLoan;
+    }()
   }]);
 
   return _default;
@@ -104418,7 +104450,6 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   actions: {
-    //todo: При повторной ошибке снакбар не показывается
     error: function error(_ref, errorText) {
       var commit = _ref.commit;
       commit('snackbar', true);
@@ -104805,7 +104836,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 getters = _ref5.getters;
                 _context5.next = 3;
-                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].Api1C.loanReturn(getters.sessionId, getters.guid);
+                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].loanReturn(getters.sessionId, getters.guid);
 
               case 3:
               case "end":
@@ -104815,23 +104846,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee5);
       }))();
     },
-    isExistLoan: function isExistLoan(_ref6) {
+    extendLoan: function extendLoan(_ref6, payload) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-        var getters, commit, response;
+        var getters;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                getters = _ref6.getters, commit = _ref6.commit;
+                getters = _ref6.getters;
                 _context6.next = 3;
-                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].ApiSite.isExistLoan(getters.guid);
+                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].extensionLoan(getters.loanGuid, payload);
 
               case 3:
-                response = _context6.sent;
-                commit('isExistLoan', response.response);
-                if (response.response) commit('loanGuid', response.loanGuid);
-
-              case 6:
               case "end":
                 return _context6.stop();
             }
@@ -104839,23 +104865,47 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee6);
       }))();
     },
-    extensionLoanTo1C: function extensionLoanTo1C(_ref7, payload) {
+    isExistLoan: function isExistLoan(_ref7) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
-        var commit, getters;
+        var getters, commit, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                commit = _ref7.commit, getters = _ref7.getters;
+                getters = _ref7.getters, commit = _ref7.commit;
                 _context7.next = 3;
-                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].Api1C.extensionLoan(getters.loanGuid, payload.dateEndLoan);
+                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].ApiSite.isExistLoan(getters.guid);
 
               case 3:
+                response = _context7.sent;
+                commit('isExistLoan', response.response);
+                if (response.response) commit('loanGuid', response.loanGuid);
+
+              case 6:
               case "end":
                 return _context7.stop();
             }
           }
         }, _callee7);
+      }))();
+    },
+    extensionLoanTo1C: function extensionLoanTo1C(_ref8, payload) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
+        var commit, getters;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                commit = _ref8.commit, getters = _ref8.getters;
+                _context8.next = 3;
+                return _api_Api__WEBPACK_IMPORTED_MODULE_1__["default"].Api1C.extensionLoan(getters.loanGuid, payload.dateEndLoan);
+
+              case 3:
+              case "end":
+                return _context8.stop();
+            }
+          }
+        }, _callee8);
       }))();
     }
   }

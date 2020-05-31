@@ -72,6 +72,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -79,14 +80,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       days: 1,
-      isNeedPayPercent: true,
       contractData: null,
-      percentSum: null,
+      percentSum: 0,
       returnDate: undefined
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(['loanData'])),
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(['loanData'])), {}, {
+    isNeedPayPercent: function isNeedPayPercent() {
+      return this.percentSum > 0;
+    }
+  }),
   methods: {
+    click: function click() {
+      if (this.isNeedPayPercent) this.payment();else this.extension();
+    },
     payment: function payment() {
       var _this = this;
 
@@ -113,30 +120,52 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
         }, _callee);
       }))();
+    },
+    extension: function extension() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return _this2.$store.dispatch('extendLoan', _this2.returnDate.format('YYYYMMDD'));
+
+              case 2:
+                _this2.$router.push('/profile');
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     }
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this3 = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context3.prev = _context3.next) {
             case 0:
-              _context2.next = 2;
-              return _this2.$store.dispatch('getValidContract');
+              _context3.next = 2;
+              return _this3.$store.dispatch('getValidContract');
 
             case 2:
-              _this2.contractData = _context2.sent;
-              _this2.percentSum = lodash__WEBPACK_IMPORTED_MODULE_2___default.a.parseInt(_this2.contractData.PercentSum) + lodash__WEBPACK_IMPORTED_MODULE_2___default.a.parseInt(_this2.contractData.Penalty);
-              _this2.returnDate = moment__WEBPACK_IMPORTED_MODULE_3___default()(_this2.contractData.ReturnDate, 'DD.MM.YYYY').locale('ru').add(1, 'days');
+              _this3.contractData = _context3.sent;
+              _this3.percentSum = lodash__WEBPACK_IMPORTED_MODULE_2___default.a.parseInt(_this3.contractData.PercentSum) + lodash__WEBPACK_IMPORTED_MODULE_2___default.a.parseInt(_this3.contractData.Penalty);
+              _this3.returnDate = moment__WEBPACK_IMPORTED_MODULE_3___default()(_this3.contractData.ReturnDate, 'DD.MM.YYYY').locale('ru').add(1, 'days');
 
             case 5:
             case "end":
-              return _context2.stop();
+              return _context3.stop();
           }
         }
-      }, _callee2);
+      }, _callee3);
     }))();
   },
   watch: {
@@ -169,14 +198,14 @@ var render = function() {
       ? _c(
           "section",
           [
-            _vm.isNeedPayPercent
-              ? _c(
-                  "v-row",
+            _c(
+              "v-row",
+              [
+                _c(
+                  "v-col",
                   [
-                    _c(
-                      "v-col",
-                      [
-                        _c(
+                    _vm.isNeedPayPercent
+                      ? _c(
                           "v-alert",
                           { attrs: { color: "red", elevation: "2" } },
                           [
@@ -192,82 +221,78 @@ var render = function() {
                               ])
                             ])
                           ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-row",
-                          [
-                            _c("v-col", [
-                              _c("p", [
-                                _c(
-                                  "span",
-                                  { staticClass: "font-weight-bold" },
-                                  [_vm._v("Количество дней прдления:")]
-                                ),
-                                _vm._v(" " + _vm._s(_vm.days))
-                              ])
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c(
+                      "v-row",
+                      [
+                        _c("v-col", [
+                          _c("p", [
+                            _c("span", { staticClass: "font-weight-bold" }, [
+                              _vm._v("Количество дней прдления:")
                             ]),
-                            _vm._v(" "),
-                            _c("v-col", [
-                              _c("p", [
-                                _c(
-                                  "span",
-                                  { staticClass: "font-weight-bold" },
-                                  [_vm._v("Новая дата возврата займа:")]
-                                ),
-                                _vm._v(" " + _vm._s(_vm.returnDate.format("L")))
-                              ])
-                            ])
-                          ],
-                          1
-                        ),
+                            _vm._v(" " + _vm._s(_vm.days))
+                          ])
+                        ]),
                         _vm._v(" "),
+                        _c("v-col", [
+                          _c("p", [
+                            _c("span", { staticClass: "font-weight-bold" }, [
+                              _vm._v("Новая дата возврата займа:")
+                            ]),
+                            _vm._v(" " + _vm._s(_vm.returnDate.format("L")))
+                          ])
+                        ])
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-row",
+                      [
                         _c(
-                          "v-row",
+                          "v-col",
                           [
-                            _c(
-                              "v-col",
-                              [
-                                _c("v-slider", {
-                                  staticClass: "align-center",
-                                  attrs: {
-                                    max: 30,
-                                    min: 1,
-                                    step: 1,
-                                    color: "#fc0101",
-                                    "track-color": "#f6f6f6",
-                                    "hide-details": ""
-                                  },
-                                  model: {
-                                    value: _vm.days,
-                                    callback: function($$v) {
-                                      _vm.days = $$v
-                                    },
-                                    expression: "days"
-                                  }
-                                })
-                              ],
-                              1
-                            )
+                            _c("v-slider", {
+                              staticClass: "align-center",
+                              attrs: {
+                                max: 30,
+                                min: 1,
+                                step: 1,
+                                color: "#fc0101",
+                                "track-color": "#f6f6f6",
+                                "hide-details": ""
+                              },
+                              model: {
+                                value: _vm.days,
+                                callback: function($$v) {
+                                  _vm.days = $$v
+                                },
+                                expression: "days"
+                              }
+                            })
                           ],
                           1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "a",
-                          {
-                            staticClass: "btn btn-nav mt-4",
-                            on: { click: _vm.payment }
-                          },
-                          [_vm._v("Продлить займ")]
                         )
                       ],
                       1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-nav mt-4",
+                        on: { click: _vm.click }
+                      },
+                      [_vm._v("Продлить займ")]
                     )
                   ],
                   1
                 )
-              : _vm._e()
+              ],
+              1
+            )
           ],
           1
         )

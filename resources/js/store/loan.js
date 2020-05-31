@@ -47,7 +47,10 @@ export default {
       return await api.getContractData(getters.sessionId, getters.loanGuid);
     },
     async loanReturn({getters}) {
-      await api.Api1C.loanReturn(getters.sessionId, getters.guid)
+      await api.loanReturn(getters.sessionId, getters.guid)
+    },
+    async extendLoan({getters}, payload) {
+      await api.extensionLoan(getters.loanGuid, payload)
     },
 
     async isExistLoan({getters, commit}) {

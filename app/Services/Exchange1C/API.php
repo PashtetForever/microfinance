@@ -117,9 +117,17 @@ class API
 
     public function requestReturnLoan($loanGuid, $sum)
     {
-        return $this->request('GET', "dunay/'/hs/cabinet/loanreturn,", [
+        return $this->request('GET', "dunay/hs/cabinet/loanreturn", [
             'GUID' => $loanGuid,
             'Sum' => $sum
+        ]);
+    }
+
+    public function extendLoan($loanGuid, $returnDate)
+    {
+        return $this->request('POST', "dunay/hs/cabinet/extendcontract", [
+            'GUID' => $loanGuid,
+            'ReturnDate' => $returnDate
         ]);
     }
 

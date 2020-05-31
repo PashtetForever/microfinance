@@ -1,11 +1,12 @@
 <template>
   <v-container fluid>
     <section v-if="loanData.Number">
-      <v-row v-if="isNeedPayPercent">
+      <v-row>
         <v-col>
           <v-alert
             color="red"
             elevation="2"
+            v-if="isNeedPayPercent"
           >Для продления займа Вам необходимо оплатить текущий процент. <br>
             <span>Сумма процентов: <span class="font-weight-bold">{{ percentSum }} руб.</span></span>
           </v-alert>
@@ -30,7 +31,7 @@
                 hide-details/>
             </v-col>
           </v-row>
-          <a class="btn btn-nav mt-4" @click="payment">Продлить займ</a>
+          <a class="btn btn-nav mt-4" @click="click">Продлить займ</a>
         </v-col>
       </v-row>
     </section>
@@ -50,23 +51,33 @@
   export default {
     data: () => ({
       days: 1,
-      isNeedPayPercent: true,
       contractData: null,
-      percentSum: null,
+      percentSum: 0,
       returnDate: undefined
     }),
     computed: {
       ...mapGetters(['loanData']),
+      isNeedPayPercent() {
+        return (this.percentSum > 0)
+      },
     },
     methods: {
+      click() {
+        if(this.isNeedPayPercent)
+          this.payment()
+        else
+          this.extension()
+      },
       async payment() {
-
         const response = await this.$store.dispatch('extensionPayPercent', this.percentSum);
-
         if(response.hasOwnProperty('userWebLink')) {
           location.replace(response.userWebLink);
         }
       },
+      async extension() {
+        await this.$store.dispatch('extendLoan', this.returnDate.format('YYYYMMDD'))
+        this.$router.push('/profile')
+      }
     },
     async mounted() {
       this.contractData = await this.$store.dispatch('getValidContract');

@@ -67,4 +67,7 @@ export default class  {
   static async extensionPayPercent(orderId, price, email) {
     return await Request.request('POST', `/api/mandarin/payment-extension-percent`, {orderId, price, email});
   }
+  static async extensionLoan(loanGuid, returnDate) {
+    return await Request.request('POST', `/api/loan/extension`, {loanGuid, returnDate});
+  }
 }

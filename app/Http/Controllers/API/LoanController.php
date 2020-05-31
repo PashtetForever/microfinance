@@ -64,4 +64,9 @@ class LoanController extends Controller
     {
         return $this->api->getLastContractData($request['sessionId'], $request['loanGuid']);
     }
+
+    public function extendLoan(Request $request)
+    {
+        return $this->api->extendLoan($request['loanGuid'], $request['returnDate']);
+    }
 }
