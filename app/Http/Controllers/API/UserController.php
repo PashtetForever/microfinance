@@ -24,10 +24,8 @@ class UserController extends Controller
     public function login(Request $request)
     {
         $response = $this->api->login($request['login'], $request['password']);
-
-        if($response->getStatusCode() == 200)
-            $this->authService->sendVerifyCode($request['phone']);
-        return response()->json($response);
+        $this->authService->sendVerifyCode($request['phone']);
+        return $response;
     }
 
     public function checkLoginVerifyCode(Request $request)

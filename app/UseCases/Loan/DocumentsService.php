@@ -19,21 +19,24 @@ class DocumentsService
         $this->api = $api;
     }
 
-    public function addDocumentToLoan(Loan $loan, $sessionId, $documentName, $pathToFile, $smsCode)
+    public function addDocumentToLoan(Loan $loan, $sessionId, $documentName, $pathToFile, $smsCode = null)
     {
         $fileName = Str::slug($documentName);
         $filePath = "documents/{$loan['loan_guid']}/$fileName.pdf";
         Storage::put($filePath, '');
         $this->api->getFile($sessionId, $pathToFile, $filePath);
 
-        $document = Document::create([
+        $values = [
             'loan_id' => $loan['id'],
             'name' => $documentName,
             'file_name' => $fileName,
-            'sign_code' => $smsCode,
             'signed_at' => Carbon::now()
-        ]);
-        $document->save();
+        ];
+
+        if($smsCode)
+            $values['sign_code'] = $smsCode;
+
+        Document::create($values)->save();
 
         return $filePath;
     }

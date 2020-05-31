@@ -25,28 +25,8 @@ class LoanController extends Controller
 
     public function create(Request $request)
     {
-        //todo: Сделать нормальную проерку на 200 код (через Exception)
-         $responseCreateLoan = $this->api->requestCreateLoan($request['sessionId'], $request['sum'], $request['days']);
-         if($responseCreateLoan->getStatusCode() == 200) {
-             $responseCreateLoan = (array)$responseCreateLoan->getData(true);
-             $loan = $this->loanService->addLoan($responseCreateLoan['GUID'], $request['userGuid']);
-             $documentList = (array)$this->api->getFileList($request['sessionId'], $request['smsCode'], $responseCreateLoan['GUID'])->getData(true);
-             $contract = (array)$this->api->getFillContract($request['sessionId'], $responseCreateLoan['GUID'])->getData(true);
-             $documents = [];
-             foreach ($documentList as $item) {
-                 $documents[$this->documentsService->addDocumentToLoan(
-                     $loan, $request['sessionId'], $item['Description'], $item['FileName'], $request['smsCode'])] = $item['Description'];
-             }
-
-             $this->documentsService->addDocumentToLoan($loan, $request['sessionId'], 'Договор займа', $contract['FileName'], '');
-
-             return response()->json([
-                 'loan' => $responseCreateLoan,
-                 'documents' => $documents
-             ]);
-         } else {
-             return $responseCreateLoan;
-         }
+         return $this->loanService
+             ->addLoan($request['userGuid'], $request['sessionId'], $request['sum'], $request['days'], $request['smsCode']);
     }
 
     public function getLoan(Request $request)

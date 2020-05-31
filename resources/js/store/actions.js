@@ -27,7 +27,6 @@ export default {
     },
   },
   actions: {
-    //todo: При повторной ошибке снакбар не показывается
     error({commit}, errorText) {
       commit('snackbar', true);
       commit('errorText', errorText);

@@ -85,7 +85,7 @@ class API
 
     public function requestCreateLoan($sessionId, int $sum, int $days)
     {
-        return $this->request('GET', "dunay/hs/cabinet/request/$sessionId?sum=$sum&days=$days");
+        return $this->receiver->request('GET', "dunay/hs/cabinet/request/$sessionId?sum=$sum&days=$days");
     }
 
     public function getCurrentLoan($sessionId, $loanGuid)
@@ -103,7 +103,7 @@ class API
 
     public function getFillContract($sessionId, $loanGuid)
     {
-        return $this->request('POST', 'dunay/hs/cabinet/fillcontract/' . $sessionId, [
+        return $this->receiver->request('POST', 'dunay/hs/cabinet/fillcontract/' . $sessionId, [
             'GUID' => $loanGuid
         ]);
     }
@@ -153,11 +153,9 @@ class API
         try {
             return response()->json($this->receiver->request($method, $urn, $data));
         } catch (\DomainException $exception) {
-            return response()
-                ->json(['message' => $exception->getMessage()])
-                ->setStatusCode(500);
+            return response()->json(['error' => $exception->getMessage()], 500);
         } catch (\Exception $exception) {
-            return response()->json(['message' => $exception->getMessage()], 500);
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 }

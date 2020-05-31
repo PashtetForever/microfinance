@@ -1,5 +1,5 @@
 .idea
-/laradock
+/_laradock
 /node_modules
 /public/hot
 /public/storage
@@ -19,3 +19,5 @@ yarn-error.log
 /.env
 /yarn.lock
 /yarn-error.log
+/public/?.js
+/laradock
