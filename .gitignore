@@ -1,4 +1,4 @@
-.idea
+/.idea
 /_laradock
 /node_modules
 /public/hot
@@ -19,5 +19,7 @@ yarn-error.log
 /.env
 /yarn.lock
 /yarn-error.log
-/public/?.js
+/public/*.js
+/public/js/app.js
 /laradock
+/resources/views/app.blade.php
