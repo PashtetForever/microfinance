@@ -48,7 +48,7 @@ class DocumentsService
 
         foreach ($documents as $document) {
             $result[] = [
-                'path' => '/storage/documents/' . $loan['loan_guid'] . '/' . $document['file_name'] . '.pdf',
+                'path' => env('MIX_APP_URI') .  '/storage/documents/' . $loan['loan_guid'] . '/' . $document['file_name'] . '.pdf',
                 'name' => $document->name,
                 'smsCode' => $document->sign_code,
                 'date' => $document->created_at->format('d.m.Y')
