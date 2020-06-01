@@ -152,7 +152,7 @@
       },
       async signContract() {
         if (this.smsCode) {
-          const result = await this.$store.dispatch('checkVerificationCode', {code: this.smsCode});
+          const result = await this.$store.dispatch('checkVerificationCode', {phone: this.$store.getters.phone, code: this.smsCode});
           if (!result)
             return this.$store.dispatch('error', 'Проверьте правильность введеного кода подписи');
           else

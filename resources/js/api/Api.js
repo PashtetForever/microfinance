@@ -4,6 +4,12 @@ export default class  {
   static async login(login, password, phone) {
     return await Request.request('POST', '/api/user/login', {login, password, phone})
   }
+  static async restorePassword(lastName, firstName, middleName, phone) {
+    return await Request.request('POST', '/api/user/restore-password', {lastName, firstName, middleName, phone})
+  }
+  static async changePassword(sessionId, oldPassword, newPassword) {
+    return await Request.request('POST', '/api/user/change-password', {sessionId, oldPassword, newPassword})
+  }
   static async checkAuthVerifyCode(phone, code) {
     return await Request.request('POST', '/api/user/check-verify', {phone, code})
   }

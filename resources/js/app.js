@@ -7,6 +7,7 @@ import VueRouter from 'vue-router'
 import store from './store'
 import router from './router'
 import vuetify from './plugins/vuetify';
+import Vuelidate from 'vuelidate';
 
 import App from './components/App';
 import Auth from './components/Auth'
@@ -19,6 +20,7 @@ import ContactData from "./components/ContactData";
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter)
+Vue.use(Vuelidate);
 
 Vue.component('app-auth', Auth);
 Vue.component('app-order-form', OrderForm);

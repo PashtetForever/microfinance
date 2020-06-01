@@ -34,7 +34,7 @@
     },
     methods: {
       async submit() {
-        await this.$store.dispatch('checkVerificationCode', {code: this.code})
+        await this.$store.dispatch('checkVerificationCode', {phone: this.$store.getters.phone, code: this.code})
           .then(() => {
             if (this.$store.getters.isVerify) {
               this.$store.commit('isAuthorized', true);

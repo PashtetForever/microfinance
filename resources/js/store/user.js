@@ -73,21 +73,24 @@ export default {
     },
     async userLogin({commit, dispatch}, payload) {
       const response = await Api.login(payload.login, payload.password, payload.phone);
-      console.log(response);
+
       commit('sessionId', response.SessionId);
       commit('guid', response.GUID);
       commit('phone', payload.phone);
       return response;
     },
     async checkVerificationCode({commit, getters, dispatch}, payload) {
-      const result = await Api.checkAuthVerifyCode(getters.phone, payload.code);
-      console.log(result);
+      const result = await Api.checkAuthVerifyCode(payload.phone, payload.code);
+
       if(result)
         commit('isVerify', true);
       return result;
     },
-    async sendPhoneVerifyCode({getters}){
-      await Api.sendSmsCode(getters.phone);
+    async sendPhoneVerifyCode({getters}, payload){
+      if(!payload)
+        await Api.sendSmsCode(getters.phone);
+      else
+        await Api.sendSmsCode(payload);
     },
     setSum({commit}, payload) {
       commit('setSum', payload);
@@ -96,7 +99,10 @@ export default {
       commit('setDays', payload);
     },
     async changeOldPassword({getters}, {oldPassword, newPassword}) {
-      return await Api1C.changePassword(getters.sessionId, oldPassword, newPassword);
+      return await Api.changePassword(getters.sessionId, oldPassword, newPassword);
+    },
+    async restorePassword({getters}, payload) {
+      return await Api.restorePassword(payload.lastName, payload.firstName, payload.middleName, payload.phone)
     }
   }
 }

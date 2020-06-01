@@ -131,7 +131,7 @@ class API
         ]);
     }
 
-    public function requestChangePassword($sessionId, $oldPassword, $newPassword)
+    public function changePassword($sessionId, $oldPassword, $newPassword)
     {
         return $this->request('POST', "dunay/hs/cabinet/changepassword/$sessionId", [
             'OldPassword' => $oldPassword,
@@ -139,10 +139,10 @@ class API
         ]);
     }
 
-    public function requestRestorePassword($fio, $phone)
+    public function restorePassword($lastName, $firstName, $middleName, $phone)
     {
         return $this->request('POST', "dunay/hs/cabinet/restorepassword", [
-            'FIO' => $fio,
+            'FIO' => "$lastName $firstName $middleName",
             'PhoneNumber' => $phone
         ]);
     }

@@ -68,4 +68,13 @@ class UserController extends Controller
     {
         $this->authService->sendVerifyCode($request['phone']);
     }
+
+    public function restorePassword(Request $request)
+    {
+        return $this->api->restorePassword($request['lastName'], $request['firstName'], $request['middleName'], $request['phone']);
+    }
+    public function changePassword(Request $request)
+    {
+        return $this->api->changePassword($request['sessionId'], $request['oldPassword'], $request['newPassword']);
+    }
 }

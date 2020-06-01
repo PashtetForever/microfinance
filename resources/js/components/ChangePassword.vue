@@ -45,59 +45,55 @@
 </template>
 
 <script>
-    import {mask} from 'vue-the-mask';
-    import {required, minLength} from 'vuelidate/lib/validators'
+  import {mask} from 'vue-the-mask';
+  import {required, minLength} from 'vuelidate/lib/validators'
 
-    export default {
-        directives: {
-            mask
-        },
-        name: "ChangePassword",
-        data: () => ({
-            valid: false,
-            login: '',
-            firstName: '',
-            middleName: '',
-            lastName: '',
-            phone: '',
-            dialog: false,
-            smsCode: ''
-        }),
-        methods: {
-            async submitForm() {
-                this.dialog = true;
-                await this.$store.dispatch('sendCodeChangePassword', this.phone);
-            },
-            async verifyCode() {
-                const response = await this.$store.dispatch('changePassword', {
-                    lastName: this.lastName,
-                    firstName: this.firstName,
-                    middleName: this.middleName,
-                    code: this.smsCode,
-                    phone: this.phone
-                });
-
-                if(response.status === 200) {
-                    this.dialog = false;
-                    this.$router.push('/login')
-                }
-            }
-        },
-        validations: {
-            firstName: {
-                required,
-                minLength: minLength(2)
-            },
-            middleName: {
-                required,
-                minLength: minLength(3)
-            },
-            lastName: {
-                required,
-                minLength: minLength(3)
-            },
+  export default {
+    directives: {
+      mask
+    },
+    data: () => ({
+      valid: false,
+      login: '',
+      firstName: '',
+      middleName: '',
+      lastName: '',
+      phone: '',
+      dialog: false,
+      smsCode: ''
+    }),
+    methods: {
+      async submitForm() {
+        this.dialog = true;
+        await this.$store.dispatch('sendPhoneVerifyCode', this.phone);
+      },
+      async verifyCode() {
+        if(this.$store.dispatch('checkVerificationCode', {phone: this.phone, code: this.smsCode})) {
+          const response = await this.$store.dispatch('restorePassword', {
+            lastName: this.lastName,
+            firstName: this.firstName,
+            middleName: this.middleName,
+            code: this.smsCode,
+            phone: this.phone
+          });
         }
+      }
+    },
+    validations: {
+      firstName: {
+        required,
+        minLength: minLength(2)
+      },
+      middleName: {
+        required,
+        minLength: minLength(3)
+      },
+      lastName: {
+        required,
+        minLength: minLength(3)
+      },
     }
+  }
 </script>
 
 <style scoped>
