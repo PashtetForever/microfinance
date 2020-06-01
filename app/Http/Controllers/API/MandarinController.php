@@ -49,7 +49,8 @@ class MandarinController extends Controller
     public function callbackRepaymentLoan(Request $request)
     {
         $response = $this->api->requestReturnLoan($request['order_id'], $request['price']);
-        \Log::info('Погашение займа ' . $request['order_id'] . '. Ответ: ' . $response->getData(true)->Message);
+        echo 'OK';
+        \Log::info('Погашение займа ' . $request['order_id'] . '. успешно выполнено');
     }
 
     public function paymentExtensionPercent(Request $request)
