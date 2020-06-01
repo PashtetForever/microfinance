@@ -76,7 +76,7 @@
               </thead>
               <tbody>
               <tr v-for="doc in documents" :key="doc.name">
-                <td><a :href="doc.path">{{ doc.name }}</a></td>
+                <td><a target="_blank" :href="doc.path">{{ doc.name }}</a></td>
                 <td>{{doc.date}}</td>
                 <td>{{doc.smsCode}}</td>
               </tr>
