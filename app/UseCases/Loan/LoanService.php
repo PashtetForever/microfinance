@@ -43,7 +43,10 @@ class LoanService
     }
 
 
-
+    /**
+     * @param $userGuid
+     * @return Loan|null
+     */
     public function getLoanByUserGuid($userGuid)
     {
         return Loan::whereUserGuid($userGuid)

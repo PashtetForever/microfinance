@@ -95,7 +95,7 @@ class API
 
     public function requestSignContract($sessionId, $smsCode, $loanGuid)
     {
-        return $this->request('POST', "dunay/hs/cabinet/signcontract/$sessionId", [
+        return $this->receiver->request('POST', "dunay/hs/cabinet/signcontract/$sessionId", [
             'SMSCode' => $smsCode,
             'GUID' => $loanGuid
         ]);
@@ -110,7 +110,7 @@ class API
 
     public function getLastContractData($sessionId, $loanGuid)
     {
-        return $this->request('GET', "dunay/hs/cabinet/validcontract/$sessionId?GUID=$loanGuid", [
+        return $this->receiver->request('GET', "dunay/hs/cabinet/validcontract/$sessionId?GUID=$loanGuid", [
             'GUID' => $loanGuid
         ]);
     }

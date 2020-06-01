@@ -33,6 +33,7 @@ Route::group(['prefix' => 'loan'], function () {
     Route::post('/create', 'API\LoanController@create');
     Route::post('/sign-contract', 'API\LoanController@signContract');
     Route::get('/current', 'API\LoanController@getLoan');
+    Route::post('/is-exist', 'API\LoanController@isExistLoan');
     Route::get('/contract', 'API\LoanController@getContractData');
     Route::post('/extension', 'API\LoanController@extendLoan');
 });

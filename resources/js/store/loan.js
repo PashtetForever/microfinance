@@ -54,10 +54,13 @@ export default {
     },
 
     async isExistLoan({getters, commit}) {
-      const response = await api.ApiSite.isExistLoan(getters.guid);
-      commit('isExistLoan', response.response);
-      if (response.response)
-        commit('loanGuid', response.loanGuid);
+      const response = await api.isExistLoan(getters.guid);
+      if(response.data) {
+        commit('isExistLoan', true);
+        commit('loanGuid', response.data);
+      } else {
+        commit('isExistLoan', false);
+      }
     },
     async extensionLoanTo1C({commit, getters}, payload) {
       await api.Api1C.extensionLoan(getters.loanGuid, payload.dateEndLoan)

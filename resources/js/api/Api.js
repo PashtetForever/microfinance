@@ -70,4 +70,7 @@ export default class  {
   static async extensionLoan(loanGuid, returnDate) {
     return await Request.request('POST', `/api/loan/extension`, {loanGuid, returnDate});
   }
+  static async isExistLoan(userGuid) {
+    return await Request.request('POST', `/api/loan/is-exist`, {userGuid});
+  }
 }

@@ -71,11 +71,11 @@
       this.$store.dispatch('setSum', this.sum);
       this.$store.dispatch('setDays', this.days);
     },
-    /*async mounted() {
+    async mounted() {
       await this.$store.dispatch('isExistLoan');
       if (this.$store.getters.loanGuid)
           this.$router.push('/profile');
-    }*/
+    }
   }
 </script>
 

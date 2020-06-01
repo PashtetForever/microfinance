@@ -25,8 +25,8 @@ class LoanController extends Controller
 
     public function create(Request $request)
     {
-         return $this->loanService
-             ->addLoan($request['userGuid'], $request['sessionId'], $request['sum'], $request['days'], $request['smsCode']);
+        return $this->loanService
+            ->addLoan($request['userGuid'], $request['sessionId'], $request['sum'], $request['days'], $request['smsCode']);
     }
 
     public function getLoan(Request $request)
@@ -41,28 +41,34 @@ class LoanController extends Controller
         ];
     }
 
+    public function isExistLoan(Request $request)
+    {
+        $response = $this->loanService->getLoanByUserGuid($request['userGuid']);
+        return !empty($response) ?
+            response()->json(['data' => $response->loan_guid]) : response()->json(['data' => false]);
+    }
+
     public function signContract(Request $request)
     {
         $loan = $this->loanService->getLoanByUserGuid($request['userGuid']);
         $fillContract = $this->documentsService->getContract($loan, $request['smsCode']);
 
         $signContractFile = $this->api->requestSignContract($request['sessionId'], $request['smsCode'], $loan->loan_guid);
-        if($signContractFile->getStatusCode() == 200){
-            $signContractFile = (array)$signContractFile->getData(true);
+        $this->documentsService->addDocumentToLoan(
+            $loan, $request['sessionId'], $signContractFile['Description'], $signContractFile['FileName'], $request['smsCode']);
 
-            $this->documentsService->addDocumentToLoan(
-                $loan, $request['sessionId'], $signContractFile['Description'], $signContractFile['FileName'], $request['smsCode']);
-
-            $fillContract->delete();
-        } else {
-            return $signContractFile;
-        }
-
+        $fillContract->delete();
     }
 
     public function getContractData(Request $request)
     {
-        return $this->api->getLastContractData($request['sessionId'], $request['loanGuid']);
+        $response = $this->api->getLastContractData($request['sessionId'], $request['loanGuid']);
+
+        foreach ($response as $key => $item) {
+            $response[$key] = str_replace(',', '.', $item);
+        }
+
+        return $response;
     }
 
     public function extendLoan(Request $request)
