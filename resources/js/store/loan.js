@@ -35,7 +35,7 @@ export default {
       return response;
     },
     async createLoan({commit, getters}) {
-      const response = await api.createLoan(getters.sessionId, getters.getSum, getters.getDays, getters.smsCode, getters.guid);
+      const response = await api.createLoan(getters.sessionId, getters.getDays, getters.getSum, getters.smsCode, getters.guid);
       commit('loanData', response.loan)
       commit('documents', response.documents)
       commit('loanGuid', response.loan.GUID)
