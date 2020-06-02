@@ -58,13 +58,18 @@ class MandarinController extends Controller
 
     public function paymentExtensionPercent(Request $request)
     {
+        $config = config('mandarin');
+
         return $this->mandarinPayService->payment
         ($request['orderId'], $request['price'], $request['email'],
-            env('MANDARIN_URI_RETURN_EXTENSION'), env('MANDARIN_URI_CALLBACK_REPAYMENT_EXTENSION'));
+            $config['url_return_extension'], $config['url_callback_extension']);
     }
 
-    public function callbackExtensionPercent()
+    public function callbackExtensionPercent(Request $request)
     {
-
+        $requestArray = explode('#', $request['order_id']);
+        $this->api->extendLoan($requestArray[0], $requestArray[1]);
+        \Log::info('Продление займа ' . $requestArray[0] . '. успешно выполнено');
+        return response()->setContent('OK')->setStatusCode(200);
     }
 }

@@ -7,4 +7,6 @@ return [
     'url_callback_binding' => env('MANDARIN_URL_CALLBACK_BINDING'),
     'url_return_payment' => env('MANDARIN_URI_RETURN_REPAYMENT'),
     'url_callback_payment' => env('MANDARIN_URI_CALLBACK_REPAYMENT'),
+    'url_return_extension' => env('MANDARIN_URI_RETURN_EXTENSION'),
+    'url_callback_extension' => env('MANDARIN_URI_CALLBACK_EXTENSION'),
 ];
