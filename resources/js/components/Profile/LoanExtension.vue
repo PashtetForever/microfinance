@@ -69,7 +69,10 @@
           this.extension()
       },
       async payment() {
-        const response = await this.$store.dispatch('extensionPayPercent', this.percentSum);
+        const response = await this.$store.dispatch('extensionPayPercent', {
+          sum: this.percentSum,
+          date: this.returnDate.format('YYYYMMDD')
+        });
         if(response.hasOwnProperty('userWebLink')) {
           location.replace(response.userWebLink);
         }

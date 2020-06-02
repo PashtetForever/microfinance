@@ -74,7 +74,7 @@ export default {
       return await api.repayment(getters.loanGuid, payload, getters.email)
     },
     async extensionPayPercent({getters}, payload) {
-      return await api.extensionPayPercent(getters.loanGuid, payload, getters.email)
+      return await api.extensionPayPercent(getters.loanGuid + '#' + payload.date, payload.sum, getters.email)
     }
   }
 }
