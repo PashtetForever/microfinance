@@ -72,7 +72,7 @@
       sum() {
         let summ = this.data.Sum;
         summ = +summ.replace(/\s/g, '');
-        return _.ceil(_.toNumber(this.data.PercentSum) + _.toNumber(this.data.Penalty) + summ, 2)
+        return _.ceil(_.toNumber(this.data.PercentSum.replace(/\s/g, '')) + _.toNumber(this.data.Penalty.replace(/\s/g, '')) + summ, 2)
       }
     },
     async mounted() {
