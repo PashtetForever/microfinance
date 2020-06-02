@@ -123,7 +123,7 @@ class API
 
     public function extendLoan($loanGuid, $returnDate)
     {
-        return $this->request('POST', "dunay/hs/cabinet/extendcontract", [
+        return $this->receiver->request('POST', "dunay/hs/cabinet/extendcontract", [
             'GUID' => $loanGuid,
             'ReturnDate' => $returnDate
         ]);
