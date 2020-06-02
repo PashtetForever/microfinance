@@ -74,6 +74,7 @@
           date: this.returnDate.format('YYYYMMDD')
         });
         if(response.hasOwnProperty('userWebLink')) {
+          debugger
           location.replace(response.userWebLink);
         }
       },
