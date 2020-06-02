@@ -110,9 +110,7 @@ class API
 
     public function getLastContractData($sessionId, $loanGuid)
     {
-        return $this->receiver->request('GET', "dunay/hs/cabinet/validcontract/$sessionId?GUID=$loanGuid", [
-            'GUID' => $loanGuid
-        ]);
+        return $this->receiver->request('GET', "dunay/hs/cabinet/validcontract/$sessionId?GUID=$loanGuid");
     }
 
     public function requestReturnLoan($loanGuid, $sum)
