@@ -53,7 +53,7 @@ class MandarinController extends Controller
     {
         $response = $this->api->requestReturnLoan($request['order_id'], $request['price']);
         \Log::info('Погашение займа ' . $request['order_id'] . '. успешно выполнено');
-        return response()->setContent('OK')->setStatusCode(200);
+        return "OK";
     }
 
     public function paymentExtensionPercent(Request $request)
@@ -70,6 +70,6 @@ class MandarinController extends Controller
         $requestArray = explode('#', $request['order_id']);
         $this->api->extendLoan($requestArray[0], $requestArray[1]);
         \Log::info('Продление займа ' . $requestArray[0] . '. успешно выполнено');
-        return response()->setContent('OK')->setStatusCode(200);
+        return "OK";
     }
 }
