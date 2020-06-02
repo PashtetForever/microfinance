@@ -40,8 +40,7 @@ export default {
     async loadContactData({commit, getters}) {
       const result = await Api.getContactData(getters.sessionId);
       commit('fio', result.FIO);
-      if (result.Email !== false)
-        commit('email', result.Email);
+      commit('email', result.Email);
     },
     async setContactData({getters, commit}) {
       await Api.setContactData(getters.sessionId, getters.fio, getters.email);

@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        //
+        '/mandarin/*',
+        'https://www.zaim-dynai.ru/test/public/index.php/mandarin/*'
     ];
 }

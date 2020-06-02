@@ -9,6 +9,7 @@ use App\Services\MandarinPayService;
 
 class MandarinController extends Controller
 {
+
     private MandarinPayService $mandarinPayService;
     private API $api;
 
@@ -41,16 +42,18 @@ class MandarinController extends Controller
 
     public function repaymentLoan(Request $request)
     {
+        $config = config('mandarin');
+
         return $this->mandarinPayService->payment
         ($request['orderId'], $request['price'], $request['email'],
-            env('MANDARIN_URI_RETURN_REPAYMENT'), env('MANDARIN_URI_CALLBACK_REPAYMENT'));
+            $config['url_return_payment'], $config['url_callback_payment']);
     }
 
     public function callbackRepaymentLoan(Request $request)
     {
         $response = $this->api->requestReturnLoan($request['order_id'], $request['price']);
-        echo 'OK';
         \Log::info('Погашение займа ' . $request['order_id'] . '. успешно выполнено');
+        return response()->setContent('OK')->setStatusCode(200);
     }
 
     public function paymentExtensionPercent(Request $request)
