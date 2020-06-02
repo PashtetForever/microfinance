@@ -7,6 +7,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/send-email-verify', 'API\UserController@sendEmailVerify');
     Route::post('/check-email-verify', 'API\UserController@checkEmailVerify');
     Route::get('/personal-data', 'API\UserController@getContactData');
+    Route::post('/personal-data', 'API\UserController@setContactData');
     Route::post('/set-mandarin', 'API\UserController@setMandarin');
     Route::post('/send-sms-verify', 'API\UserController@sendSmsCode');
     Route::post('/restore-password', 'API\UserController@restorePassword');
