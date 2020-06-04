@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Services\Exchange1C\API;
+use App\UseCases\Loan\DocumentsService;
 use Illuminate\Http\Request;
 use App\Services\MandarinPayService;
 
@@ -12,11 +13,13 @@ class MandarinController extends Controller
 
     private MandarinPayService $mandarinPayService;
     private API $api;
+    private DocumentsService $documentsService;
 
-    public function __construct(MandarinPayService $mandarinPayService, API $api)
+    public function __construct(MandarinPayService $mandarinPayService, API $api, DocumentsService $documentsService)
     {
         $this->mandarinPayService = $mandarinPayService;
         $this->api = $api;
+        $this->documentsService = $documentsService;
     }
 
     public function identify(Request $request)
@@ -52,6 +55,7 @@ class MandarinController extends Controller
     public function callbackRepaymentLoan(Request $request)
     {
         $response = $this->api->requestReturnLoan($request['orderId'], $request['price']);
+        $this->documentsService->openAllDocuments($request['orderId']);
         \Log::info('Погашение займа ' . $request['orderId'] . '. успешно выполнено');
         return "OK";
     }

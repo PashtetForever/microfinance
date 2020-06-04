@@ -8,6 +8,7 @@ use App\Models\Loan;
 use App\Services\Exchange1C\API;
 use App\UseCases\Loan\LoanService;
 use App\UseCases\Loan\DocumentsService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class LoanController extends Controller
@@ -73,6 +74,28 @@ class LoanController extends Controller
 
     public function extendLoan(Request $request)
     {
-        return $this->api->extendLoan($request['loanGuid'], $request['returnDate']);
+        $response = $this->api->extendLoan($request['loanGuid'], $request['returnDate']);
+        $this->documentsService->openAllDocuments($request['loanGuid']);
+        return $response;
+    }
+
+    public function getExtendLoanDocuments(Request $request)
+    {
+        $extendDocuments = $this->api->getFileExtendLoan($request['sessionId'], $request['smsCode'], $request['loanGuid']);
+        $loan = Loan::whereLoanGuid($request['loanGuid'])->firstOrFail();
+        $files = [];
+        foreach ($extendDocuments as $document) {
+            $filePath = $this->documentsService->addDocumentToLoan(
+                $loan, $request['sessionId'], $document->Description, $document->FileName, $request['smsCode'], true);
+            $files[] = [
+                'name' => $document->Description,
+                'path' => env('MIX_APP_URI') .  '/storage/' . $filePath,
+                'smsCode' => $request['smsCode'],
+                'date' => Carbon::now()->format('d.m.Y'),
+                'hide' => 1
+            ];
+        }
+
+        return $files;
     }
 }

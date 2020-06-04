@@ -1,5 +1,4 @@
 import api from '../api/Api'
-import _ from 'lodash'
 
 export default {
   state: {
@@ -8,7 +7,7 @@ export default {
     loanGuid: '',
     fillContractName: '',
     isExistLoan: false,
-    documents: []
+    documents: [],
   },
   mutations: {
     loanData: (s, payload) => s.loanData = payload,
@@ -17,6 +16,7 @@ export default {
     fillContractName: (s, payload) => s.fillContractName = payload,
     isExistLoan: (s, payload) => s.isExistLoan = payload,
     documents: (s, payload) => s.documents = payload,
+    addDocument: (s, payload) => { s.documents.push(payload) }
   },
   getters: {
     loanData: (s) => s.loanData,
@@ -24,7 +24,12 @@ export default {
     loanGuid: (s) => s.loanGuid,
     fillContractName: (s) => s.fillContractName,
     isExistLoan: (s) => s.isExistLoan,
-    documents: (s) => s.documents,
+    documents: (s) => s.documents.filter((item) => {
+      return item.hide === 0;
+    }),
+    extendDocuments: (s) => s.documents.filter((item) => {
+      return item.hide === 1;
+    }),
   },
   actions: {
     async getLoanData({getters, commit}) {
@@ -49,10 +54,12 @@ export default {
     async loanReturn({getters}) {
       await api.loanReturn(getters.sessionId, getters.guid)
     },
-    async extendLoan({getters}, payload) {
-      await api.extensionLoan(getters.loanGuid, payload)
+    async getExtensionLoanDocuments({getters}, {returnDate, smsCode}) {
+      return await api.getExtensionLoanDocuments(getters.sessionId, getters.loanGuid, returnDate, smsCode)
     },
-
+    async extensionLoan({getters}, payload) {
+      return await api.extensionLoan(getters.loanGuid, payload)
+    },
     async isExistLoan({getters, commit}) {
       const response = await api.isExistLoan(getters.guid);
       if(response.data) {
@@ -62,8 +69,5 @@ export default {
         commit('isExistLoan', false);
       }
     },
-    async extensionLoanTo1C({commit, getters}, payload) {
-      await api.Api1C.extensionLoan(getters.loanGuid, payload.dateEndLoan)
-    }
   }
 }

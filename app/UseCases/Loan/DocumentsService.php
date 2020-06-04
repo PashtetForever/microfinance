@@ -19,7 +19,7 @@ class DocumentsService
         $this->api = $api;
     }
 
-    public function addDocumentToLoan(Loan $loan, $sessionId, $documentName, $pathToFile, $smsCode = null)
+    public function addDocumentToLoan(Loan $loan, $sessionId, $documentName, $pathToFile, $smsCode = null, $isHide = false)
     {
         $fileName = Str::slug($documentName);
         $filePath = "documents/{$loan['loan_guid']}/$fileName.pdf";
@@ -36,6 +36,9 @@ class DocumentsService
         if($smsCode)
             $values['sign_code'] = $smsCode;
 
+        if($isHide)
+            $values['is_hide'] = true;
+
         Document::create($values)->save();
 
         return $filePath;
@@ -51,16 +54,27 @@ class DocumentsService
                 'path' => env('MIX_APP_URI') .  '/storage/documents/' . $loan['loan_guid'] . '/' . $document['file_name'] . '.pdf',
                 'name' => $document->name,
                 'smsCode' => $document->sign_code,
-                'date' => $document->created_at->format('d.m.Y')
+                'date' => $document->created_at->format('d.m.Y'),
+                'hide' => $document->is_hide
             ];
         }
 
         return $result;
     }
 
-    public function getContract(Loan $loan, $smsCode): Document
+    public function getContract(Loan $loan): Document
     {
         return $loan->documents()->get()->where('name', '=', 'Договор займа (заполненный)')->first();
+    }
 
+    public function openAllDocuments($loanGuid)
+    {
+        $loan = Loan::whereLoanGuid($loanGuid)->firstOrFail();
+        $documents = Document::where(['is_hide' => true, 'loan_id' => $loan->id])->get();
+
+        foreach ($documents as $document) {
+            $document->is_hide = false;
+            $document->save();
+        }
     }
 }

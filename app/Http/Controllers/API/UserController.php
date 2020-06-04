@@ -39,12 +39,12 @@ class UserController extends Controller
 
     public function getContactData(Request $request)
     {
-        return response()->json($this->api->getPersonalUserInfo($request['sessionId']));
+        return $this->api->getPersonalUserInfo($request['sessionId']);
     }
 
     public function setContactData(Request $request)
     {
-        return response()->json($this->api->setPersonalUserInfo($request['sessionId'], $request['fio'], $request['email']));
+        return $this->api->setPersonalUserInfo($request['sessionId'], $request['fio'], $request['email']);
     }
 
     public function sendEmailVerify(Request $request)

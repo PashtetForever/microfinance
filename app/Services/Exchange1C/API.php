@@ -74,6 +74,13 @@ class API
             'GUID' => $loanGuid
         ]);
     }
+    public function getFileExtendLoan($sessionId, $smsCode, $loanGuid)
+    {
+        return $this->receiver->request('POST', 'dunay/hs/cabinet/extendfilelist/' . $sessionId, [
+            'SMSCode' => $smsCode,
+            'GUID' => $loanGuid
+        ]);
+    }
 
     public function getFile($sessionId, $filePath, $sinkFile)
     {
@@ -123,7 +130,7 @@ class API
 
     public function extendLoan($loanGuid, $returnDate)
     {
-        return $this->receiver->request('POST', "dunay/hs/cabinet/extendcontract", [
+        return $this->request('POST', "dunay/hs/cabinet/extendcontract", [
             'GUID' => $loanGuid,
             'ReturnDate' => $returnDate
         ]);

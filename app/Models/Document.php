@@ -36,7 +36,7 @@ class Document extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['loan_id', 'file_name', 'name', 'sign_code', 'signed_at'];
+    protected $fillable = ['loan_id', 'file_name', 'name', 'sign_code', 'signed_at', 'is_hide'];
 
     protected $casts = [
         'signed_at' => 'datetime'
