@@ -73,7 +73,7 @@ class MandarinController extends Controller
     public function callbackExtensionPercent(Request $request)
     {
         $requestArray = explode('#', $request['orderId']);
-        $this->documentsService->openAllDocuments($request['orderId']);
+        $this->documentsService->openAllDocuments($requestArray[0]);
         $this->api->extendLoan($requestArray[0], $requestArray[1]);
         \Log::info('Продление займа ' . $requestArray[0] . '. успешно выполнено');
         return "OK";
