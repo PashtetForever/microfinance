@@ -25,10 +25,10 @@ export default {
     fillContractName: (s) => s.fillContractName,
     isExistLoan: (s) => s.isExistLoan,
     documents: (s) => s.documents.filter((item) => {
-      return item.hide === 0;
+      return item.hide === "0";
     }),
     extendDocuments: (s) => s.documents.filter((item) => {
-      return item.hide === 1;
+      return item.hide === "1";
     }),
   },
   actions: {

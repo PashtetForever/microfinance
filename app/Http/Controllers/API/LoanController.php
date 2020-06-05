@@ -52,7 +52,7 @@ class LoanController extends Controller
     public function signContract(Request $request)
     {
         $loan = $this->loanService->getLoanByUserGuid($request['userGuid']);
-        $fillContract = $this->documentsService->getContract($loan, $request['smsCode']);
+        $fillContract = $this->documentsService->getContract($loan);
 
         $signContractFile = $this->api->requestSignContract($request['sessionId'], $request['smsCode'], $loan->loan_guid);
         $this->documentsService->addDocumentToLoan(
