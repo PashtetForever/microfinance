@@ -38,6 +38,8 @@ class DocumentsService
 
         if($isHide)
             $values['is_hide'] = true;
+        else
+            $values['is_hide'] = false;
 
         Document::create($values)->save();
 
