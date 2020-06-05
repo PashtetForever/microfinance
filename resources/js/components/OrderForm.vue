@@ -73,7 +73,7 @@
     },
     async mounted() {
       await this.$store.dispatch('isExistLoan');
-      if (this.$store.getters.loanGuid)
+      if (this.$store.getters.isExistLoan)
           this.$router.push('/profile');
     }
   }
