@@ -51,9 +51,6 @@ export default {
     async getValidContract({getters, commit}) {
       return await api.getContractData(getters.sessionId, getters.loanGuid);
     },
-    async loanReturn({getters}) {
-      await api.loanReturn(getters.sessionId, getters.guid)
-    },
     async getExtensionLoanDocuments({getters}, {returnDate, smsCode}) {
       return await api.getExtensionLoanDocuments(getters.sessionId, getters.loanGuid, returnDate, smsCode)
     },

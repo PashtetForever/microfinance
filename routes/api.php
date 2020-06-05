@@ -34,6 +34,7 @@ Route::group(['prefix' => 'mandarin'], function () {
 
 Route::group(['prefix' => 'loan'], function () {
     Route::post('/create', 'API\LoanController@create');
+    Route::post('/return', 'API\LoanController@returnLoan');
     Route::post('/sign-contract', 'API\LoanController@signContract');
     Route::get('/current', 'API\LoanController@getLoan');
     Route::post('/is-exist', 'API\LoanController@isExistLoan');

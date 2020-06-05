@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Loan;
 use App\Services\Exchange1C\API;
 use App\UseCases\Loan\DocumentsService;
 use Illuminate\Http\Request;
@@ -55,7 +56,7 @@ class MandarinController extends Controller
     public function callbackRepaymentLoan(Request $request)
     {
         $response = $this->api->requestReturnLoan($request['orderId'], $request['price']);
-        $this->documentsService->openAllDocuments($request['orderId']);
+        Loan::whereLoanGuid($request['orderId'])->firstOrFail()->delete();
         \Log::info('Погашение займа ' . $request['orderId'] . '. успешно выполнено');
         return "OK";
     }
@@ -72,6 +73,7 @@ class MandarinController extends Controller
     public function callbackExtensionPercent(Request $request)
     {
         $requestArray = explode('#', $request['orderId']);
+        $this->documentsService->openAllDocuments($request['orderId']);
         $this->api->extendLoan($requestArray[0], $requestArray[1]);
         \Log::info('Продление займа ' . $requestArray[0] . '. успешно выполнено');
         return "OK";
