@@ -92,7 +92,7 @@ class LoanController extends Controller
                 'path' => env('MIX_APP_URI') .  '/storage/' . $filePath,
                 'smsCode' => $request['smsCode'],
                 'date' => Carbon::now()->format('d.m.Y'),
-                'hide' => 1
+                'hide' => "1"
             ];
         }
 

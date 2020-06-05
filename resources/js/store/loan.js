@@ -30,6 +30,9 @@ export default {
     extendDocuments: (s) => s.documents.filter((item) => {
       return item.hide === "1";
     }),
+    contractIsSigned: (s) => {
+
+    }
   },
   actions: {
     async getLoanData({getters, commit}) {

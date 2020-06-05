@@ -57,7 +57,7 @@ class DocumentsService
                 'name' => $document->name,
                 'smsCode' => $document->sign_code,
                 'date' => $document->created_at->format('d.m.Y'),
-                'hide' => $document->is_hide
+                'hide' => (string)$document->is_hide
             ];
         }
 
