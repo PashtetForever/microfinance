@@ -155,6 +155,9 @@
       },
     },
     async mounted() {
+      if (!this.$store.getters.email) {
+        await this.$store.dispatch('loadContactData');
+      }
       this.contractData = await this.$store.dispatch('getValidContract');
       this.percentSum = _.parseInt(this.contractData.PercentSum) + _.parseInt(this.contractData.Penalty);
       this.returnDate = moment(this.contractData.ReturnDate, 'DD.MM.YYYY').locale('ru').add(1, 'days');

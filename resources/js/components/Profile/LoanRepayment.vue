@@ -77,9 +77,9 @@
     },
     async mounted() {
       this.data = await this.$store.dispatch('getValidContract');
-      //if (!this.$store.getters.email) {
+      if (!this.$store.getters.email) {
         await this.$store.dispatch('loadContactData');
-      //}
+      }
     }
   }
 </script>

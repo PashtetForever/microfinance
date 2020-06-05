@@ -71,7 +71,10 @@ class DocumentsService
 
     public function openAllDocuments($loanGuid)
     {
-        $loan = Loan::whereLoanGuid($loanGuid)->firstOrFail();
+        $loan = Loan::whereLoanGuid($loanGuid)->first();
+        if(!$loan)
+            return;
+
         $documents = Document::where(['is_hide' => true, 'loan_id' => $loan->id])->get();
 
         foreach ($documents as $document) {
