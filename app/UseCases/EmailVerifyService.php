@@ -17,7 +17,8 @@ class EmailVerifyService
             'email' => $email
         ]);
 
-        mail($email, 'mkksentimo.ru: Подтверждение электронной почты', "Ваш код активации: $code");
+        if(!EmailVerify::where(['email' => $email, 'verify_at' => null])->first())
+            mail($email, 'mkksentimo.ru: Подтверждение электронной почты', "Ваш код активации: $code");
     }
 
     public function isCorrectVerify(string $userGuid, string $code)
@@ -25,7 +26,7 @@ class EmailVerifyService
         $row = EmailVerify::where([
             'user_guid' => $userGuid,
             'code' => $code
-        ])->get()->first();
+        ])->first();
 
         if($row) {
             $row->verify_at = Carbon::now();

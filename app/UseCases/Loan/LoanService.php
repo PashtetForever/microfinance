@@ -24,6 +24,9 @@ class LoanService
         $loan = Loan::create([
             'loan_guid' => $loanGuid,
             'user_guid' => $userGuid,
+            'number' => $responseCreateLoan['Number'],
+            'sum' => $sum,
+            'days' => $days
         ]);
 
         $documentsResponse = (array)$this->api->getFileList($sessionId, $smsCode, $loanGuid)->getData(true);

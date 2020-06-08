@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Document;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -35,7 +36,9 @@ class Loan extends Model
 {
     use SoftDeletes;
 
-    public $fillable = ['loan_id', 'user_guid', 'loan_guid'];
+    public $fillable = ['loan_id', 'user_guid', 'loan_guid', 'number', 'sum', 'days', 'percent'];
+
+    protected $dateFormat = 'd.m.Y H:i';
 
     public function documents()
     {

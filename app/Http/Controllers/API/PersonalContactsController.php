@@ -12,7 +12,6 @@ class PersonalContactsController extends Controller
 
     public function __construct(API $api)
     {
-
         $this->api = $api;
     }
 

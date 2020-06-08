@@ -34,7 +34,7 @@ class DocumentsService
         ];
 
         if($smsCode)
-            $values['sign_code'] = $smsCode;
+            $values['sign_code'] = (string)$smsCode;
 
         if($isHide)
             $values['is_hide'] = true;
@@ -48,14 +48,14 @@ class DocumentsService
 
     public function getDocumentsPathsByLoan(Loan $loan)
     {
-        $documents = Document::whereLoanId($loan['id'])->get();
+        $documents = $loan->documents();
         $result = [];
 
         foreach ($documents as $document) {
             $result[] = [
                 'path' => env('MIX_APP_URI') .  '/storage/documents/' . $loan['loan_guid'] . '/' . $document['file_name'] . '.pdf',
                 'name' => $document->name,
-                'smsCode' => $document->sign_code,
+                'smsCode' => (string)$document->sign_code,
                 'date' => $document->created_at->format('d.m.Y'),
                 'hide' => (string)$document->is_hide
             ];
@@ -81,5 +81,10 @@ class DocumentsService
             $document->is_hide = false;
             $document->save();
         }
+    }
+
+    public function deleteHiddenDocuments()
+    {
+
     }
 }

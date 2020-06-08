@@ -99,8 +99,18 @@
       if (!this.$store.getters.fio)
         await this.$store.dispatch('loadContactData');
 
-      this.originalEmail = this.email;
+
     },
+    beforeRouteLeave(to, from, next) {
+      if(this.isChangedEmail)
+        this.$store.commit('isVerifyEmail', false);
+      next()
+    },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        vm.originalEmail = vm.email;
+      })
+    }
   }
 </script>
 

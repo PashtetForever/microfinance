@@ -90,6 +90,7 @@
 </template>
 
 <script>
+
   export default {
     name: "PersonalLoan",
     data: () => ({
@@ -108,18 +109,7 @@
         return this.$store.getters.documents
       },
       isExistSignContract() {
-        const contract = this.documents.find(item => {
-          return (item.name === 'Договор потребительского займа')
-        });
-
-        return !!contract;
-      },
-      isExistFilledContract() {
-        const contract = this.documents.find(item => {
-          return (item.name === 'Договор займа (заполненный)')
-        });
-
-        return !!contract;
+        return this.$store.getters.isExistSignContract
       },
       color() {
         let color;

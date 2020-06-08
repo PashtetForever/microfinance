@@ -119,7 +119,10 @@
         if (this.isNeedPayPercent)
           this.payment();
         else {
-          this.$store.dispatch('extensionLoan', this.returnDate.format('YYYYMMDD')).then(() => {
+          this.$store.dispatch('extensionLoan', {
+            returnDate: this.returnDate.format('YYYYMMDD'),
+            smsCode: this.smsCode
+          }).then(() => {
             this.$router.push('/profile')
           })
         }
@@ -158,9 +161,13 @@
       if (!this.$store.getters.email) {
         await this.$store.dispatch('loadContactData');
       }
-      this.contractData = await this.$store.dispatch('getValidContract');
-      this.percentSum = _.parseInt(this.contractData.PercentSum) + _.parseInt(this.contractData.Penalty);
-      this.returnDate = moment(this.contractData.ReturnDate, 'DD.MM.YYYY').locale('ru').add(1, 'days');
+    },
+    beforeRouteEnter(to, from, next) {
+      next( vm => {
+        vm.contractData = vm.$store.dispatch('getValidContract');
+        vm.percentSum = _.parseInt(vm.contractData.PercentSum) + _.parseInt(vm.contractData.Penalty);
+        vm.returnDate = moment(vm.contractData.ReturnDate, 'DD.MM.YYYY').locale('ru').add(1, 'days');
+      })
     },
     watch: {
       days() {

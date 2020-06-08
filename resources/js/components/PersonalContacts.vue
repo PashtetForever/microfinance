@@ -81,6 +81,11 @@
         })
       },
       async clickNext() {
+        for (let item of this.filledContacts) {
+          if(!item.hasOwnProperty('GUID'))
+            item.GUID = null
+        }
+
         await this.$store.dispatch('setPersonalContacts', this.filledContacts);
       }
     }

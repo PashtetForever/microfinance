@@ -70,9 +70,10 @@ export default {
       const result = await api.mandarinGetIdentify(getters.smsId);
       return result.phoneVerified;
     },
-    async repayment({getters, dispatch}, payload) {
+    async repayment({getters, dispatch, commit}, payload) {
       const response = await api.repayment(getters.loanGuid, payload, getters.email)
       await api.isExistLoan(getters.guid)
+      commit('resetCurrentLoanData')
       return response;
     },
     async extensionPayPercent({getters}, payload) {

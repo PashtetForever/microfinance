@@ -52,8 +52,8 @@ export default class  {
   static async setMandarinId(sessionId,mandarinId, phone, email) {
     return await Request.request('POST', '/api/user/set-mandarin', {sessionId, mandarinId, phone, email})
   }
-  static async createLoan(sessionId, days, sum, smsCode, userGuid) {
-    return await Request.request('POST', '/api/loan/create', {sessionId, days, sum, smsCode, userGuid})
+  static async createLoan(sessionId, days, sum, smsCode, percent, userGuid) {
+    return await Request.request('POST', '/api/loan/create', {sessionId, days, sum, smsCode, userGuid, percent})
   }
   static async getCurrentLoan(sessionId, userGuid) {
     return await Request.request('GET', `/api/loan/current?sessionId=${sessionId}&userGuid=${userGuid}`);
@@ -81,5 +81,8 @@ export default class  {
   }
   static async isExistLoan(userGuid) {
     return await Request.request('POST', `/api/loan/is-exist`, {userGuid});
+  }
+  static async getHistory(userGuid) {
+    return await Request.request('POST', `/api/loan/history`, {userGuid});
   }
 }

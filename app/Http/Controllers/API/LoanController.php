@@ -10,6 +10,7 @@ use App\UseCases\Loan\LoanService;
 use App\UseCases\Loan\DocumentsService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use function foo\func;
 
 class LoanController extends Controller
 {
@@ -97,5 +98,17 @@ class LoanController extends Controller
         }
 
         return $files;
+    }
+
+    public function getHistoryLoans(Request $request)
+    {
+        $loans = Loan::onlyTrashed()->whereUserGuid($request['userGuid'])->with(['documents'])->get()->toArray();
+
+        foreach ($loans as $key => $loan) {
+            $loans[$key]['created_at'] = (new Carbon($loan['created_at']))->format('d.m.Y H:i');
+            $loans[$key]['deleted_at'] = (new Carbon($loan['deleted_at']))->format('d.m.Y H:i');
+        }
+
+        return $loans;
     }
 }

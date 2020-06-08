@@ -5,7 +5,7 @@
         <p class="sumInputTitle text-center">Введите код из СМС</p>
         <div class="form-group">
           <label for="code">Код<span class="star">*</span></label>
-          <input v-model="code" name="code" type="text" class="form-control" id="code">
+          <input v-model="code" v-mask="codeMask" name="code" type="text" class="form-control" id="code">
         </div>
         <button
           @click="submit"
@@ -20,10 +20,16 @@
 </template>
 
 <script>
+  import {mask} from 'vue-the-mask';
+
   export default {
+    directives: {
+      mask
+    },
     data() {
       return {
         code: '',
+        codeMask: '######',
         valid: false,
       }
     },

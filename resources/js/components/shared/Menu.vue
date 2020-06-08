@@ -21,7 +21,7 @@
           </v-list-item-content>
         </v-list-item>
       </router-link>
-      <router-link to="loan-repayment" v-if="isExistLoan">
+      <router-link to="loan-repayment" v-if="isExistLoan && isExistSignContract">
         <v-list-item>
           <v-list-item-icon>
             <v-icon>mdi-wallet</v-icon>
@@ -31,7 +31,7 @@
           </v-list-item-content>
         </v-list-item>
       </router-link>
-      <router-link to="loan-extension" v-if="isExistLoan">
+      <router-link to="loan-extension" v-if="isExistLoan && isExistSignContract">
         <v-list-item>
           <v-list-item-icon>
             <v-icon>mdi-credit-card-plus-outline</v-icon>
@@ -79,7 +79,7 @@
   export default {
     name: "Menu",
     computed: {
-      ...mapGetters(['isExistLoan'])
+      ...mapGetters(['isExistLoan', 'isExistSignContract'])
     },
     methods: {
       logout() {

@@ -16,7 +16,17 @@ export default {
     fillContractName: (s, payload) => s.fillContractName = payload,
     isExistLoan: (s, payload) => s.isExistLoan = payload,
     documents: (s, payload) => s.documents = payload,
-    addDocument: (s, payload) => { s.documents.push(payload) }
+    addDocument: (s, payload) => {
+      s.documents.push(payload)
+    },
+    resetCurrentLoanData: (s) => {
+      s.loanData = []
+      s.loanId = ''
+      s.loanGuid = ''
+      s.fillContractName = ''
+      s.isExistLoan = false
+      s.documents = []
+    }
   },
   getters: {
     loanData: (s) => s.loanData,
@@ -30,9 +40,13 @@ export default {
     extendDocuments: (s) => s.documents.filter((item) => {
       return item.hide === "1";
     }),
-    contractIsSigned: (s) => {
+    isExistSignContract: (s) => {
+      const contract = s.documents.find(item => {
+        return (item.name === 'Договор потребительского займа')
+      });
 
-    }
+      return !!contract;
+    },
   },
   actions: {
     async getLoanData({getters, commit}) {
@@ -43,7 +57,7 @@ export default {
       return response;
     },
     async createLoan({commit, getters}) {
-      const response = await api.createLoan(getters.sessionId, getters.getDays, getters.getSum, getters.smsCode, getters.guid);
+      const response = await api.createLoan(getters.sessionId, getters.getDays, getters.getSum, getters.smsCode, getters.get, getters.guid);
       commit('loanData', response.loan)
       commit('documents', response.documents)
       commit('loanGuid', response.loan.GUID)
@@ -62,12 +76,15 @@ export default {
     },
     async isExistLoan({getters, commit}) {
       const response = await api.isExistLoan(getters.guid);
-      if(response.data) {
+      if (response.data) {
         commit('isExistLoan', true);
         commit('loanGuid', response.data);
       } else {
         commit('isExistLoan', false);
       }
     },
+    async getHistoryLoans({getters}) {
+      return await api.getHistory(getters.guid);
+    }
   }
 }
