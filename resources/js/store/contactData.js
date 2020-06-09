@@ -41,6 +41,8 @@ export default {
       const result = await Api.getContactData(getters.sessionId);
       commit('fio', result.FIO);
       commit('email', result.Email);
+      if(result.Email !== false)
+        commit('isVerifyEmail', true);
     },
     async setContactData({getters, commit}) {
       await Api.setContactData(getters.sessionId, getters.fio, getters.email);

@@ -20,7 +20,6 @@
   import {mapGetters} from 'vuex';
 
   export default {
-    //todo: Ошибка при обновлении страницы
     name: "VerifyEmail",
     data: () => ({
       code: ''

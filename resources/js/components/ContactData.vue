@@ -96,7 +96,6 @@
       }
     },
     async mounted() {
-      if (!this.$store.getters.fio)
         await this.$store.dispatch('loadContactData');
     },
     beforeRouteLeave(to, from, next) {
