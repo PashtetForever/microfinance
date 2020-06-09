@@ -31,18 +31,32 @@ Vue.component('app-order-form-min', OrderFormMin);
 Vue.component('app-contact-data', ContactData);
 
 router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (!store.getters.isAuthorized)
-            next('/login');
-        else
-            next()
-    } else next()
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!store.getters.isAuthorized)
+      next('/login');
+    else
+      next()
+  } else next()
+
+  if (!to.meta.middleware) {
+    return next()
+  }
+  const middleware = to.meta.middleware
+  const context = {
+    to,
+    from,
+    next,
+    store
+  }
+  return middleware[0]({
+    ...context
+  })
 });
 
 new Vue({
-    store,
-    router,
-    render: h => h(App),
-    vuetify,
-    components: {App}
+  store,
+  router,
+  render: h => h(App),
+  vuetify,
+  components: {App}
 }).$mount('#app');

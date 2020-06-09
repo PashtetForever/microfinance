@@ -5,12 +5,13 @@
       <v-col>
         <v-data-table
           :headers="header"
-          :items="loans"
+          :items="rows"
           :disable-filtering="true"
           :disable-pagination="true"
           :disable-sort="true"
           :hide-default-footer="true"
-          :single-expand="false"
+          :single-expand="true"
+          item-key="number"
           no-data-text="Нет истории займов"
           class="elevation-1"
           show-expand
@@ -20,15 +21,15 @@
               <td>
                 <a class="btn btn-nav" @click="expand(!isExpanded)">Документы</a>
               </td>
-              <td class="d-block d-sm-table-cell" v-for="field in item.loan">
+              <td class="d-block d-sm-table-cell" v-for="field in item">
                 {{field}}
               </td>
             </tr>
           </template>
 
-          <template v-slot:expanded-item="{ headers, item }">
+          <template v-slot:expanded-item="{ item, headers }">
             <td :colspan="headers.length">
-              <p class="mt-2 mb-0" v-for="doc in item.documents"><a :href="doc.path">{{doc.name}}</a></p>
+              <p class="mt-2 mb-0" v-for="doc in getDocuments(item.number)"><a :href="doc.path">{{doc.name}}</a></p>
             </td>
           </template>
         </v-data-table>
@@ -50,9 +51,22 @@
         {text: 'Дата возврата', value: 'deleted_at'},
       ],
       loans: [],
+      rows: [],
     }),
+    methods: {
+      getDocuments(number) {
+        return this.loans.find((item) => {
+          return item.loan.number === number;
+        }).documents;
+      }
+    },
     async mounted() {
-      this.loans = await this.$store.dispatch('getHistoryLoans');
+      const response = await this.$store.dispatch('getHistoryLoans');
+      this.loans = response;
+      for (let item of response) {
+        //item.loan.documents = item.documents;
+        this.rows.push(item.loan)
+      }
     }
   }
 </script>

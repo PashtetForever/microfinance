@@ -56,6 +56,9 @@
     computed: {
       ...mapGetters(['snackbar', 'errorText', 'loading'])
     },
+    async mounted() {
+      
+    }
   };
 </script>
 <style>
