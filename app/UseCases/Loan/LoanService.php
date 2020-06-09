@@ -24,7 +24,7 @@ class LoanService
         $loan = Loan::create([
             'loan_guid' => $loanGuid,
             'user_guid' => $userGuid,
-            'number' => $responseCreateLoan['Number'],
+            'number' => $responseCreateLoan['Num'],
             'sum' => $sum,
             'days' => $days
         ]);

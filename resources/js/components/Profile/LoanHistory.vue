@@ -15,9 +15,20 @@
           class="elevation-1"
           show-expand
         >
-          <template v-slot:expanded-item="{item}">
-            <td :colspan="header.length" >
-              <p class="my-2" v-for="doc in item.documents" :key="doc.name"><a :href="doc.path">{{doc.name}}</a></p>
+          <template v-slot:item="{ item, expand, isExpanded }">
+            <tr>
+              <td>
+                <a class="btn btn-nav" @click="expand(!isExpanded)">Документы</a>
+              </td>
+              <td class="d-block d-sm-table-cell" v-for="field in item.loan">
+                {{field}}
+              </td>
+            </tr>
+          </template>
+
+          <template v-slot:expanded-item="{ headers, item }">
+            <td :colspan="headers.length">
+              <p class="mt-2 mb-0" v-for="doc in item.documents"><a :href="doc.path">{{doc.name}}</a></p>
             </td>
           </template>
         </v-data-table>
@@ -34,6 +45,7 @@
         {text: 'Номер', value: 'number'},
         {text: 'Сумма (руб.)', value: 'sum'},
         {text: 'Срок (дней)', value: 'days'},
+        {text: 'Процент', value: 'percent'},
         {text: 'Дата создания', value: 'created_at'},
         {text: 'Дата возврата', value: 'deleted_at'},
       ],

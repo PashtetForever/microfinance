@@ -44,6 +44,6 @@ class Document extends Model
 
     public function loan()
     {
-        return $this->belongsTo(Loan::class);
+        return $this->hasOne(Loan::class, 'id', 'loan_id');
     }
 }

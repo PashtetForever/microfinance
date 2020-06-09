@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DocumentResource;
+use App\Http\Resources\LoanResource;
 use App\Models\Document;
 use App\Models\Loan;
 use App\Services\Exchange1C\API;
@@ -34,7 +36,7 @@ class LoanController extends Controller
     public function getLoan(Request $request)
     {
         $loan = $this->loanService->getLoanByUserGuid($request['userGuid']);
-        $documents = $this->documentsService->getDocumentsPathsByLoan($loan);
+        $documents = DocumentResource::collection($loan->documents);
         $loanData = $this->api->getCurrentLoan($request['sessionId'], $loan['loan_guid']);
 
         return [
@@ -102,13 +104,6 @@ class LoanController extends Controller
 
     public function getHistoryLoans(Request $request)
     {
-        $loans = Loan::onlyTrashed()->whereUserGuid($request['userGuid'])->with(['documents'])->get()->toArray();
-
-        foreach ($loans as $key => $loan) {
-            $loans[$key]['created_at'] = (new Carbon($loan['created_at']))->format('d.m.Y H:i');
-            $loans[$key]['deleted_at'] = (new Carbon($loan['deleted_at']))->format('d.m.Y H:i');
-        }
-
-        return $loans;
+        return LoanResource::collection(Loan::onlyTrashed()->whereUserGuid($request['userGuid'])->with(['documents'])->get());
     }
 }

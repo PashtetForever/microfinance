@@ -38,8 +38,6 @@ class Loan extends Model
 
     public $fillable = ['loan_id', 'user_guid', 'loan_guid', 'number', 'sum', 'days', 'percent'];
 
-    protected $dateFormat = 'd.m.Y H:i';
-
     public function documents()
     {
         return $this->hasMany(Document::class);
