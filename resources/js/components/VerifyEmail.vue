@@ -50,6 +50,7 @@
     },
      beforeRouteEnter(to, from, next) {
       next(vm => {
+        vm.code = '';
         if(!vm.$store.getters.isVerifyEmail)
           vm.$store.dispatch('sendEmailCode');
       })

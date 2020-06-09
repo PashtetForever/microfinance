@@ -98,8 +98,6 @@
     async mounted() {
       if (!this.$store.getters.fio)
         await this.$store.dispatch('loadContactData');
-
-
     },
     beforeRouteLeave(to, from, next) {
       if(this.isChangedEmail)
@@ -108,12 +106,8 @@
     },
     beforeRouteEnter(to, from, next) {
       next(vm => {
-        vm.originalEmail = vm.email;
+        vm.originalEmail = vm.$store.getters.email;
       })
     }
   }
 </script>
-
-<style scoped>
-
-</style>

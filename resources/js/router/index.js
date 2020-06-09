@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import isExistLoan from "./middleware/isExistLoan"
+import isVerifyEmail from "./middleware/isVerifyEmail"
 
 Vue.use(Router);
 
