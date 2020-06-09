@@ -84,7 +84,8 @@ class LoanController extends Controller
 
     public function getExtendLoanDocuments(Request $request)
     {
-        $extendDocuments = $this->api->getFileExtendLoan($request['sessionId'], $request['smsCode'], $request['loanGuid']);
+        $this->documentsService->deleteHiddenDocuments($request['loanGuid']);
+        $extendDocuments = $this->api->getFileExtendLoan($request['sessionId'], $request['returnDate'], $request['smsCode'], $request['loanGuid']);
         $loan = Loan::whereLoanGuid($request['loanGuid'])->firstOrFail();
         $files = [];
         foreach ($extendDocuments as $document) {

@@ -158,16 +158,12 @@
       },
     },
     async mounted() {
-      if (!this.$store.getters.email) {
+      if (!this.$store.getters.email)
         await this.$store.dispatch('loadContactData');
-      }
-    },
-    beforeRouteEnter(to, from, next) {
-      next( vm => {
-        vm.contractData = vm.$store.dispatch('getValidContract');
-        vm.percentSum = _.parseInt(vm.contractData.PercentSum) + _.parseInt(vm.contractData.Penalty);
-        vm.returnDate = moment(vm.contractData.ReturnDate, 'DD.MM.YYYY').locale('ru').add(1, 'days');
-      })
+
+      this.contractData = await this.$store.dispatch('getValidContract');
+      this.percentSum = _.parseInt(this.contractData.PercentSum) + _.parseInt(this.contractData.Penalty);
+      this.returnDate =  moment(this.contractData.ReturnDate, 'DD.MM.YYYY').locale('ru').add(1, 'days');
     },
     watch: {
       days() {

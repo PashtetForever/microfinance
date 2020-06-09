@@ -65,14 +65,14 @@ export default {
     async signContract({commit, getters}, payload) {
       await api.getSignContract(getters.guid, payload, getters.sessionId)
     },
-    async getValidContract({getters, commit}) {
+    async getValidContract({getters}) {
       return await api.getContractData(getters.sessionId, getters.loanGuid);
     },
     async getExtensionLoanDocuments({getters}, {returnDate, smsCode}) {
       return await api.getExtensionLoanDocuments(getters.sessionId, getters.loanGuid, returnDate, smsCode)
     },
-    async extensionLoan({getters}, payload) {
-      return await api.extensionLoan(getters.loanGuid, payload)
+    async extensionLoan({getters}, {returnDate, smsCode}) {
+      return await api.extensionLoan(getters.loanGuid, returnDate, smsCode)
     },
     async isExistLoan({getters, commit}) {
       const response = await api.isExistLoan(getters.guid);

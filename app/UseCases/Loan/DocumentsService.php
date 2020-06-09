@@ -83,8 +83,17 @@ class DocumentsService
         }
     }
 
-    public function deleteHiddenDocuments()
+    public function deleteHiddenDocuments($loanGuid)
     {
+        $documents = Loan::whereLoanGuid($loanGuid)->first()
+            ->documents()->where('is_hide', '=', 1)
+            ->get();
 
+        /**
+         * @var $document Document
+         */
+        foreach ($documents as $document) {
+            $document->forceDelete();
+        }
     }
 }

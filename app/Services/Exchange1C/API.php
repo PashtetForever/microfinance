@@ -74,9 +74,10 @@ class API
             'GUID' => $loanGuid
         ]);
     }
-    public function getFileExtendLoan($sessionId, $smsCode, $loanGuid)
+    public function getFileExtendLoan($sessionId, $returnDate, $smsCode, $loanGuid)
     {
         return $this->receiver->request('POST', 'dunay/hs/cabinet/extendfilelist/' . $sessionId, [
+            'ReturnDate' => $returnDate,
             'SMSCode' => $smsCode,
             'GUID' => $loanGuid
         ]);
