@@ -89,7 +89,7 @@
         }
       },
       pathToNext() {
-        return (!this.isChangedEmail) ? 'data' : 'verify-email';
+        return (!this.isChangedEmail && this.$store.getters.isVerifyEmail) ? 'data' : 'verify-email';
       },
       isChangedEmail() {
         return this.originalEmail !== this.email

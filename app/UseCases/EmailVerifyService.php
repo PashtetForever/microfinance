@@ -17,8 +17,7 @@ class EmailVerifyService
             'email' => $email
         ]);
 
-        if(!EmailVerify::where(['email' => $email, 'verify_at' => null])->first())
-            mail($email, 'mkksentimo.ru: Подтверждение электронной почты', "Ваш код активации: $code");
+        mail($email, 'mkksentimo.ru: Подтверждение электронной почты', "Ваш код активации: $code");
     }
 
     public function isCorrectVerify(string $userGuid, string $code)
