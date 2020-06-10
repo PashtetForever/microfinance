@@ -14,4 +14,8 @@ before_script:
 deploying:
   stage: deploy
   script:
-    - ssh -o StrictHostKeyChecking=no root@"$HOST" 'ls -la'
+    - ssh -o StrictHostKeyChecking=no root@"$HOST" cd $SITE_DIR
+    - ssh -o StrictHostKeyChecking=no root@"$HOST" git pull origin master
+    - ssh -o StrictHostKeyChecking=no root@"$HOST" /opt/php74/bin/php artisan migrate
+    - ssh -o StrictHostKeyChecking=no root@"$HOST" yarn prod
+    - ssh -o StrictHostKeyChecking=no root@"$HOST" cd .. && chown -R $SITE_USER:$SITE_USER cabinet/* && chown -R $SITE_USER:$SITE_USER cabinet/.*
