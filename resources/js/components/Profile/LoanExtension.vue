@@ -124,6 +124,7 @@
             smsCode: this.smsCode
           }).then(() => {
             this.$router.push('/profile')
+            location.reload()
           })
         }
       },

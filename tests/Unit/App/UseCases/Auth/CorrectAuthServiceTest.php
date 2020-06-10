@@ -21,9 +21,8 @@ class CorrectAuthServiceTest extends TestCase
     public function testCorrectCheckVerifyCode()
     {
         $verifyUserRow = factory(UserVerify::class)->create();
-        $result = $this->authService->checkVerifyCode($verifyUserRow['phone'], $verifyUserRow['code']);
-        $this->assertInstanceOf(UserVerify::class, $result);
-        $this->assertNotEmpty($result->toArray());
+        $result = $this->authService->isVerifyCode($verifyUserRow['phone'], $verifyUserRow['code']);
+        $this->assertTrue($result);
     }
 
 
