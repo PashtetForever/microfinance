@@ -10,6 +10,8 @@ before_script:
   - eval $(ssh-agent -s)
   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   - ssh-add <(echo "$SSH_PRIVATE_KEY")
+  - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
 
 deploying:
   stage: deploy
