@@ -46,24 +46,6 @@ class DocumentsService
         return $filePath;
     }
 
-    public function getDocumentsPathsByLoan(Loan $loan)
-    {
-        $documents = $loan->documents();
-        $result = [];
-
-        foreach ($documents as $document) {
-            $result[] = [
-                'path' => env('MIX_APP_URI') .  '/storage/documents/' . $loan['loan_guid'] . '/' . $document['file_name'] . '.pdf',
-                'name' => $document->name,
-                'smsCode' => (string)$document->sign_code,
-                'date' => $document->created_at->format('d.m.Y'),
-                'hide' => (string)$document->is_hide
-            ];
-        }
-
-        return $result;
-    }
-
     public function getContract(Loan $loan): Document
     {
         return $loan->documents()->get()->where('name', '=', 'Договор займа (заполненный)')->first();
