@@ -16,7 +16,7 @@ before_script:
 deploying:
   stage: deploy
   script:
-    - ssh -o StrictHostKeyChecking=no root@"$HOST"
+    - ssh -o StrictHostKeyChecking=no -tt root@"$HOST"
     - cd $SITE_DIR
     - git pull origin master
     - /opt/php74/bin/php artisan migrate
