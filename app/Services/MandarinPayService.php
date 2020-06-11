@@ -65,7 +65,7 @@ class MandarinPayService
 
     private function request($login, $method, $urn, $body = null)
     {
-        $password = config("mandarin.user_login.$login");
+        $password = config("mandarin.user_login." . (int)$login);
         if(!$password)
             throw new \DomainException("Не найден пароль службы Mandarin");
 
