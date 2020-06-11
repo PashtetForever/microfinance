@@ -3,6 +3,7 @@
 /node_modules
 /public/hot
 /public/storage
+/public/mix-manifest.json
 /storage/*.key
 /vendor
 .env
@@ -23,3 +24,4 @@ yarn-error.log
 /public/js/app.js
 /laradock
 /resources/views/app.blade.php
+/public/js/app.js.LICENSE.txt
