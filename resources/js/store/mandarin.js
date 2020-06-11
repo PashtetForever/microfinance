@@ -42,10 +42,9 @@ export default {
         passportNumber,
         passportSeries,
         snils,
-        phone,
-        mandarinLogin: getters.mandarinLogin
+        phone
       };
-      const response = await api.mandarinIdentify(body);
+      const response = await api.mandarinIdentify(body, getters.mandarinLogin);
       if (response.id)
         commit('smsId', response.id);
     },
