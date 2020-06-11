@@ -26,22 +26,22 @@ class MandarinController extends Controller
     public function identify(Request $request)
     {
         //todo: Переделать чтобы данные передавались отдельно, чтобы отлавливать когда и каких данных не хватило для идентификации
-        return $this->mandarinPayService->identify($request['data']);
+        return $this->mandarinPayService->identify($request['mandarinLogin'], $request['data']);
     }
 
     public function binding(Request $request)
     {
-        return $this->mandarinPayService->binding($request['email'], $request['phone']);
+        return $this->mandarinPayService->binding($request['mandarinLogin'], $request['email'], $request['phone']);
     }
 
     public function checkSms(Request $request)
     {
-        return $this->mandarinPayService->checkSmsCode($request['mandarinSessionId'], $request['code']);
+        return $this->mandarinPayService->checkSmsCode($request['mandarinLogin'], $request['mandarinSessionId'], $request['code']);
     }
 
     public function getIdentifyResult(Request $request)
     {
-        return $this->mandarinPayService->getIdentifyResult($request['smsId']);
+        return $this->mandarinPayService->getIdentifyResult($request['mandarinLogin'], $request['smsId']);
     }
 
     public function repaymentLoan(Request $request)
@@ -49,7 +49,7 @@ class MandarinController extends Controller
         $config = config('mandarin');
 
         return $this->mandarinPayService->payment
-        ($request['orderId'], $request['price'], $request['email'],
+        ($request['mandarinLogin'], $request['orderId'], $request['price'], $request['email'],
             $config['url_return_payment'], $config['url_callback_payment']);
     }
 
@@ -66,7 +66,7 @@ class MandarinController extends Controller
         $config = config('mandarin');
 
         return $this->mandarinPayService->payment
-        ($request['orderId'], $request['price'], $request['email'],
+        ($request['mandarinLogin'], $request['orderId'], $request['price'], $request['email'],
             $config['url_return_extension'], $config['url_callback_extension']);
     }
 

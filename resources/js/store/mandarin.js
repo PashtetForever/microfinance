@@ -42,15 +42,16 @@ export default {
         passportNumber,
         passportSeries,
         snils,
-        phone
+        phone,
+        mandarinLogin: getters.mandarinLogin
       };
       const response = await api.mandarinIdentify(body);
       if (response.id)
         commit('smsId', response.id);
     },
     async fullBinding({getters, commit}) {
-      const result = await api.mandarinBinding(getters.email, getters.phone);
-      await api.setMandarinId(getters.sessionId, result.id, getters.phone, getters.email);
+      const result = await api.mandarinBinding(getters.email, getters.phone, getters.mandarinLogin);
+      await api.setMandarinId(getters.sessionId, result.id, getters.phone, getters.email, getters.mandarinLogin);
       commit('mandarinId', result.id);
       commit('userWebLink', result.userWebLink);
     },
@@ -62,22 +63,22 @@ export default {
      * @returns {Promise<void>}
      */
     async sendMandarinSmsCode({commit, getters}, payload) {
-      const result = await api.mandarinCheckSms(getters.smsId, payload);
+      const result = await api.mandarinCheckSms(getters.smsId, payload, getters.mandarinLogin);
       if (result.id)
         commit('smsId', result.id)
     },
     async checkMandarinSmsStatus({getters}) {
-      const result = await api.mandarinGetIdentify(getters.smsId);
+      const result = await api.mandarinGetIdentify(getters.smsId, getters.mandarinLogin);
       return result.phoneVerified;
     },
     async repayment({getters, dispatch, commit}, payload) {
-      const response = await api.repayment(getters.loanGuid, payload, getters.email)
+      const response = await api.repayment(getters.loanGuid, payload, getters.email, getters.mandarinLogin)
       await api.isExistLoan(getters.guid)
       commit('resetCurrentLoanData')
       return response;
     },
     async extensionPayPercent({getters}, payload) {
-      return await api.extensionPayPercent(getters.loanGuid + '#' + payload.date, payload.sum, getters.email)
+      return await api.extensionPayPercent(getters.loanGuid + '#' + payload.date, payload.sum, getters.email, getters.mandarinLogin)
     }
   }
 }

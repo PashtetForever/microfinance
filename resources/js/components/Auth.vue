@@ -66,6 +66,7 @@
             password: this.password,
             phone: this.phone
           });
+          this.$store.commit('mandarinLogin', response.Mandarin.Login)
           this.$router.push('/verify');
         } else {
           this.$store.dispatch('error', 'Заполните поля логин, пароль и телефон');

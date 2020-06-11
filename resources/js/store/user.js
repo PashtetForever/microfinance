@@ -11,6 +11,7 @@ export default {
     isAuthorized: false,
     guid: '',
     dateEndLoan: '',
+    mandarinLogin: null
   },
   getters: {
     dateEndLoan: (state, getters) => moment().add(getters.getDays, 'd').format('DD.MM.YYYY'),
@@ -34,6 +35,9 @@ export default {
     },
     guid(state) {
       return state.guid;
+    },
+    mandarinLogin(state) {
+      return state.mandarinLogin;
     },
   },
   mutations: {
@@ -61,6 +65,7 @@ export default {
     dateEndLoan(state, payload) {
       state.dateEndLoan = payload;
     },
+    mandarinLogin: (state, payload) => state.mandarinLogin = payload,
   },
   actions: {
     dateEndLoan: ({commit, getters}) => {

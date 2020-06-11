@@ -9,4 +9,9 @@ return [
     'url_callback_payment' => env('MANDARIN_URI_CALLBACK_REPAYMENT'),
     'url_return_extension' => env('MANDARIN_URI_RETURN_EXTENSION'),
     'url_callback_extension' => env('MANDARIN_URI_CALLBACK_EXTENSION'),
+    'user_login' => [
+        2863 => 'qjFfU23C3k',
+        2677 => 'uVlVDZPAzd',
+        2876 => '1nacH47oLj',
+    ]
 ];

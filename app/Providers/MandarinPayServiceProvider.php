@@ -10,8 +10,7 @@ class MandarinPayServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(MandarinPayService::class, function() {
-            $config = config('mandarin');
-            return new MandarinPayService($config['login'], $config['password']);
+            return new MandarinPayService();
         });
     }
 }

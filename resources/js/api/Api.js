@@ -37,17 +37,17 @@ export default class  {
   static async setPersonalContacts(sessionId, data) {
     return await Request.request('POST', '/api/data/personal-contacts', {sessionId, data})
   }
-  static async mandarinIdentify(data) {
-    return await Request.request('POST', '/api/mandarin/identify-person', {data})
+  static async mandarinIdentify(data, mandarinLogin) {
+    return await Request.request('POST', '/api/mandarin/identify-person', {data, mandarinLogin})
   }
-  static async mandarinBinding(email, phone) {
-    return await Request.request('POST', '/api/mandarin/binding', {email, phone})
+  static async mandarinBinding(email, phone, mandarinLogin) {
+    return await Request.request('POST', '/api/mandarin/binding', {email, phone, mandarinLogin})
   }
-  static async mandarinCheckSms(mandarinSessionId, code) {
-    return await Request.request('POST', '/api/mandarin/check-sms', {mandarinSessionId, code})
+  static async mandarinCheckSms(mandarinSessionId, code, mandarinLogin) {
+    return await Request.request('POST', '/api/mandarin/check-sms', {mandarinSessionId, code, mandarinLogin})
   }
-  static async mandarinGetIdentify(smsId) {
-    return await Request.request('POST', '/api/mandarin/result', {smsId})
+  static async mandarinGetIdentify(smsId, mandarinLogin) {
+    return await Request.request('POST', '/api/mandarin/result', {smsId, mandarinLogin})
   }
   static async setMandarinId(sessionId,mandarinId, phone, email) {
     return await Request.request('POST', '/api/user/set-mandarin', {sessionId, mandarinId, phone, email})
@@ -67,11 +67,11 @@ export default class  {
   static async getContractData(sessionId, loanGuid) {
     return await Request.request('GET', `/api/loan/contract?loanGuid=${loanGuid}&sessionId=${sessionId}`);
   }
-  static async repayment(orderId, price, email) {
-    return await Request.request('POST', `/api/mandarin/repayment-loan`, {orderId, price, email});
+  static async repayment(orderId, price, email, mandarinLogin) {
+    return await Request.request('POST', `/api/mandarin/repayment-loan`, {orderId, price, email, mandarinLogin});
   }
-  static async extensionPayPercent(orderId, price, email) {
-    return await Request.request('POST', `/api/mandarin/payment-extension-percent`, {orderId, price, email});
+  static async extensionPayPercent(orderId, price, email, mandarinLogin) {
+    return await Request.request('POST', `/api/mandarin/payment-extension-percent`, {orderId, price, email, mandarinLogin});
   }
   static async extensionLoan(loanGuid, returnDate, smsCode) {
     return await Request.request('POST', `/api/loan/extension`, {loanGuid, returnDate, smsCode});

@@ -18,6 +18,7 @@ mix.js('resources/js/app.js', 'public/js')
 
 if(process.env.APP_ENV === 'production') {
   mix.webpackConfig({ output: { filename: '[name].js', chunkFilename: 'js/[name].app.js', publicPath: '/cabinet/public/' } });
+  mix.setPublicPath('/cabinet/public');
 }
 if(process.env.APP_ENV === 'local') {
   mix.browserSync('localhost')

@@ -7,25 +7,21 @@ use GuzzleHttp\Exception\ClientException;
 
 class MandarinPayService
 {
-    private string $login;
-    private string $password;
     private Client $client;
 
-    public function __construct($login, $password, $apiUri = 'https://secure.mandarinpay.com')
+    public function __construct($apiUri = 'https://secure.mandarinpay.com')
     {
-        $this->login = $login;
-        $this->password = $password;
         $this->client = new Client(['base_uri' => $apiUri]);
     }
 
-    public function identify($body)
+    public function identify($login, $body)
     {
-        return $this->request('POST', '/api/personidentification', $body);
+        return $this->request($login,'POST', '/api/personidentification', $body);
     }
 
-    public function binding(string $email, string $phone)
+    public function binding($login, string $email, string $phone)
     {
-        return $this->request('POST', '/api/card-bindings', [
+        return $this->request($login, 'POST', '/api/card-bindings', [
             'customerInfo' => [
                 'email' => $email,
                 'phone' => $this->phoneToMandarinFormat($phone)
@@ -37,21 +33,21 @@ class MandarinPayService
         ]);
     }
 
-    public function checkSmsCode($sessionId, $code)
+    public function checkSmsCode($login, $sessionId, $code)
     {
-        return $this->request('PUT', '/api/personidentification/' . $sessionId, [
+        return $this->request($login, 'PUT', '/api/personidentification/' . $sessionId, [
             'smsCode' => $code
         ]);
     }
 
-    public function getIdentifyResult($smsId)
+    public function getIdentifyResult($login, $smsId)
     {
-        return $this->request('GET', '/api/personidentification/' . $smsId);
+        return $this->request($login, 'GET', '/api/personidentification/' . $smsId);
     }
 
-    public function payment($orderId, $price, $email, $returnUrl, $callbackUrl)
+    public function payment($login, $orderId, $price, $email, $returnUrl, $callbackUrl)
     {
-        return $this->request('POST', '/api/transactions', [
+        return $this->request($login, 'POST', '/api/transactions', [
             'payment' => [
                 'orderId' => $orderId,
                 'action' => 'pay',
@@ -67,10 +63,14 @@ class MandarinPayService
         ]);
     }
 
-    private function request($method, $urn, $body = null)
+    private function request($login, $method, $urn, $body = null)
     {
+        $password = config("mandarin.user_login.$login");
+        if(!$password)
+            throw new \DomainException("Не найден пароль службы Mandarin");
+
         $options = [
-            'auth' => [$this->login, $this->password],
+            'auth' => [$login, $password],
             'headers' => [
                 'Accept' => 'application/json',
             ],
