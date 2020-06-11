@@ -17,7 +17,7 @@ mix.js('resources/js/app.js', 'public/js')
     .version();
 
 if(process.env.APP_ENV === 'production') {
-  mix.webpackConfig({ output: { filename: '[name].js', chunkFilename: 'js/[name].app.js', publicPath: '/test/public/' } });
+  mix.webpackConfig({ output: { filename: '[name].js', chunkFilename: 'js/[name].app.js', publicPath: '/cabinet/public/' } });
   mix.version();
 }
 if(process.env.APP_ENV === 'local') {
