@@ -70,6 +70,8 @@ class LoanController extends Controller
 
         foreach ($response as $key => $item) {
             $response[$key] = str_replace(',', '.', $item);
+            if($key == 'PercentSum' || $key == 'PercentSumFull' || $key == 'Sum')
+                $response[$key] = str_replace(' ', '', $item);
         }
 
         return $response;
