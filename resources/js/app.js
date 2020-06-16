@@ -31,13 +31,6 @@ Vue.component('app-order-form-min', OrderFormMin);
 Vue.component('app-contact-data', ContactData);
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!store.getters.isAuthorized)
-      next('/login');
-    else
-      next()
-  } else next()
-
   if (!to.meta.middleware) {
     return next()
   }

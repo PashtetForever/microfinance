@@ -25,6 +25,8 @@ export default {
   mutations: {
     email: (state, payload) => {
       state.email = payload;
+      if(payload === false)
+        state.email = '';
     },
     fio: (state, payload) => {
       state.fio = payload

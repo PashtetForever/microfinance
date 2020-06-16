@@ -4,5 +4,6 @@ export default async function isExistLoan({next, store}){
     store.commit('resetCurrentLoanData')
     return next({name: 'order-form'})
   }
-  return next();
+  else
+    return next();
 }

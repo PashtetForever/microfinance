@@ -24,7 +24,7 @@ class DataController extends Controller
     public function setUserData(Request $request)
     {
         $response = $this->api->setUserInfo($request['sessionId'], $request['data']);
-        \Log::info('Обновление данныех пользователя. Ответ - ' . $response->getData()->Message);
+        \Log::info('Обновление данныех пользователя',  (array)$response->getData(true));
         return $response;
     }
 }

@@ -37,7 +37,7 @@
                               v-model="item.value"
                               :id="item.code"
                               @input="changeInput"
-                              :rules="(item.description !== 'Причина изменения ФИО' || item.description !== 'Иные доходы') ? notEmptyRule : []"
+                              :rules="(item.description !== 'Причина изменения ФИО' && item.description !== 'Иные доходы') ? notEmptyRule : []"
                               required
                 />
                 <v-text-field v-if="item.type === 'numeric'"
@@ -154,6 +154,9 @@
       }
       this.$store.dispatch('setUserData', resultData);
       next();
+    },
+    mounted() {
+      this.validate();
     }
   }
 </script>

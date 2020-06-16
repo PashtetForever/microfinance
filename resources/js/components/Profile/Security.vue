@@ -8,14 +8,27 @@
             v-model="oldPassword"
             label="Текущий пароль"
             type="password"
-            :rules="passwordRule"
             required
+            @input="$v.oldPassword.$touch()"
+            @blur="$v.oldPassword.$touch()"
+            :error-messages="oldPasswordErrors"
           ></v-text-field>
           <v-text-field
             v-model="newPassword"
             label="Новый пароль"
             type="password"
-            :rules="passwordRule"
+            required
+            :error-messages="newPasswordErrors"
+            @input="$v.newPassword.$touch()"
+            @blur="$v.newPassword.$touch()"
+          ></v-text-field>
+          <v-text-field
+            v-model="repeatPassword"
+            label="Повторите новый пароль"
+            :error-messages="repeatPasswordErrors"
+            type="password"
+            @input="$v.repeatPassword.$touch()"
+            @blur="$v.repeatPassword.$touch()"
             required
           ></v-text-field>
           <v-btn @click="submitForm" :disabled="!valid">Сохранить</v-btn>
@@ -26,17 +39,40 @@
 </template>
 
 <script>
+  import { validationMixin } from 'vuelidate'
+  import { required, sameAs, minLength } from 'vuelidate/lib/validators'
+
   export default {
+    mixins: [validationMixin],
     name: "Security",
     data: () => ({
       oldPassword: '',
       newPassword: '',
-      passwordRule: [
-        v => !!v || 'Требуется ввести пароль',
-      ],
+      repeatPassword: '',
       valid: true,
-      result: false
+      result: false,
     }),
+    computed: {
+      repeatPasswordErrors () {
+        const errors = []
+        if (!this.$v.repeatPassword.$dirty) return errors
+        !this.$v.repeatPassword.sameAsPassword && errors.push('Новый пароль не совпадает')
+        return errors
+      },
+      newPasswordErrors () {
+        const errors = []
+        if (!this.$v.newPassword.$dirty) return errors
+        !this.$v.newPassword.minLength && errors.push('Пароль должен быть не менее 6 симоволов')
+        !this.$v.newPassword.required && errors.push('Обязательное поле')
+        return errors
+      },
+      oldPasswordErrors () {
+        const errors = []
+        if (!this.$v.oldPassword.$dirty) return errors
+        !this.$v.oldPassword.required && errors.push('Обязательное поле')
+        return errors
+      },
+    },
     methods: {
       async submitForm() {
         if (this.$refs.formNewPass.validate()) {
@@ -53,10 +89,18 @@
           await this.$store.dispatch('error', 'Требуется заполнить поля')
         }
       },
+    },
+    validations: {
+      repeatPassword: {
+        sameAsPassword: sameAs('newPassword')
+      },
+      newPassword: {
+        required,
+        minLength: minLength(6)
+      },
+      oldPassword: {
+        required,
+      },
     }
   }
 </script>
-
-<style scoped>
-
-</style>
