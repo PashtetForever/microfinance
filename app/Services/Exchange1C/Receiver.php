@@ -41,6 +41,7 @@ class Receiver
 
         } catch (ServerException $exception) {
             $response = $exception->getResponse();
+            \Log::error("Ошибка запроса на сервер.", [$response->getBody()->getContents()]);
             throw new \DomainException("Ошибка запроса на сервер. Код {$response->getStatusCode()} Ответ: {$response->getBody()->getContents()}");
         }
         if(stristr($urn, '/cabinet/file/'))
@@ -49,11 +50,21 @@ class Receiver
         $contents = (array)json_decode($response->getBody()->getContents());
 
         if (Arr::exists($contents, 'Result'))
-            if ($contents['Result'] != true)
+            if ($contents['Result'] != true) {
+                \Log::error("Ошбика запроса в 1С", [
+                    'urn' => $urn,
+                    'result' => $contents
+                ]);
                 throw new \DomainException($contents['Message']);
+            }
 
-        if(Arr::exists($contents, 'error'))
+        if(Arr::exists($contents, 'error')) {
+            \Log::error("Ошбика запроса в 1С", [
+                'urn' => $urn,
+                'result' => $contents
+            ]);
             throw new \DomainException($contents['error']);
+        }
 
         return $contents;
     }
