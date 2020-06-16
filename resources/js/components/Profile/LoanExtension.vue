@@ -163,7 +163,7 @@
         await this.$store.dispatch('loadContactData');
 
       this.contractData = await this.$store.dispatch('getValidContract');
-      this.percentSum = _.parseFloat(this.contractData.PercentSum) + _.parseFloat(this.contractData.Penalty);
+      this.percentSum = _.toNumber(this.contractData.PercentSum) + _.toNumber(this.contractData.Penalty);
       this.returnDate =  moment(this.contractData.ReturnDate, 'DD.MM.YYYY').locale('ru').add(1, 'days');
     },
     watch: {
