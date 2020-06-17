@@ -14,7 +14,7 @@
               </v-alert>
               <v-row>
                 <v-col>
-                  <p><span class="font-weight-bold">Количество дней прдления:</span> {{days}}</p>
+                  <p><span class="font-weight-bold">Количество дней продления:</span> {{days}}</p>
                 </v-col>
                 <v-col>
                   <p><span class="font-weight-bold">Новая дата возврата займа:</span> {{returnDate.format('L')}}</p>

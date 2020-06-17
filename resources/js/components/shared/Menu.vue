@@ -24,7 +24,7 @@
       <router-link to="loan-repayment" v-if="isExistLoan && isExistSignContract">
         <v-list-item>
           <v-list-item-icon>
-            <v-icon>mdi-wallet</v-icon>
+            <v-icon>mdi-credit-card-refund-outline</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Погашение займа</v-list-item-title>
@@ -44,7 +44,7 @@
         <router-link to="history">
           <v-list-item >
             <v-list-item-icon>
-              <v-icon>mdi-credit-card-plus-outline</v-icon>
+              <v-icon>mdi-credit-card-clock-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>История займов</v-list-item-title>
@@ -54,7 +54,7 @@
       <router-link to="security">
         <v-list-item>
           <v-list-item-icon>
-            <v-icon>mdi-credit-card-plus-outline</v-icon>
+            <v-icon>mdi-account-settings</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Безопасность</v-list-item-title>
@@ -63,7 +63,7 @@
       </router-link>
       <v-list-item @click="logout">
         <v-list-item-icon>
-          <v-icon>mdi-credit-card-plus-outline</v-icon>
+          <v-icon>mdi-logout</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>Выйти</v-list-item-title>
