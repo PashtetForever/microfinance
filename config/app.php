@@ -230,5 +230,5 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
-
+    'mix_url' => env('MIX_ROUTER_PATH', 'http://localhost')
 ];
