@@ -57,7 +57,7 @@ class MandarinController extends Controller
     {
         $response = $this->api->requestReturnLoan($request['orderId'], $request['price']);
         Loan::whereLoanGuid($request['orderId'])->firstOrFail()->delete();
-        \Log::info('Погашение займа ' . $request['orderId'] . '. успешно выполнено');
+        \Log::info('Погашение займа ' . $request['orderId'] . '. успешно выполнено', $response);
         return "OK";
     }
 
