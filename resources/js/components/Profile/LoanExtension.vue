@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <section v-if="loanData.Number">
+    <section v-if="loanData.Number && canBeExtended === 1">
       <v-row>
         <v-col>
           <v-row v-if="documents.length === 0">
@@ -12,6 +12,11 @@
               >Для продления займа Вам необходимо оплатить текущий процент. <br>
                 <span>Сумма процентов: <span class="font-weight-bold">{{ percentSum }} руб.</span></span>
               </v-alert>
+              <v-row>
+                <v-col>
+                  <p><span class="font-weight-bold">Количество возможных продлений:</span> {{contractData.LeftExtends}}</p>
+                </v-col>
+              </v-row>
               <v-row>
                 <v-col>
                   <p><span class="font-weight-bold">Количество дней продления:</span> {{days}}</p>
@@ -85,7 +90,7 @@
     </section>
     <section v-else>
       <v-alert color="danger">
-        В данный момент у Вас нет активных займов
+        К сожалению, Вы не можете продлить текущий заём.
       </v-alert>
     </section>
   </v-container>
@@ -104,6 +109,7 @@
       returnDate: moment(),
       dialog: false,
       smsCode: '',
+      canBeExtended: false
     }),
     computed: {
       ...mapGetters(['loanData']),
@@ -163,6 +169,7 @@
         await this.$store.dispatch('loadContactData');
 
       this.contractData = await this.$store.dispatch('getValidContract');
+      this.canBeExtended = _.toNumber(this.contractData.CanBeExtended);
       this.percentSum = _.round(_.toNumber(this.contractData.PercentSum) + _.toNumber(this.contractData.Penalty), 2);
       this.returnDate =  moment(this.contractData.ReturnDate, 'DD.MM.YYYY').locale('ru').add(1, 'days');
     },
