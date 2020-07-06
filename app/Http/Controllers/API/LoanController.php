@@ -69,6 +69,9 @@ class LoanController extends Controller
         $response = $this->api->getLastContractData($request['sessionId'], $request['loanGuid']);
 
         foreach ($response as $key => $item) {
+            if($key == 'ExtendCancelReason')
+                continue;
+
             $response[$key] = str_replace(',', '.', $item);
             if($key == 'PercentSum' || $key == 'PercentSumFull' || $key == 'Sum')
                 $response[$key] = preg_replace('/\s+/ui', '', $item);
