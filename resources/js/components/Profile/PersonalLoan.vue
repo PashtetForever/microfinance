@@ -76,6 +76,7 @@
     data: () => ({
       agreeThree: false,
       agreeContract: false,
+      on: false
     }),
     computed: {
       ...mapGetters(['loanData', 'documents', 'isExistSignContract']),
@@ -104,8 +105,8 @@
       async updateStatus() {
         location.reload();
       },
-      async signContract(code) {
-        await this.$store.dispatch('signContract', code);
+      async signContract(data) {
+        await this.$store.dispatch('signContract', data.code);
         location.reload();
       }
     },

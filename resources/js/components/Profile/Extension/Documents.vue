@@ -29,7 +29,6 @@
   import {mapGetters} from 'vuex'
 
   export default {
-    props: ['returnDate', 'smsCode'],
     computed: {
       ...mapGetters(['extendDocuments', 'sumPercent'])
     },
@@ -39,8 +38,8 @@
           await this.repaymentPercent()
         else {
           await this.$store.dispatch('extensionLoan', {
-            returnDate: this.returnDate.format('YYYYMMDD'),
-            smsCode: this.smsCode
+            returnDate: this.$route.params.returnDate,
+            smsCode: this.$route.params.smsCode
           });
           await this.$router.push({name: 'profile'})
         }
@@ -48,7 +47,7 @@
       async repaymentPercent() {
         const response = await this.$store.dispatch('extensionPayPercent', {
           sum: this.sumPercent,
-          date: this.returnDate
+          date: this.$route.params.returnDate
         });
         if (response.hasOwnProperty('userWebLink')) {
           location.replace(response.userWebLink);

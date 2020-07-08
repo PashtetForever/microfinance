@@ -26,10 +26,8 @@ export default {
       commit('canBeExtended', result.CanBeExtended)
       commit('contractData', result)
 
-      let summ = result.Sum;
-      summ = +summ.replace(/\s/g, '');
-      summ = _.ceil(_.toNumber(result.PercentSum) + _.toNumber(result.Penalty) + summ, 2)
-      commit('sumPercent', summ)
+      //summ = _.ceil(_.toNumber(result.PercentSum) + _.toNumber(result.Penalty) + summ, 2)
+      commit('sumPercent', _.toNumber(result.PercentSum) + _.toNumber(result.Penalty))
 
       if (!getters.email)
         await dispatch('loadContactData')

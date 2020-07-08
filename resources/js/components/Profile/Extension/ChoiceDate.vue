@@ -2,13 +2,6 @@
   <section>
     <v-row>
       <v-col>
-        <v-alert
-          color="red"
-          elevation="2"
-          v-if="contractData.PercentSum > 0"
-        >Для продления займа Вам необходимо оплатить текущий процент. <br>
-          <span>Сумма процентов: <span class="font-weight-bold">{{ contractData.PercentSum }} руб.</span></span>
-        </v-alert>
         <v-row>
           <v-col>
             <p><span class="font-weight-bold">Количество возможных продлений:</span> {{contractData.LeftExtends}}</p>

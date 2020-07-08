@@ -1,6 +1,13 @@
 <template>
   <v-container fluid>
     <section v-if="canBeExtended">
+      <v-alert
+        color="red"
+        elevation="2"
+        v-if="contractData.PercentSum > 0"
+      >Для продления займа Вам необходимо оплатить текущий процент. <br>
+        <span>Сумма процентов: <span class="font-weight-bold">{{ contractData.PercentSum }} руб.</span></span>
+      </v-alert>
       <router-view></router-view>
     </section>
     <section v-else>
