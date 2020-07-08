@@ -47,6 +47,9 @@ class MandarinPayService
 
     public function payment($login, $orderId, $price, $email, $returnUrl, $callbackUrl)
     {
+        if($price == 0)
+            return response(['error' => 'Нет суммы для списания'], 500);
+
         return $this->request($login, 'POST', '/api/transactions', [
             'payment' => [
                 'orderId' => $orderId,
