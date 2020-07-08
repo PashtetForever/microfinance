@@ -55,6 +55,10 @@ class MandarinController extends Controller
 
     public function callbackRepaymentLoan(Request $request)
     {
+        if($request['status'] != 'success'){
+            \Log::error('Ошибка погашения займа ' . $request['orderId'], $request);
+            return "OK";
+        }
         $response = $this->api->requestReturnLoan($request['orderId'], $request['price']);
         Loan::whereLoanGuid($request['orderId'])->firstOrFail()->delete();
         \Log::info('Погашение займа ' . $request['orderId'] . '. успешно выполнено', $response);

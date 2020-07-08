@@ -8,6 +8,7 @@ import userData from "./userData";
 import personalContacts from "./personalContacts";
 import mandarin from "./mandarin";
 import loan from "./loan";
+import contract from "./contract";
 import actions from "./actions";
 
 Vue.use(Vuex);
@@ -15,7 +16,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   plugins: [createPersistedState({
     storage: window.localStorage,
-    paths: ['user', 'contactData', 'userData', 'mandarin', 'personalContacts', 'loan']
+    paths: ['user', 'contactData', 'userData', 'mandarin', 'personalContacts', 'loan', 'contract']
   })],
-  modules: {user, contactData, userData, personalContacts, mandarin, actions, loan}
+  modules: {user, contactData, userData, personalContacts, mandarin, actions, loan, contract}
 })

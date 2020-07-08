@@ -70,10 +70,14 @@ export default new Router({
       }
     },
     {
-      path: '/loan-extension', name: 'loan-extension', component: () => import('../components/Profile/LoanExtension'),
+      path: '/loan-extension', name: 'loan-extension', component: () => import('../components/Profile/Extension/Index'),
       meta: {
         middleware: [isExistLoan, isAuth],
-      }
+      },
+      children: [
+        {path: 'choice', name: 'choice-date', component: () => import('../components/Profile/Extension/ChoiceDate')},
+        {path: 'check-documents', name: 'check-documents', component: () => import('../components/Profile/Extension/Documents')},
+      ]
     },
     {
       path: '/history', name: 'history', component: () => import('../components/Profile/LoanHistory'),

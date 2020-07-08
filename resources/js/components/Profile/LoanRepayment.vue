@@ -1,15 +1,15 @@
 <template>
   <section>
-    <v-card v-if="data.Sum">
+    <v-card v-if="contractData.Sum">
       <v-row>
         <v-col>
           <v-alert color="success m-4 mb-0">
             Вы можете погасить заём, используя вашу банковскую карту. Для этого Вам необходимо перейти по ссылке,
-            нажав на кнопку «Оплатить». Обращаем Ваше внимание, что сумма платежа составляет <b>{{sum()}} руб.</b>
+            нажав на кнопку «Оплатить». Обращаем Ваше внимание, что сумма платежа составляет <b>{{sumPercent}} руб.</b>
           </v-alert>
         </v-col>
       </v-row>
-      <v-card-title>Погашение займа № {{data.Number}}</v-card-title>
+      <v-card-title>Погашение займа № {{contractData.Number}}</v-card-title>
       <v-card-text class="text--primary">
         <v-simple-table>
           <template v-slot:default>
@@ -17,27 +17,27 @@
             <tr>
             <tr>
               <td><b>Сумма займа:</b></td>
-              <td> {{data.Sum}} руб.</td>
+              <td> {{contractData.Sum}} руб.</td>
             </tr>
             <tr>
               <td><b>Срок займа (дней):</b></td>
-              <td> {{data.Days}}</td>
+              <td> {{contractData.Days}}</td>
             </tr>
             <tr>
               <td><b>Дата возврата займа:</b></td>
-              <td> {{data.ReturnDate}}</td>
+              <td> {{contractData.ReturnDate}}</td>
             </tr>
             <tr>
               <td><b>Сумма процентов на текущий день:</b></td>
-              <td> {{data.PercentSum}} руб.</td>
+              <td> {{contractData.PercentSum}} руб.</td>
             </tr>
             <tr>
               <td><b>Процент:</b></td>
-              <td> {{data.Percent}} %</td>
+              <td> {{contractData.Percent}} %</td>
             </tr>
             <tr>
               <td><b>Пени:</b></td>
-              <td> {{data.Penalty}}</td>
+              <td> {{contractData.Penalty}}</td>
             </tr>
             </tbody>
           </template>
@@ -54,36 +54,24 @@
 </template>
 
 <script>
-  import _ from "lodash"
+  import {mapGetters} from 'vuex'
 
   export default {
-    name: "LoanRepayment",
-    data: () => ({
-      data: []
-    }),
+    computed: {
+      ...mapGetters(['contractData', 'sumPercent'])
+    },
     methods: {
       async repayment() {
-        const response = await this.$store.dispatch('repayment', this.sum());
+        const response = await this.$store.dispatch('repayment', this.sumPercent);
 
         if (response.hasOwnProperty('userWebLink')) {
           location.replace(response.userWebLink);
         }
       },
-      sum() {
-        let summ = this.data.Sum;
-        summ = +summ.replace(/\s/g, '');
-        return _.ceil(_.toNumber(this.data.PercentSum.replace(/\s/g, '')) + _.toNumber(this.data.Penalty.replace(/\s/g, '')) + summ, 2)
-      }
-    },
-    async mounted() {
-      this.data = await this.$store.dispatch('getValidContract')
-      if (!this.$store.getters.email) {
-        await this.$store.dispatch('loadContactData');
-      }
     },
     async beforeRouteEnter(to, from, next) {
       await next(vm => {
-        vm.$store.dispatch('getValidContract')
+        vm.$store.dispatch('getContractData')
       })
     }
   }

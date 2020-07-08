@@ -26,7 +26,7 @@ export default {
       s.fillContractName = ''
       s.isExistLoan = false
       s.documents = []
-    }
+    },
   },
   getters: {
     loanData: (s) => s.loanData,
@@ -65,11 +65,11 @@ export default {
     async signContract({commit, getters}, payload) {
       await api.getSignContract(getters.guid, payload, getters.sessionId)
     },
-    async getValidContract({getters}) {
-      return await api.getContractData(getters.sessionId, getters.loanGuid);
-    },
-    async getExtensionLoanDocuments({getters}, {returnDate, smsCode}) {
-      return await api.getExtensionLoanDocuments(getters.sessionId, getters.loanGuid, returnDate, smsCode)
+    async getExtensionLoanDocuments({getters, commit}, {returnDate, smsCode}) {
+      const documents = await api.getExtensionLoanDocuments(getters.sessionId, getters.loanGuid, returnDate, smsCode)
+      documents.forEach((item) => {
+        commit('addDocument', item)
+      })
     },
     async extensionLoan({getters}, {returnDate, smsCode}) {
       return await api.extensionLoan(getters.loanGuid, returnDate, smsCode)
@@ -85,6 +85,12 @@ export default {
     },
     async getHistoryLoans({getters}) {
       return await api.getHistory(getters.guid);
+    },
+    clearExtendDocuments({getters, commit}) {
+      const documents = _.remove(getters.documents, (n) => {
+        return n.hide === 1
+      })
+      commit('documents', documents)
     }
   }
 }

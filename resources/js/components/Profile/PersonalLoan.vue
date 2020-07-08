@@ -4,7 +4,7 @@
     <v-card-text class="text--primary">
       <v-row :style="{background: color}">
         <v-col><b>Сумма займа:</b> {{loanData.Sum}} руб.</v-col>
-        <v-col><b>Срок займа:</b> {{loanData.Days}}</v-col>
+        <v-col><b>Срок займа (дней):</b> {{loanData.Days}}</v-col>
         <v-col><b>Статус:</b> {{loanData.Status}}<a @click="updateStatus" class="d-block">
           <v-icon>mdi-refresh</v-icon>
           Обновить статус</a></v-col>
@@ -29,29 +29,7 @@
               </v-checkbox>
             </v-col>
           </v-row>
-          <v-dialog v-model="dialog" max-width="290">
-            <template v-slot:activator="{ on }">
-              <v-row>
-                <v-col>
-                  <a class="btn btn-nav" :class="{disabled: !(agreeContract && agreeThree)}" @click="sendSms" v-on="on">Подписать
-                    договор</a>
-                  <a class="btn btn-nav float-right">Отказаться</a>
-                </v-col>
-              </v-row>
-            </template>
-            <v-card>
-              <v-card-title class="headline">Подписать договор</v-card-title>
-              <v-card-text>
-                Введите код отправленный на номер телефона указанный ранее
-                <v-text-field v-model="smsCode" placeholder="Код из смс" type="text"/>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="green darken-1" text @click="dialog = false">Отменить</v-btn>
-                <v-btn color="green darken-1" text @click="signContract">Подписать</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
+          <check-sms-form @successSmsForm="signContract" card-title="Подписать договор" button-name="Подписать договор"/>
         </v-col>
       </v-row>
       <v-row v-if="loanData.Status ==='Ожидает решения'">
@@ -90,27 +68,17 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
+  import CheckSmsForm from "../shared/CheckSmsForm";
 
   export default {
-    name: "PersonalLoan",
+    components: {CheckSmsForm},
     data: () => ({
-      dialog: false,
       agreeThree: false,
       agreeContract: false,
-      smsCode: '',
-      on: false,
-      isSendSms: false,
     }),
     computed: {
-      loanData() {
-        return this.$store.getters.loanData
-      },
-      documents() {
-        return this.$store.getters.documents
-      },
-      isExistSignContract() {
-        return this.$store.getters.isExistSignContract
-      },
+      ...mapGetters(['loanData', 'documents', 'isExistSignContract']),
       color() {
         let color;
 
@@ -136,25 +104,15 @@
       async updateStatus() {
         location.reload();
       },
-      async sendSms() {
-        if (!this.isSendSms)
-          await this.$store.dispatch('sendPhoneVerifyCode');
-      },
-      async signContract() {
-        if (this.smsCode) {
-          const result = await this.$store.dispatch('checkVerificationCode', {phone: this.$store.getters.phone, code: this.smsCode});
-          if (!result)
-            return this.$store.dispatch('error', 'Проверьте правильность введеного кода подписи');
-          else
-            this.isSendSms = true;
-        }
-        this.dialog = false;
-        await this.$store.dispatch('signContract', this.smsCode);
+      async signContract(code) {
+        await this.$store.dispatch('signContract', code);
         location.reload();
       }
     },
-    async mounted() {
-      await this.$store.dispatch('getLoanData');
+    async beforeRouteEnter(to, from, next) {
+      await next(vm => {
+        vm.$store.dispatch('getLoanData')
+      })
     }
   }
 </script>

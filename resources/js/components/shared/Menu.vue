@@ -11,7 +11,7 @@
           </v-list-item-content>
         </v-list-item>
       </router-link>
-      <router-link to="profile" v-else-if="isExistLoan">
+      <router-link to="/profile" v-else-if="isExistLoan">
         <v-list-item>
           <v-list-item-icon>
             <v-icon>mdi-credit-card-outline</v-icon>
@@ -21,7 +21,7 @@
           </v-list-item-content>
         </v-list-item>
       </router-link>
-      <router-link to="loan-repayment" v-if="isExistLoan && isExistSignContract">
+      <router-link to="/loan-repayment" v-if="isExistLoan && isExistSignContract">
         <v-list-item>
           <v-list-item-icon>
             <v-icon>mdi-credit-card-refund-outline</v-icon>
@@ -31,7 +31,7 @@
           </v-list-item-content>
         </v-list-item>
       </router-link>
-      <router-link to="loan-extension" v-if="isExistLoan && isExistSignContract">
+      <router-link to="/loan-extension/choice" v-if="isExistLoan && isExistSignContract">
         <v-list-item>
           <v-list-item-icon>
             <v-icon>mdi-credit-card-plus-outline</v-icon>
@@ -41,7 +41,7 @@
           </v-list-item-content>
         </v-list-item>
       </router-link>
-        <router-link to="history">
+        <router-link to="/history">
           <v-list-item >
             <v-list-item-icon>
               <v-icon>mdi-credit-card-clock-outline</v-icon>
@@ -51,7 +51,7 @@
             </v-list-item-content>
           </v-list-item>
         </router-link>
-      <router-link to="security">
+      <router-link to="/security">
         <v-list-item>
           <v-list-item-icon>
             <v-icon>mdi-account-settings</v-icon>
@@ -77,7 +77,6 @@
   import {mapGetters} from 'vuex';
 
   export default {
-    name: "Menu",
     computed: {
       ...mapGetters(['isExistLoan', 'isExistSignContract'])
     },
