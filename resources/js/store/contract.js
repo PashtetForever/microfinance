@@ -1,21 +1,25 @@
 import api from '../api/Api'
 import _ from 'lodash'
+import contactData from "./contactData";
 
 export default {
   state: {
     canBeExtended: false,
     contractData: undefined,
-    sumPercent: 0
+    sumPercent: 0,
+    sumRepayment: 0
   },
   getters: {
     canBeExtended: (s) => s.canBeExtended,
     contractData: (s) => s.contractData,
-    sumPercent: (s) => s.sumPercent
+    sumPercent: (s) => s.sumPercent,
+    sumRepayment: (s) =>  s.sumRepayment,
   },
   mutations: {
     canBeExtended: (s, payload) => s.canBeExtended = payload,
     contractData: (s, payload) => s.contractData = payload,
     sumPercent: (s, payload) => s.sumPercent = payload,
+    sumRepayment: (s, payload) => s.sumRepayment = payload,
   },
   actions: {
     async getContractData({getters, commit, dispatch}) {
@@ -25,6 +29,7 @@ export default {
 
       commit('canBeExtended', result.CanBeExtended)
       commit('contractData', result)
+      commit('sumRepayment', result.PercentSum + _.toNumber(result.Sum))
 
       //summ = _.ceil(_.toNumber(result.PercentSum) + _.toNumber(result.Penalty) + summ, 2)
       commit('sumPercent', _.toNumber(result.PercentSum) + _.toNumber(result.Penalty))

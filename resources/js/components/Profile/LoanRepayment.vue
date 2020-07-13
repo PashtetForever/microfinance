@@ -5,7 +5,7 @@
         <v-col>
           <v-alert color="success m-4 mb-0">
             Вы можете погасить заём, используя вашу банковскую карту. Для этого Вам необходимо перейти по ссылке,
-            нажав на кнопку «Оплатить». Обращаем Ваше внимание, что сумма платежа составляет <b>{{sumPercent}} руб.</b>
+            нажав на кнопку «Оплатить». Обращаем Ваше внимание, что сумма платежа составляет <b>{{sumRepayment}} руб.</b>
           </v-alert>
         </v-col>
       </v-row>
@@ -58,11 +58,11 @@
 
   export default {
     computed: {
-      ...mapGetters(['contractData', 'sumPercent'])
+      ...mapGetters(['contractData', 'sumRepayment'])
     },
     methods: {
       async repayment() {
-        const response = await this.$store.dispatch('repayment', this.sumPercent);
+        const response = await this.$store.dispatch('repayment', this.sumRepayment);
 
         if (response.hasOwnProperty('userWebLink')) {
           location.replace(response.userWebLink);
