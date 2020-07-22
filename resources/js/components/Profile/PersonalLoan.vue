@@ -30,6 +30,7 @@
             </v-col>
           </v-row>
           <check-sms-form @successSmsForm="signContract" card-title="Подписать договор" button-name="Подписать договор"/>
+          <a class="btn btn-nav" @click="cancelLoan">Отказаться</a>
         </v-col>
       </v-row>
       <v-row v-if="loanData.Status ==='Ожидает решения'">
@@ -108,6 +109,10 @@
       async signContract(data) {
         await this.$store.dispatch('signContract', data.code);
         location.reload();
+      },
+      async cancelLoan() {
+        await this.$store.dispatch('cancelLoan')
+        await this.$router.push({name: 'order-form'})
       }
     },
     async beforeRouteEnter(to, from, next) {

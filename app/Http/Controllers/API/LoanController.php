@@ -87,6 +87,13 @@ class LoanController extends Controller
         return $response;
     }
 
+    public function cancelLoan(Request $request)
+    {
+        $response = $this->api->cancelLoan($request['sessionId'], $request['loanGuid']);
+        Loan::whereLoanGuid($request['loanGuid'])->first()->delete();
+        return $response;
+    }
+
     public function getExtendLoanDocuments(Request $request)
     {
         $this->documentsService->deleteHiddenDocuments($request['loanGuid']);

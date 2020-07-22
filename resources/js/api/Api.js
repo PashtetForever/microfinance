@@ -85,4 +85,7 @@ export default class  {
   static async getHistory(userGuid) {
     return await Request.request('POST', `/api/loan/history`, {userGuid});
   }
+  static async cancelLoan(sessionId, loanGuid) {
+    return await Request.request('POST', `/api/loan/cancel`, {sessionId, loanGuid});
+  }
 }

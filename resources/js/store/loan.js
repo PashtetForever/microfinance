@@ -91,6 +91,9 @@ export default {
         return n.hide === 1
       })
       commit('documents', documents)
+    },
+    async cancelLoan({getters}) {
+      return await api.cancelLoan(getters.sessionId, getters.loanGuid)
     }
   }
 }

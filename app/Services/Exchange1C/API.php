@@ -162,6 +162,13 @@ class API
         ]);
     }
 
+    public function cancelLoan($sessionId, $loanGuid)
+    {
+        return $this->request('POST', 'dunay/hs/cabinet/requestcancel/' . $sessionId, [
+            'GUID' => $loanGuid
+        ]);
+    }
+
     private function request($method, $urn, $data = null)
     {
         try {
