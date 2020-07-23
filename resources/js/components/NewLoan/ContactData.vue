@@ -1,47 +1,45 @@
 <template>
-  <v-row>
-    <v-col xs="12" md="11" offset-sm="1">
-      <app-order-form-min/>
-      <app-headers h1="Подтверждение контактных данных"/>
-      <v-alert
-        color="red"
-        elevation="2"
-        v-if="!isVerifyEmail"
-      >Необходимо подтвердить Вашу учетную записи. Заполните форму ниже, на указанный Email придет сообщение с кодом,
-        введите код на следующем шаге.
-      </v-alert>
-      <v-form v-model="isValid" ref="personalDataForm">
-        <v-text-field
-          disabled
-          v-model="fio" placeholder="Фамилия Имя Отчество">
-        </v-text-field>
-        <v-text-field
-          v-model="phone" placeholder="Телефон"
-          disabled
-        >
-        </v-text-field>
-        <v-text-field
-          :rules="emailRules"
-          required
-          v-model="email" :value="email" placeholder="E-mail">
-        </v-text-field>
-        <v-checkbox label="" v-model="verify" :rules="verifyRules" required>
-          <template v-slot:label>
-            <div>
-              Нажимая на кнопку «Далее» я принимаю
-              <span
-                v-for="(doc, index) in documents"
-                :key="doc.path">{{(index !== 0) ? ',' : ''}}
+  <section>
+    <app-order-form-min/>
+    <app-headers h1="Подтверждение контактных данных"/>
+    <v-alert
+      color="red"
+      elevation="2"
+      v-if="!isVerifyEmail"
+    >Необходимо подтвердить Вашу учетную записи. Заполните форму ниже, на указанный Email придет сообщение с кодом,
+      введите код на следующем шаге.
+    </v-alert>
+    <v-form v-model="isValid" ref="personalDataForm">
+      <v-text-field
+        disabled
+        v-model="fio" placeholder="Фамилия Имя Отчество">
+      </v-text-field>
+      <v-text-field
+        v-model="phone" placeholder="Телефон"
+        disabled
+      >
+      </v-text-field>
+      <v-text-field
+        :rules="emailRules"
+        required
+        v-model="email" :value="email" placeholder="E-mail">
+      </v-text-field>
+      <v-checkbox label="" v-model="verify" :rules="verifyRules" required>
+        <template v-slot:label>
+          <div>
+            Нажимая на кнопку «Далее» я принимаю
+            <span
+              v-for="(doc, index) in documents"
+              :key="doc.path">{{(index !== 0) ? ',' : ''}}
                 <a target="_blank" :href="doc.path" @click.stop>{{doc.name}}</a>
               </span>
-            </div>
-          </template>
-        </v-checkbox>
+          </div>
+        </template>
+      </v-checkbox>
 
-      </v-form>
-      <app-nav backPath="/" :toPath="this.pathToNext" :disableNext="!isValid"/>
-    </v-col>
-  </v-row>
+    </v-form>
+    <app-nav backPath="order-form" :toPath="this.pathToNext" :disableNext="!isValid"/>
+  </section>
 </template>
 
 <script>
@@ -58,8 +56,8 @@
       ],
       documents: [
         {
-            name: 'Политику сайта',
-            path: 'http://sentimo.ispvds.com/upload/iblock/74a/74aab95bb9314315ff00e136a7d6aea0.docx'
+          name: 'Политику сайта',
+          path: 'http://sentimo.ispvds.com/upload/iblock/74a/74aab95bb9314315ff00e136a7d6aea0.docx'
         },
         {
           name: 'Правила предоставления он-лайн займов',
@@ -96,11 +94,10 @@
       }
     },
     async mounted() {
-        await this.$store.dispatch('loadContactData');
-        this.originalEmail = this.email;
+      this.originalEmail = this.email;
     },
     beforeRouteLeave(to, from, next) {
-      if(this.isChangedEmail)
+      if (this.isChangedEmail)
         this.$store.commit('isVerifyEmail', false);
       next()
     },

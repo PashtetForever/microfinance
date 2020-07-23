@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-list-item-group color="primary">
-      <router-link to="/" v-if="!isExistLoan">
+      <router-link :to="{name: 'order-form'}" v-if="!isExistLoan">
         <v-list-item>
           <v-list-item-icon>
             <v-icon>mdi-credit-card-outline</v-icon>

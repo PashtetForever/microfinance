@@ -43,6 +43,9 @@ export default {
       const result = await Api.getContactData(getters.sessionId);
       commit('fio', result.FIO);
       commit('email', result.Email);
+      commit('isBlocked', result.Blocked)
+      if(result.Blocked)
+        commit('blockedUntil', result.BlockedUntil)
       if(result.Email !== false)
         commit('isVerifyEmail', true);
     },

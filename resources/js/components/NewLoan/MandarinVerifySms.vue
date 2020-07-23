@@ -1,18 +1,16 @@
 <template>
-  <v-row>
-    <v-col xs="12" md="11" offset-sm="1">
-      <app-headers h1="Подтвердить документы и отправить заявку"/>
-      <p>На ранее указаный Вами номер была отправлена СМС с кодом подтверждения. Введите его ниже</p>
-      <v-form @submit.prevent="checkCode">
-        <v-text-field
-          type="text"
-          v-model="code"
-          placeholder="Введите код из СМС">
-        </v-text-field>
-        <a class="btn btn-nav" @click="checkCode">Подтвердить</a>
-      </v-form>
-    </v-col>
-  </v-row>
+  <section>
+    <app-headers h1="Подтвердить документы и отправить заявку"/>
+    <p>На ранее указаный Вами номер была отправлена СМС с кодом подтверждения. Введите его ниже</p>
+    <v-form @submit.prevent="checkCode">
+      <v-text-field
+        type="text"
+        v-model="code"
+        placeholder="Введите код из СМС">
+      </v-text-field>
+      <a class="btn btn-nav" @click="checkCode">Подтвердить</a>
+    </v-form>
+  </section>
 </template>
 
 <script>

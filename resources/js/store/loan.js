@@ -5,17 +5,19 @@ export default {
     loanData: [],
     loanId: '',
     loanGuid: '',
-    fillContractName: '',
     isExistLoan: false,
+    isBlocked: false,
+    blockedUntil: null,
     documents: [],
   },
   mutations: {
     loanData: (s, payload) => s.loanData = payload,
     loanId: (s, payload) => s.loanId = payload,
     loanGuid: (s, payload) => s.loanGuid = payload,
-    fillContractName: (s, payload) => s.fillContractName = payload,
     isExistLoan: (s, payload) => s.isExistLoan = payload,
     documents: (s, payload) => s.documents = payload,
+    isBlocked: (s, payload) => s.isBlocked = payload,
+    blockedUntil: (s, payload) => s.blockedUntil = payload,
     addDocument: (s, payload) => {
       s.documents.push(payload)
     },
@@ -32,8 +34,9 @@ export default {
     loanData: (s) => s.loanData,
     loanId: (s) => s.loanId,
     loanGuid: (s) => s.loanGuid,
-    fillContractName: (s) => s.fillContractName,
     isExistLoan: (s) => s.isExistLoan,
+    isBlocked: (s) => s.isBlocked,
+    blockedUntil: (s) => s.blockedUntil,
     documents: (s) => s.documents.filter((item) => {
       return item.hide === "0";
     }),
@@ -92,8 +95,10 @@ export default {
       })
       commit('documents', documents)
     },
-    async cancelLoan({getters}) {
-      return await api.cancelLoan(getters.sessionId, getters.loanGuid)
+    async cancelLoan({getters, commit}) {
+      const response = await api.cancelLoan(getters.sessionId, getters.loanGuid)
+      commit('resetCurrentLoanData');
+      return response;
     }
   }
 }

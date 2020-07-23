@@ -2,7 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import isExistLoan from "./middleware/isExistLoan"
-import isAuth from "./middleware/isAuth";
+import isAuth from "./middleware/isAuth"
+import isBlockedNewLoan from "./middleware/isBlockedNewLoan"
 
 Vue.use(Router);
 
@@ -10,52 +11,26 @@ export default new Router({
   mode: 'history',
   base: process.env.MIX_ROUTER_PATH,
   routes: [
-    {path: '/login', name: 'login', component: () => import('../components/Auth')},
-    {path: '/verify', name: 'verify', component: () => import('../components/shared/CheckVerification')},
+    {path: '/login', name: 'login', component: () => import('../components/Login/Auth')},
+    {path: '/verify', name: 'verify', component: () => import('../components/Login/CheckVerification')},
     {path: '/change-password', name: 'change-password', component: () => import('../components/ChangePassword')},
     {
-      path: '', name: 'order-form', component: () => import('../components/OrderForm'),
-      meta: {middleware: [isAuth]}
-    },
-    {
-      path: '/data', name: 'dataTable', component: () => import('../components/DataTable'),
-      meta: {middleware: [isAuth]}
-    },
-    {
-      path: '/mandarin-card-binding',
-      name: 'mandarin-card-binding',
-      component: () => import('../components/MandarinCardBinding'),
-      meta: {middleware: [isAuth]}
-    },
-    {
-      path: '/personal-contacts', name: 'personal-contacts', component: () => import('../components/PersonalContacts'),
+      path: '/new/',
+      component: () => import('../components/NewLoan/NewLoan'),
       meta: {
-        middleware: [isAuth]
-      }
-    },
-    {
-      path: '/card-binding', name: 'card-binding', component: () => import('../components/CardBinding'),
-      meta: {
-        middleware: [isAuth]
-      }
-    },
-    {
-      path: '/checkout', name: 'checkout', component: () => import('../components/Checkout'),
-      meta: {
-        middleware: [isAuth]
-      }
-    },
-    {
-      path: '/verify-sms', name: 'verify-sms', component: () => import('../components/MandarinVerifySms'),
-      meta: {
-        middleware: [isAuth]
-      }
-    },
-    {
-      path: '/success', name: 'success', component: () => import('../components/Success'),
-      meta: {
-        middleware: [isAuth]
-      }
+        middleware: [isAuth, isBlockedNewLoan]
+      },
+      children: [
+        {name: 'order-form', path: 'order-form', component: () => import('../components/NewLoan/OrderForm')},
+        {path: 'contact-data', name: 'contact-data', component: () => import('../components/NewLoan/ContactData')},
+        {path: 'verify-email', name: 'verify-email', component: () => import('../components/NewLoan/VerifyEmail')},
+        {path: 'data', name: 'dataTable', component: () => import('../components/NewLoan/DataTable')},
+        {path: 'personal-contacts', name: 'personal-contacts', component: () => import('../components/NewLoan/PersonalContacts')},
+        {path: 'mandarin-card-binding', name: 'mandarin-card-binding', component: () => import('../components/NewLoan/MandarinCardBinding')},
+        {path: 'card-binding', name: 'card-binding', component: () => import('../components/NewLoan/CardBinding')},
+        {path: 'checkout', name: 'checkout', component: () => import('../components/NewLoan/Checkout')},
+        {path: 'verify-sms', name: 'verify-sms', component: () => import('../components/NewLoan/MandarinVerifySms')},
+      ]
     },
     {
       path: '/profile', name: 'profile', component: () => import('../components/Profile/PersonalLoan'),
@@ -91,18 +66,7 @@ export default new Router({
         middleware: [isAuth]
       }
     },
-    {
-      path: '/contact-data', name: 'contact-data', component: () => import('../components/ContactData'),
-      meta: {
-        middleware: [isAuth]
-      }
-    },
-    {
-      path: '/verify-email', name: 'verify-email', component: () => import('../components/VerifyEmail'),
-      meta: {
-        middleware: [isAuth]
-      }
-    },
+
     {
       path: '/thank-you', name: 'thank-you', component: () => import('../components/ThankYou'),
       meta: {

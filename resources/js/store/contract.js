@@ -1,6 +1,5 @@
 import api from '../api/Api'
 import _ from 'lodash'
-import contactData from "./contactData";
 
 export default {
   state: {

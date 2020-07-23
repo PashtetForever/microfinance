@@ -8,15 +8,16 @@ import store from './store'
 import router from './router'
 import vuetify from './plugins/vuetify';
 import Vuelidate from 'vuelidate';
+import middlewarePipeline from "./router/middlewarePipeline"
 
 import App from './components/App';
-import Auth from './components/Auth'
-import OrderForm from './components/OrderForm'
-import DataTable from "./components/DataTable"
+import Auth from './components/Login/Auth'
+import OrderForm from './components/NewLoan/OrderForm'
+import DataTable from "./components/NewLoan/DataTable"
 import Navigation from './components/shared/Navigation'
 import Headers from "./components/shared/Headers";
 import OrderFormMin from "./components/shared/OrderFormMin";
-import ContactData from "./components/ContactData";
+import ContactData from "./components/NewLoan/ContactData";
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter)
@@ -42,9 +43,10 @@ router.beforeEach((to, from, next) => {
     store
   }
   return middleware[0]({
-    ...context
+    ...context,
+    next: middlewarePipeline(context, middleware, 1)
   })
-});
+})
 
 new Vue({
   store,

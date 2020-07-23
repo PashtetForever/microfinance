@@ -55,7 +55,7 @@
     components: {Menu},
     computed: {
       ...mapGetters(['snackbar', 'errorText', 'loading'])
-    },
+    }
   };
 </script>
 <style>

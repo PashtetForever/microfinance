@@ -1,33 +1,31 @@
 <template>
-  <v-row>
-    <v-col xs="12" md="11" offset-sm="1">
-      <app-headers h1="Отправить заявку онлайн" h2="Шаг 3: Подтверждение документов и отправка заявки"/>
-      <template v-if="documents.length">
-        <v-row>
-          <v-col>
-            Нажимая кнопку "Отправить заявку" я подписываю:
-            <span v-for="(document, index) in documents" :key="document.path">
+  <section>
+    <app-headers h1="Отправить заявку онлайн" h2="Шаг 3: Подтверждение документов и отправка заявки"/>
+    <template v-if="documents.length">
+      <v-row>
+        <v-col>
+          Нажимая кнопку "Отправить заявку" я подписываю:
+          <span v-for="(document, index) in documents" :key="document.path">
             {{(index !== 0) ? ',' : ''}} <a
-              target="_blank"
-              :href="document.path"
-            >{{document.name}}</a>
+            target="_blank"
+            :href="document.path"
+          >{{document.name}}</a>
           </span>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <app-nav
-              backPath="/personal-contacts"
-              toPath="/verify-sms"
-              customTextBack="Отказаться"
-              customTextNext="Отправить заявку"
-              @clickNext="clickNext"
-            />
-          </v-col>
-        </v-row>
-      </template>
-    </v-col>
-  </v-row>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <app-nav
+            backPath="personal-contacts"
+            toPath="verify-sms"
+            customTextBack="Отказаться"
+            customTextNext="Отправить заявку"
+            @clickNext="clickNext"
+          />
+        </v-col>
+      </v-row>
+    </template>
+  </section>
 </template>
 <script>
   export default {

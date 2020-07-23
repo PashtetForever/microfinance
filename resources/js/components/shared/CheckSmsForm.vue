@@ -4,7 +4,7 @@
       <slot name="activator-button"></slot>
       <v-row>
         <v-col>
-          <a class="btn btn-nav" @click="sendSmsCode" v-on="on">{{buttonName}}</a>
+          <a :disabled="disabled" class="btn btn-nav" @click="sendSmsCode" v-on="on">{{buttonName}}</a>
         </v-col>
       </v-row>
     </template>
@@ -26,7 +26,7 @@
   import {mapGetters} from 'vuex'
 
   export default {
-    props: ['buttonName', 'cardTitle', 'cardText'],
+    props: ['buttonName', 'cardTitle', 'cardText', 'disabled'],
     data: () => ({
       dialog: false,
       smsCode: null
@@ -42,7 +42,7 @@
             code: this.smsCode
           });
           if (!result)
-            return this.$store.dispatch('error', 'Проверьте правильность введеного кода подписи');
+            return this.$store.dispatch('error', 'Проверьте правильность введеного кода');
           else {
             this.$emit('successSmsForm', {code: this.smsCode})
             this.dialog = false
