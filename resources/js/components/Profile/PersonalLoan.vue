@@ -127,6 +127,8 @@
     },
     async beforeRouteEnter(to, from, next) {
       await next(vm => {
+        vm.$store.dispatch('loadContactData');
+
         if (!vm.$store.getters.isBlocked)
           vm.$store.dispatch('getLoanData')
       })

@@ -30,7 +30,6 @@ export default {
       commit('contractData', result)
       commit('sumRepayment', result.PercentSum + _.toNumber(result.Sum) + _.toNumber(result.Penalty))
 
-      //summ = _.ceil(_.toNumber(result.PercentSum) + _.toNumber(result.Penalty) + summ, 2)
       commit('sumPercent', _.toNumber(result.PercentSum) + _.toNumber(result.Penalty))
 
       if (!getters.email)

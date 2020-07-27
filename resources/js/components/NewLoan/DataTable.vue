@@ -44,6 +44,7 @@
                             v-model="item.value"
                             :id="item.code"
                             @input="changeInput"
+                            type="number"
                             required
               />
               <v-text-field v-if="item.type ==='date'"
