@@ -73,5 +73,9 @@ export default new Router({
         middleware: [isAuth]
       }
     },
+    {
+      path: '/',
+      redirect:  'login'
+    }
   ]
 });

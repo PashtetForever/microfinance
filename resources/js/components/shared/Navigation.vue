@@ -1,9 +1,12 @@
 <template>
   <div class="row">
     <div>
-      <router-link to="order-form"
-                   class="btn btn-nav"
-                   tag="button">Отказаться</router-link>
+      <router-link
+        to="order-form"
+        v-if="$route.name !== 'order-form'"
+        class="btn btn-nav"
+        tag="button">Отказаться
+      </router-link>
     </div>
     <div class="xs12 ml-auto">
       <router-link class=" btn btn-nav m-4 ml-0"
