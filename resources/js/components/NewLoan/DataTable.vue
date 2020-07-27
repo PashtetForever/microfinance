@@ -139,6 +139,7 @@
     },
     beforeRouteEnter(to, from, next) {
       next(vm => {
+        vm.$refs.dataForm.validate()
         vm.$store.dispatch('requestUserData');
         vm.validate();
       });

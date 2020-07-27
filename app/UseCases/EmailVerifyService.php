@@ -17,7 +17,7 @@ class EmailVerifyService
             'email' => $email
         ]);
 
-        mail($email, 'mkksentimo.ru: Подтверждение электронной почты', "Ваш код активации: $code");
+        mail($email, 'mkksentimo.ru: Подтверждение электронной почты', "Ваш код активации: $code", 'From: info@mkksentimo.ru');
     }
 
     public function isCorrectVerify(string $userGuid, string $code)

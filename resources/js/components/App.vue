@@ -55,6 +55,10 @@
     components: {Menu},
     computed: {
       ...mapGetters(['snackbar', 'errorText', 'loading'])
+    },
+    mounted() {
+      if(this.$route.path === '/')
+        this.$router.push({name: 'order-form'})
     }
   };
 </script>
