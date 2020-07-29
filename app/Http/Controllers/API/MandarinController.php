@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Loan;
 use App\Services\Exchange1C\API;
 use App\UseCases\Loan\DocumentsService;
+use GuzzleHttp\Exception\ServerException;
 use Illuminate\Http\Request;
 use App\Services\MandarinPayService;
 
@@ -55,11 +56,16 @@ class MandarinController extends Controller
 
     public function callbackRepaymentLoan(Request $request)
     {
-        if($request['status'] != 'success'){
+        if ($request['status'] != 'success') {
             \Log::error('Ошибка погашения займа ' . $request['orderId'], $request);
             return "OK";
         }
-        $response = $this->api->requestReturnLoan($request['orderId'], $request['price']);
+        try {
+            $response = $this->api->requestReturnLoan($request['orderId'], $request['price']);
+        } catch (ServerException $exception) {
+            mail('pavel@dvinaweb.ru', 'Ошибка оплаты в 1С', "<id>${$request['orderId']}</id><sum>${$request['price']}</sum>");
+        }
+
         Loan::whereLoanGuid($request['orderId'])->firstOrFail()->delete();
         \Log::info('Погашение займа ' . $request['orderId'] . '. успешно выполнено', $response);
         return "OK";

@@ -78,4 +78,8 @@
   .btn-nav {
     color: #fff !important;
   }
+
+  .v-slider__track-container {
+    height: 6px !important;
+  }
 </style>

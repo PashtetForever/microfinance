@@ -15,6 +15,7 @@
             <p><span class="font-weight-bold">Новая дата возврата займа:</span> {{returnDate.format('L')}}</p>
           </v-col>
         </v-row>
+        <h2>Выберете срок продления</h2>
         <v-row>
           <v-col>
             <v-slider
