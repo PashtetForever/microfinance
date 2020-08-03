@@ -4,12 +4,19 @@ namespace App\UseCases;
 
 use App\Models\EmailVerify;
 use Carbon\Carbon;
+use Log;
 
 class EmailVerifyService
 {
     public function sendVerifyMail(string $email, string $userGuid)
     {
         $code = rand(0000, 9999);
+
+        Log::info('Отпрвка письма для проверки пользователя', [
+            'user_guid' => $userGuid,
+            'code' => $code,
+            'email' => $email
+        ]);
 
         EmailVerify::create([
             'user_guid' => $userGuid,

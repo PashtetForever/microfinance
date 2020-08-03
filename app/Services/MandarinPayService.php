@@ -4,6 +4,7 @@ namespace App\Services;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 
 class MandarinPayService
 {
@@ -84,6 +85,9 @@ class MandarinPayService
             $response = $this->client->request($method, $urn, $options);
             return $response->getBody()->getContents();
         } catch (ClientException $e) {
+            \Log::error('Ошибка функции мандарина: '. $e->getResponse()->getStatusCode());
+            throw new \DomainException($e->getResponse()->getBody()->getContents());
+        } catch (ServerException $e) {
             \Log::error('Ошибка функции мандарина: '. $e->getResponse()->getStatusCode());
             throw new \DomainException($e->getResponse()->getBody()->getContents());
         }
