@@ -61,7 +61,8 @@ class Receiver
         if(Arr::exists($contents, 'error')) {
             \Log::error("Ошбика запроса в 1С", [
                 'urn' => $urn,
-                'result' => $contents
+                'result' => $contents,
+                'request' => $data
             ]);
             throw new \DomainException($contents['error']);
         }
