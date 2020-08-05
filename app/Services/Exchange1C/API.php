@@ -4,6 +4,7 @@
 namespace App\Services\Exchange1C;
 
 
+use GuzzleHttp\Exception\ServerException;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -21,6 +22,25 @@ class API
         return $this->request('POST', 'dunay/hs/cabinet/login', [
             'Login' => $login,
             'Password' => $password
+        ]);
+    }
+    public function registration(
+        $fio, $birthday, $gender, $passportSeries, $passportNumber, $passportDate, $passportUnit, $passportUnitCode, $email, $phone, $snils)
+    {
+        return $this->request('POST', 'dunay/hs/cabinet/registration', [
+            'FIO' => $fio,
+            'Birthday' => $birthday,
+            'Gender' => $gender,
+            'Passport' => [
+                'Series' => $passportSeries,
+                'Number' => $passportNumber,
+                'Date' => $passportDate,
+                'Unit' => $passportUnit,
+                'UnitCode' => $passportUnitCode
+            ],
+            'Email' => $email,
+            'PhoneNumber' => $phone,
+            'SNILS' => $snils
         ]);
     }
 

@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'user'], function () {
     Route::post('/login', 'API\UserController@login');
+    Route::post('/register', 'API\UserController@register');
     Route::post('/check-verify', 'API\UserController@checkLoginVerifyCode');
     Route::post('/send-email-verify', 'API\UserController@sendEmailVerify');
     Route::post('/check-email-verify', 'API\UserController@checkEmailVerify');

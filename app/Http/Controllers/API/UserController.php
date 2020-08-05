@@ -29,6 +29,26 @@ class UserController extends Controller
         return $response;
     }
 
+    public function register(Request $request)
+    {
+        $dob = dateTo1CFormat($request['birthday']);
+        $passportDate = dateTo1CFormat($request['passportDate']);
+
+        return $this->api->registration(
+            $request['fio'],
+            $dob,
+            $request['gender'],
+            $request['passportSeries'],
+            $request['passportNumber'],
+            $passportDate,
+            $request['passportUnit'],
+            $request['passportUnitCode'],
+            $request['email'],
+            $request['phone'],
+            $request['snils'],
+        );
+    }
+
     public function checkLoginVerifyCode(Request $request)
     {
         try {

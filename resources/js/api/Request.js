@@ -16,10 +16,10 @@ export default class {
         return response.data.original ?? response.data;
       })
       .catch((error) => {
-      return store.dispatch('error', error.response.data.error ?? error.response.data.message)
-    })
+        throw store.dispatch('error', error.response.data.error ?? error.response.data.message)
+      })
       .finally(() => {
         store.commit('setLoading', false)
-    });
+      });
   }
 }

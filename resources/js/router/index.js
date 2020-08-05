@@ -12,6 +12,7 @@ export default new Router({
   base: process.env.MIX_ROUTER_PATH,
   routes: [
     {path: '/login', name: 'login', component: () => import('../components/Login/Auth')},
+    {path: '/register', name: 'register', component: () => import('../components/Registration/Registration')},
     {path: '/verify', name: 'verify', component: () => import('../components/Login/CheckVerification')},
     {path: '/change-password', name: 'change-password', component: () => import('../components/ChangePassword')},
     {

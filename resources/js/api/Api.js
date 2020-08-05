@@ -4,6 +4,11 @@ export default class  {
   static async login(login, password, phone) {
     return await Request.request('POST', '/api/user/login', {login, password, phone})
   }
+  static async registration(fio, birthday, gender, passportSeries, passportNumber, passportDate, passportUnit, passportUnitCode, email, phone, snils) {
+    return await Request.request('POST', '/api/user/register', {
+      fio, birthday, gender, passportSeries, passportNumber, passportDate, passportUnit, passportUnitCode, email, phone, snils
+    })
+  }
   static async restorePassword(lastName, firstName, middleName, phone) {
     return await Request.request('POST', '/api/user/restore-password', {lastName, firstName, middleName, phone})
   }

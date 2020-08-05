@@ -41,8 +41,9 @@ class Receiver
 
         } catch (ServerException $exception) {
             $response = $exception->getResponse();
-            \Log::error("Ошибка запроса на сервер.", [$response->getBody()->getContents()]);
-            throw new \DomainException("Ошибка запроса на сервер. Код {$response->getStatusCode()} Ответ: {$response->getBody()->getContents()}");
+            $content = $response->getBody()->getContents();
+            \Log::error("Ошибка запроса на сервер.", [$content]);
+            throw new \DomainException("Ошибка запроса на сервер. Код {$response->getStatusCode()} Ответ: $content");
         }
         if(stristr($urn, '/cabinet/file/'))
             return $response->getBody()->getContents();
