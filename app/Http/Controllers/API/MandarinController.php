@@ -56,19 +56,20 @@ class MandarinController extends Controller
 
     public function callbackRepaymentLoan(Request $request)
     {
-        if ($request['status'] != 'success') {
-            \Log::error('Ошибка погашения займа ' . $request['orderId'], $request);
-            return "OK";
-        }
         try {
+            if ($request['status'] != 'success') {
+                \Log::error('Ошибка погашения займа ' . $request['orderId'], $request->toArray());
+                return "OK";
+            }
+
             $response = $this->api->requestReturnLoan($request['orderId'], $request['price']);
+            Loan::whereLoanGuid($request['orderId'])->firstOrFail()->delete();
+            \Log::info('Погашение займа ' . $request['orderId'] . '. успешно выполнено', $response);
+            return "OK";
         } catch (ServerException $exception) {
             mail('pavel@dvinaweb.ru', 'Ошибка оплаты в 1С', "<id>${$request['orderId']}</id><sum>${$request['price']}</sum>");
+            return response('OK', 200);
         }
-
-        Loan::whereLoanGuid($request['orderId'])->firstOrFail()->delete();
-        \Log::info('Погашение займа ' . $request['orderId'] . '. успешно выполнено', $response);
-        return "OK";
     }
 
     public function paymentExtensionPercent(Request $request)

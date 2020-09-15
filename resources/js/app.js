@@ -1,5 +1,3 @@
-import Vuetify from "vuetify";
-
 require('./bootstrap');
 
 import Vue from 'vue'
