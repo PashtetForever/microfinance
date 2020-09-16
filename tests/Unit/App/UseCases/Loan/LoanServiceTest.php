@@ -4,7 +4,7 @@ namespace Tests\UseCases\Loan;
 
 use App\Models\Document;
 use App\Models\Loan;
-use App\UseCases\Loan\LoanService;
+use App\Services\Loan\LoanService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Collection;

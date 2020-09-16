@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Document;
 use App\Models\Loan;
 use App\Services\Exchange1C\API;
-use App\UseCases\Loan\LoanService;
+use App\Services\Loan\LoanService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 

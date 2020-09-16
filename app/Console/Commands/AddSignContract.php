@@ -4,8 +4,8 @@ namespace App\Console\Commands;
 
 use App\Models\Loan;
 use App\Services\Exchange1C\API;
-use App\UseCases\Loan\DocumentsService;
-use App\UseCases\Loan\LoanService;
+use App\Services\Loan\DocumentsService;
+use App\Services\Loan\LoanService;
 use Illuminate\Console\Command;
 
 class AddSignContract extends Command

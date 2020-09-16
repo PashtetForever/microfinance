@@ -131,6 +131,11 @@
 
         if (!vm.$store.getters.isBlocked)
           vm.$store.dispatch('getLoanData')
+
+        if (!vm.$store.getters.isBlocked && vm.loanData.Status === 'Отказано') {
+          vm.$store.dispatch('cancelLoan')
+          vm.$router.push({name: 'order-form'})
+        }
       })
     }
   }

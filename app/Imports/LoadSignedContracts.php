@@ -4,7 +4,7 @@ namespace App\Imports;
 
 use App\Models\Loan;
 use App\Services\Exchange1C\API;
-use App\UseCases\Loan\DocumentsService;
+use App\Services\Loan\DocumentsService;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;

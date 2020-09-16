@@ -8,11 +8,10 @@ use App\Http\Resources\LoanResource;
 use App\Models\Document;
 use App\Models\Loan;
 use App\Services\Exchange1C\API;
-use App\UseCases\Loan\LoanService;
-use App\UseCases\Loan\DocumentsService;
+use App\Services\Loan\LoanService;
+use App\Services\Loan\DocumentsService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use function foo\func;
 
 class LoanController extends Controller
 {

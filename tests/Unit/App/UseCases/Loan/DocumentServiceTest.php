@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\App\UseCases\Loan;
+namespace Tests\App\Services\Loan;
 
 use App\Models\Document;
 use App\Models\Loan;
-use App\UseCases\Loan\DocumentsService;
+use App\Services\Loan\DocumentsService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

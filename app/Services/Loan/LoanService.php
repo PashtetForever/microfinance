@@ -1,5 +1,5 @@
 <?php
-namespace App\UseCases\Loan;
+namespace App\Services\Loan;
 
 use App\Models\Document;
 use App\Models\Loan;

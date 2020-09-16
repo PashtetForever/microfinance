@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Loan;
 use App\Services\Exchange1C\API;
-use App\UseCases\Loan\DocumentsService;
+use App\Services\Loan\DocumentsService;
 use GuzzleHttp\Exception\ServerException;
 use Illuminate\Http\Request;
 use App\Services\MandarinPayService;

@@ -2,8 +2,8 @@
 
 namespace App\Imports;
 
-use App\UseCases\Loan\DocumentsService;
-use App\UseCases\Loan\LoanService;
+use App\Services\Loan\DocumentsService;
+use App\Services\Loan\LoanService;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 use App\Models\Loan;
