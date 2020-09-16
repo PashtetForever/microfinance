@@ -19,7 +19,7 @@ class API
 
     public function login($login, $password)
     {
-        return $this->request('POST', 'dunay/hs/cabinet/login', [
+        return $this->request('POST', 'hs/cabinet/login', [
             'Login' => $login,
             'Password' => $password
         ]);
@@ -27,7 +27,7 @@ class API
     public function registration(
         $fio, $birthday, $gender, $passportSeries, $passportNumber, $passportDate, $passportUnit, $passportUnitCode, $email, $phone, $snils)
     {
-        return $this->request('POST', 'dunay/hs/cabinet/registration', [
+        return $this->request('POST', 'hs/cabinet/registration', [
             'FIO' => $fio,
             'Birthday' => $birthday,
             'Gender' => $gender,
@@ -46,12 +46,12 @@ class API
 
     public function getPersonalUserInfo($sessionId)
     {
-        return $this->request('GET', 'dunay/hs/cabinet/info/' . $sessionId);
+        return $this->request('GET', 'hs/cabinet/info/' . $sessionId);
     }
 
     public function setPersonalUserInfo($sessionId, $fio, $email)
     {
-        return $this->request('POST', 'dunay/hs/cabinet/info/' . $sessionId, [
+        return $this->request('POST', 'hs/cabinet/info/' . $sessionId, [
             'FIO' => $fio,
             'Email' => $email
         ]);
@@ -59,27 +59,27 @@ class API
 
     public function getUserInfo($sessionId)
     {
-        return $this->request('GET', 'dunay/hs/cabinet/data/' . $sessionId);
+        return $this->request('GET', 'hs/cabinet/data/' . $sessionId);
     }
 
     public function setUserInfo($sessionId, $data)
     {
-        return $this->request('POST', 'dunay/hs/cabinet/data/' . $sessionId, $data);
+        return $this->request('POST', 'hs/cabinet/data/' . $sessionId, $data);
     }
 
     public function getContactPersons($sessionId)
     {
-        return $this->request('GET', 'dunay/hs/cabinet/contactperson/' . $sessionId);
+        return $this->request('GET', 'hs/cabinet/contactperson/' . $sessionId);
     }
 
     public function setContactPersons($sessionId, $data)
     {
-        return $this->request('POST', 'dunay/hs/cabinet/contactperson/' . $sessionId, $data);
+        return $this->request('POST', 'hs/cabinet/contactperson/' . $sessionId, $data);
     }
 
     public function bindingMandarinId($sessionId, $name, $phone, $mandarinId, $email)
     {
-        return $this->request('POST', 'dunay/hs/cabinet/mandarinid/' . $sessionId, [
+        return $this->request('POST', 'hs/cabinet/mandarinid/' . $sessionId, [
             'Name' => $name,
             'PhoneName' => $phone,
             'MandarinID' => $mandarinId,
@@ -89,14 +89,14 @@ class API
 
     public function getFileList($sessionId, $smsCode, $loanGuid)
     {
-        return $this->request('POST', 'dunay/hs/cabinet/filelist/' . $sessionId, [
+        return $this->request('POST', 'hs/cabinet/filelist/' . $sessionId, [
             'SMSCode' => $smsCode,
             'GUID' => $loanGuid
         ]);
     }
     public function getFileExtendLoan($sessionId, $returnDate, $smsCode, $loanGuid)
     {
-        return $this->receiver->request('POST', 'dunay/hs/cabinet/extendfilelist/' . $sessionId, [
+        return $this->receiver->request('POST', 'hs/cabinet/extendfilelist/' . $sessionId, [
             'ReturnDate' => $returnDate,
             'SMSCode' => $smsCode,
             'GUID' => $loanGuid
@@ -105,7 +105,7 @@ class API
 
     public function getFile($sessionId, $filePath, $sinkFile)
     {
-        $response = $this->receiver->request('POST', 'dunay/hs/cabinet/file/' . $sessionId, [
+        $response = $this->receiver->request('POST', 'hs/cabinet/file/' . $sessionId, [
             'file' => $filePath
         ], ['sink' => storage_path('app') . '/' . $sinkFile]);
         Storage::put($sinkFile, $response);
@@ -113,17 +113,17 @@ class API
 
     public function requestCreateLoan($sessionId, int $sum, int $days)
     {
-        return $this->receiver->request('GET', "dunay/hs/cabinet/request/$sessionId?sum=$sum&days=$days");
+        return $this->receiver->request('GET', "hs/cabinet/request/$sessionId?sum=$sum&days=$days");
     }
 
     public function getCurrentLoan($sessionId, $loanGuid)
     {
-        return $this->request('GET', "dunay/hs/cabinet/currentloan/$sessionId?GUID=$loanGuid");
+        return $this->request('GET', "hs/cabinet/currentloan/$sessionId?GUID=$loanGuid");
     }
 
     public function requestSignContract($sessionId, $smsCode, $loanGuid)
     {
-        return $this->receiver->request('POST', "dunay/hs/cabinet/signcontract/$sessionId", [
+        return $this->receiver->request('POST', "hs/cabinet/signcontract/$sessionId", [
             'SMSCode' => $smsCode,
             'GUID' => $loanGuid
         ]);
@@ -131,19 +131,19 @@ class API
 
     public function getFillContract($sessionId, $loanGuid)
     {
-        return $this->receiver->request('POST', 'dunay/hs/cabinet/fillcontract/' . $sessionId, [
+        return $this->receiver->request('POST', 'hs/cabinet/fillcontract/' . $sessionId, [
             'GUID' => $loanGuid
         ]);
     }
 
     public function getLastContractData($sessionId, $loanGuid)
     {
-        return $this->receiver->request('GET', "dunay/hs/cabinet/validcontract/$sessionId?GUID=$loanGuid");
+        return $this->receiver->request('GET', "hs/cabinet/validcontract/$sessionId?GUID=$loanGuid");
     }
 
     public function requestReturnLoan($loanGuid, $sum)
     {
-        return $this->receiver->request('POST', "dunay/hs/cabinet/loanreturn", [
+        return $this->receiver->request('POST', "hs/cabinet/loanreturn", [
             'GUID' => $loanGuid,
             'Sum' => $sum
         ]);
@@ -151,7 +151,7 @@ class API
 
     public function extendLoan($loanGuid, $returnDate)
     {
-        return $this->request('POST', "dunay/hs/cabinet/extendcontract", [
+        return $this->request('POST', "hs/cabinet/extendcontract", [
             'GUID' => $loanGuid,
             'ReturnDate' => $returnDate
         ]);
@@ -159,7 +159,7 @@ class API
 
     public function changePassword($sessionId, $oldPassword, $newPassword)
     {
-        return $this->request('POST', "dunay/hs/cabinet/changepassword/$sessionId", [
+        return $this->request('POST', "hs/cabinet/changepassword/$sessionId", [
             'OldPassword' => $oldPassword,
             'NewPassword' => $newPassword
         ]);
@@ -167,7 +167,7 @@ class API
 
     public function restorePassword($lastName, $firstName, $middleName, $phone)
     {
-        return $this->request('POST', "dunay/hs/cabinet/restorepassword", [
+        return $this->request('POST', "hs/cabinet/restorepassword", [
             'FIO' => "$lastName $firstName $middleName",
             'PhoneNumber' => $phone
         ]);
@@ -175,7 +175,7 @@ class API
 
     public function setMandarin($sessionId, $mandarinId, $phone, $email)
     {
-        return $this->request('POST', 'dunay/hs/cabinet/mandarinid/' . $sessionId, [
+        return $this->request('POST', 'hs/cabinet/mandarinid/' . $sessionId, [
             'PhoneNumber' => $phone,
             'Email' => $email,
             'MandarinID' => $mandarinId
@@ -184,7 +184,7 @@ class API
 
     public function cancelLoan($sessionId, $loanGuid)
     {
-        return $this->request('POST', 'dunay/hs/cabinet/requestcancel/' . $sessionId, [
+        return $this->request('POST', 'hs/cabinet/requestcancel/' . $sessionId, [
             'GUID' => $loanGuid
         ]);
     }
