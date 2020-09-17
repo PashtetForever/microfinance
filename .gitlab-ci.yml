@@ -12,8 +12,6 @@ before_script:
   - ssh-add <(echo "$SSH_PRIVATE_KEY")
   - ssh-keyscan $HOST >> ~/.ssh/known_hosts
   - chmod 644 ~/.ssh/known_hosts
-  - git config --global user.email "nik-kostukov@yandex.ru"
-  - git config --global user.name "PashtetForever"
 
 deploying:
   stage: deploy
