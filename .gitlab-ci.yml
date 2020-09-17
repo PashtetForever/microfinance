@@ -17,5 +17,5 @@ deploying:
   stage: deploy
   when: manual
   script:
-    - ssh -o StrictHostKeyChecking=no root@"$HOST" cd $SITE_DIR && git pull origin master && /opt/php74/bin/php artisan migrate --force && yarn prod && cd .. && chown -R $SITE_USER:$SITE_USER cabinet/* && chown -R $SITE_USER:$SITE_USER cabinet/.*
+    - ssh -o StrictHostKeyChecking=no root@"$HOST" ls
     - exit
