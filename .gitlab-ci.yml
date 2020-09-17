@@ -12,4 +12,4 @@ deploying:
     - chmod 700 ~/.ssh
   when: always
   script:
-    - ssh -o StrictHostKeyChecking=no root@92.63.99.149 "cd $SITE_DIR && git pull origin master"
+    - ssh -o "StrictHostKeyChecking=no" root@92.63.99.149 "cd $SITE_DIR && git pull origin master"
