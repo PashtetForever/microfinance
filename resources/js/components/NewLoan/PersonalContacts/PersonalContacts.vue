@@ -4,11 +4,16 @@
     <app-headers h1="Добавление контактных лиц"/>
     <v-row v-for="contact in contacts" :key="contact.key">
       <v-col>
-        <personal-contact-item
-          :first-name="contact.firstName"
-          :last-name="contact.lastName"
-          :middle-name="contact.middleName">
-        </personal-contact-item>
+        <v-form>
+          <v-card>
+            <v-card-text>
+              <v-form>
+                <v-text-field @change="changeInput" v-model="contact.Name" label="ФИО"/>
+                <v-text-field @change="changeInput" v-model="contact.PhoneNumber" label="Телефон"/>
+              </v-form>
+            </v-card-text>
+          </v-card>
+        </v-form>
       </v-col>
     </v-row>
     <v-row justify="center">
@@ -35,11 +40,8 @@
 </template>
 
 <script>
-  import PersonalContactItem from "./PersonalContactItem";
-
   export default {
     name: "PersonalContacts",
-    components: {PersonalContactItem},
     data: () => ({
       contacts: [],
       filledContacts: [],
@@ -47,12 +49,8 @@
     async mounted() {
       this.contacts = await this.$store.dispatch('loadPersonalContacts');
       this.contacts = this.contacts.map((item, index) => {
-        let fio = item.Name.split(' ')
-
         return {
-          lastName: fio[0],
-          firstName: fio[1],
-          middleName: fio[2],
+          ...item,
           key: index
         }
       });

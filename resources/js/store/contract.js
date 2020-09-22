@@ -24,7 +24,6 @@ export default {
     async getContractData({getters, commit, dispatch}) {
       let result = await api.getContractData(getters.sessionId, getters.loanGuid)
       result.CanBeExtended = _.toNumber(result.CanBeExtended)
-      result.PercentSum = _.round(_.toNumber(result.PercentSum) + _.toNumber(result.Penalty), 2)
 
       commit('canBeExtended', result.CanBeExtended)
       commit('contractData', result)
