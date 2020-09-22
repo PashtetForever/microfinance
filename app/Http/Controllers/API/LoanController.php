@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DocumentResource;
 use App\Http\Resources\LoanResource;
-use App\Models\Document;
 use App\Models\Loan;
 use App\Services\Exchange1C\API;
 use App\Services\Loan\LoanService;

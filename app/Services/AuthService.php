@@ -1,5 +1,5 @@
 <?php
-namespace App\UseCases\Auth;
+namespace App\Services;
 
 use App\Services\SendSms\Sender;
 use App\Models\UserVerify;

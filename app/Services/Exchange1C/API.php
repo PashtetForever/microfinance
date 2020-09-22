@@ -1,14 +1,9 @@
 <?php
-
-
 namespace App\Services\Exchange1C;
 
-
-use GuzzleHttp\Exception\ServerException;
-use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 
-class API
+class API implements ApiInterface
 {
     private Receiver $receiver;
 

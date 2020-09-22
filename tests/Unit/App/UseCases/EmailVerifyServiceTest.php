@@ -3,7 +3,7 @@
 namespace UseCases;
 
 use App\Models\EmailVerify;
-use App\UseCases\EmailVerifyService;
+use App\Services\EmailVerifyService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

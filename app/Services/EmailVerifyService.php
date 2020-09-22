@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UseCases;
+namespace App\Services;
 
 use App\Models\EmailVerify;
 use Carbon\Carbon;

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Services\Exchange1C\API;
-use App\UseCases\Auth\AuthService;
-use App\UseCases\EmailVerifyService;
+use App\Services\AuthService;
+use App\Services\EmailVerifyService;
 use Illuminate\Http\Request;
 
 class UserController extends Controller

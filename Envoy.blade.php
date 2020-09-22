@@ -4,6 +4,16 @@
     $user = 'zaim-dynai';
 @endsetup
 
+@story('all')
+    test
+    derevo
+    oazis
+@endstory
+
+@story('prod')
+    derevo
+    oazis
+@endstory
 
 @task('test')
     cd /var/www/zaim-dynai/data/www/zaim-dynai.ru/test/
@@ -27,5 +37,55 @@
     echo "Run JS building..."
     yarn prod
 
-    echo "Done"
+    echo "Test done"
+@endtask
+
+@task('derevo')
+    cd /var/www/zaim-dynai/data/www/derevo-denezhnoe.ru/cabinet
+    echo "Pulling repo..."
+    git pull origin master
+
+    echo "Run migrations..."
+    /opt/php74/bin/php artisan migrate --force --no-interaction
+
+    echo "Installing composer depencencies..."
+    /opt/php74/bin/php /usr/local/bin/composer install --no-interaction --quiet --no-dev --prefer-dist --optimize-autoloader --ignore-platform-reqs
+
+    /opt/php74/bin/php artisan view:clear --quiet
+    /opt/php74/bin/php artisan cache:clear --quiet
+    /opt/php74/bin/php artisan config:cache --quiet
+    echo "Cache cleared"
+
+    chown -R {{$user}}:{{$user}} ./*
+    chown -R {{$user}}:{{$user}} ./.*
+
+    echo "Run JS building..."
+    yarn prod
+
+    echo "Derevo Done"
+@endtask
+
+@task('oazis')
+    cd /var/www/zaim-dynai/data/www/finoazis.ru/cabinet
+    echo "Pulling repo..."
+    git pull origin master
+
+    echo "Run migrations..."
+    /opt/php74/bin/php artisan migrate --force --no-interaction
+
+    echo "Installing composer depencencies..."
+    /opt/php74/bin/php /usr/local/bin/composer install --no-interaction --quiet --no-dev --prefer-dist --optimize-autoloader --ignore-platform-reqs
+
+    /opt/php74/bin/php artisan view:clear --quiet
+    /opt/php74/bin/php artisan cache:clear --quiet
+    /opt/php74/bin/php artisan config:cache --quiet
+    echo "Cache cleared"
+
+    chown -R {{$user}}:{{$user}} ./*
+    chown -R {{$user}}:{{$user}} ./.*
+
+    echo "Run JS building..."
+    yarn prod
+
+    echo "Oazis Done"
 @endtask

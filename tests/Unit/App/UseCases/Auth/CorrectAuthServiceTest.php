@@ -1,8 +1,9 @@
 <?php
 
-namespace App\UseCases\Auth;
+namespace Tests\Unit;
 
 use App\Models\UserVerify;
+use App\Services\AuthService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -16,6 +17,7 @@ class CorrectAuthServiceTest extends TestCase
     {
         parent::setUp();
         $this->authService = app()->get(AuthService::class);
+        dd($this->authService);
     }
 
     public function testCorrectCheckVerifyCode()

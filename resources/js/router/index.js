@@ -26,7 +26,7 @@ export default new Router({
         {path: 'contact-data', name: 'contact-data', component: () => import('../components/NewLoan/ContactData')},
         {path: 'verify-email', name: 'verify-email', component: () => import('../components/NewLoan/VerifyEmail')},
         {path: 'data', name: 'dataTable', component: () => import('../components/NewLoan/DataTable')},
-        {path: 'personal-contacts', name: 'personal-contacts', component: () => import('../components/NewLoan/PersonalContacts')},
+        {path: 'personal-contacts', name: 'personal-contacts', component: () => import('../components/NewLoan/PersonalContacts/PersonalContacts')},
         {path: 'mandarin-card-binding', name: 'mandarin-card-binding', component: () => import('../components/NewLoan/MandarinCardBinding')},
         {path: 'card-binding', name: 'card-binding', component: () => import('../components/NewLoan/CardBinding')},
         {path: 'checkout', name: 'checkout', component: () => import('../components/NewLoan/Checkout')},

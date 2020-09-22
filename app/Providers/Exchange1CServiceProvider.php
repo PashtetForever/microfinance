@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\Exchange1C\API;
+use App\Services\Exchange1C\ApiTestStubs;
 use App\Services\Exchange1C\Receiver;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
