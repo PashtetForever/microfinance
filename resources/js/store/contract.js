@@ -27,7 +27,7 @@ export default {
 
       commit('canBeExtended', result.CanBeExtended)
       commit('contractData', result)
-      commit('sumRepayment', result.PercentSum + _.toNumber(result.Sum) + _.toNumber(result.Penalty))
+      commit('sumRepayment', _.toNumber(result.PercentSum) + _.toNumber(result.Sum) + _.toNumber(result.Penalty))
 
       commit('sumPercent', _.toNumber(result.PercentSum) + _.toNumber(result.Penalty))
 
