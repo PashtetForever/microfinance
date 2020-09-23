@@ -12,6 +12,11 @@ export default {
     isChangedData(state) {
       return state.isChangedData;
     },
+    userDob(state) {
+      return state.userData.find((item) => {
+        return item.Name === 'Дата рождения'
+      }).CurrentValue
+    }
   },
   mutations: {
     userData(state, payload) {

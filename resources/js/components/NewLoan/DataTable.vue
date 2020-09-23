@@ -16,7 +16,29 @@
             class="elevation-1"
           >
             <template v-slot:item.value="{item}">
-              <v-select v-if="item.type === 'enum'"
+              <v-menu
+                v-if="item.code === 'Дата рождения'"
+                ref="menu1"
+                v-model="menu1"
+                :close-on-content-click="false"
+                transition="scale-transition"
+                offset-y
+                max-width="290px"
+                min-width="290px"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    :value="computedDateFormattedMomentjs"
+                    clearable
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                    @click:clear="date = null"
+                  ></v-text-field>
+                </template>
+                <v-date-picker locale="ru" v-model="date" @change="menu1 = false"></v-date-picker>
+              </v-menu>
+              <v-select v-else-if="item.type === 'enum'"
                         v-model="item.value"
                         :items="getInputOptions(item).items"
                         :item-value="item.name"
@@ -27,11 +49,11 @@
                         height="54"
                         @change="changeInput"
               />
-              <v-checkbox v-if="item.type === 'bool'"
+              <v-checkbox v-else-if="item.type === 'bool'"
                           v-model="item.value"
                           @change="changeInput"
               />
-              <v-text-field v-if="item.type ==='string'"
+              <v-text-field v-else-if="item.type ==='string'"
                             :value="item.value"
                             v-model="item.value"
                             :id="item.code"
@@ -39,7 +61,7 @@
                             :rules="(item.description !== 'Причина изменения ФИО' && item.description !== 'Иные доходы') ? notEmptyRule : []"
                             required
               />
-              <v-text-field v-if="item.type === 'numeric'"
+              <v-text-field v-else-if="item.type === 'numeric'"
                             :value="item.value"
                             v-model="item.value"
                             :id="item.code"
@@ -47,7 +69,7 @@
                             type="number"
                             required
               />
-              <v-text-field v-if="item.type ==='date'"
+              <v-text-field v-else-if="item.type ==='date'"
                             :value="item.value"
                             v-model="item.value"
                             :id="item.code"
@@ -67,6 +89,8 @@
 
 <script>
   import {mapGetters} from 'vuex'
+  import moment from 'moment';
+  import userData from "../../store/userData";
 
   export default {
     data() {
@@ -79,11 +103,13 @@
           v => !!v || 'Поле обязательно для заполнения',
         ],
         valid: false,
-        disableNext: true
+        disableNext: true,
+        menu1: false,
+        date: null
       }
     },
     computed: {
-      ...mapGetters(['userData']),
+      ...mapGetters(['userData', 'userDob']),
       cols() {
         let cols = [];
         for (let item of this.userData) {
@@ -102,8 +128,17 @@
 
         return cols;
       },
+      computedDateFormattedMomentjs () {
+        return this.date ? moment(this.date).locale('ru').format('DD.MM.YYYY') : ''
+      },
     },
     methods: {
+      formatDate (date) {
+        if (!date) return null
+
+        const [year, month, day] = date.split('-')
+        return `${day}.${month}.${year}`
+      },
       validate() {
         this.$refs.dataForm.validate();
       },
@@ -135,18 +170,28 @@
     watch: {
       valid() {
         this.disableNext = !this.valid;
-      },
+      }
     },
     beforeRouteEnter(to, from, next) {
       next(vm => {
         vm.$refs.dataForm.validate()
         vm.$store.dispatch('requestUserData');
         vm.validate();
+
+        if(!vm.userDob)
+          vm.date = new Date().toISOString().substr(0, 10)
+        else {
+          const [day, month, year] = vm.userDob.split('.')
+          vm.date = new Date(year, month, day).toISOString().substr(0, 10)
+        }
       });
     },
     beforeRouteLeave(to, from, next) {
       let resultData = [];
       for (let column of this.cols) {
+        if(column.code === 'Дата рождения')
+          column.value = this.computedDateFormattedMomentjs
+
         resultData.push({
           Code: column.code,
           Value: column.value

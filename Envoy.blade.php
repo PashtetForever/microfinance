@@ -8,6 +8,7 @@
     test
     derevo
     oazis
+    test-dynai
 @endstory
 
 @story('prod')
@@ -17,6 +18,31 @@
 
 @task('test')
     cd /var/www/zaim-dynai/data/www/zaim-dynai.ru/test/
+    echo "Pulling repo..."
+    git pull origin master
+
+    echo "Run migrations..."
+    /opt/php74/bin/php artisan migrate --force --no-interaction
+
+    echo "Installing composer depencencies..."
+    /opt/php74/bin/php /usr/local/bin/composer install --no-interaction --quiet --no-dev --prefer-dist --optimize-autoloader --ignore-platform-reqs
+
+    /opt/php74/bin/php artisan view:clear --quiet
+    /opt/php74/bin/php artisan cache:clear --quiet
+    /opt/php74/bin/php artisan config:cache --quiet
+    echo "Cache cleared"
+
+    chown -R {{$user}}:{{$user}} ./*
+    chown -R {{$user}}:{{$user}} ./.*
+
+    echo "Run JS building..."
+    yarn prod
+
+    echo "Test done"
+@endtask
+
+@task('test-dynai')
+    cd /var/www/zaim-dynai/data/www/zaim-dynai.ru/cabinet/
     echo "Pulling repo..."
     git pull origin master
 
