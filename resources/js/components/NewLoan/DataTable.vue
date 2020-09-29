@@ -53,12 +53,23 @@
                           v-model="item.value"
                           @change="changeInput"
               />
+
               <v-text-field v-else-if="item.type ==='string'"
                             :value="item.value"
                             v-model="item.value"
                             :id="item.code"
                             @input="changeInput"
                             :rules="(item.description !== 'Причина изменения ФИО' && item.description !== 'Иные доходы') ? notEmptyRule : []"
+                            required
+              />
+              <v-text-field v-else-if="item.code === 'СНИЛС'"
+                            :value="item.value"
+                            v-model="item.value"
+                            :id="item.code"
+                            @input="changeInput"
+                            type="number"
+                            :rules="snilsRule"
+                            v-mask="'###########'"
                             required
               />
               <v-text-field v-else-if="item.type === 'numeric'"
@@ -89,10 +100,11 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import moment from 'moment';
-  import userData from "../../store/userData";
+  import moment from 'moment'
+  import {mask} from 'vue-the-mask'
 
   export default {
+    directives: {mask},
     data() {
       return {
         headers: [
@@ -102,10 +114,13 @@
         notEmptyRule: [
           v => !!v || 'Поле обязательно для заполнения',
         ],
+        snilsRule: [
+          v => v.length >= 11 || 'СНИЛС заполнен не полностью'
+        ],
         valid: false,
         disableNext: true,
         menu1: false,
-        date: null
+        date: null,
       }
     },
     computed: {
