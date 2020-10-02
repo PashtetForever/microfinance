@@ -34,11 +34,6 @@
                 class="submit btn btn-base rounded mx-auto d-block"
         >Далее
         </button>
-        <v-row>
-          <v-col class="text-center">
-            <router-link to="/register">Зарегистрироваться</router-link>
-          </v-col>
-        </v-row>
       </form>
     </div>
   </div>

@@ -39,12 +39,10 @@ class AuthService
         $foundRow = UserVerify::where([
             'phone' => $this->phoneToSiteFormat($phone),
             'code' => $code]
-        )->get();
+        )->first();
 
-        if($foundRow->isEmpty())
+        if(!$foundRow)
             throw new \DomainException("Не верно введен проверочный код");
-
-        $foundRow = $foundRow->first();
 
         if($foundRow->verify_at != null)
             throw new \DomainException("Данный код уже был активирован ранее");

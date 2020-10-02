@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Auth;
 
 use App\Models\UserVerify;
 use App\Services\AuthService;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -17,12 +18,13 @@ class CorrectAuthServiceTest extends TestCase
     {
         parent::setUp();
         $this->authService = app()->get(AuthService::class);
-        dd($this->authService);
     }
 
     public function testCorrectCheckVerifyCode()
     {
-        $verifyUserRow = factory(UserVerify::class)->create();
+        $verifyUserRow = factory(UserVerify::class)->create([
+            'phone' => '+7(111) 111-11-11'
+        ]);
         $result = $this->authService->isVerifyCode($verifyUserRow['phone'], $verifyUserRow['code']);
         $this->assertTrue($result);
     }
@@ -31,7 +33,7 @@ class CorrectAuthServiceTest extends TestCase
     public function testIncorrectCheckVerifyCode()
     {
         $this->expectException(\DomainException::class);
-        $this->authService->checkVerifyCode(111111, 111111);
+        $this->authService->isVerifyCode(111111, 111111);
     }
 
     public function testCorrectPhoneToSiteFormat()
