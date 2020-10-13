@@ -82,8 +82,8 @@
     },
     methods: {
       logout() {
-        this.$router.push('/login');
         this.$store.dispatch('logoutUser');
+        this.$router.push('/login');
         location.reload();
       }
     }

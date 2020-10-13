@@ -3,7 +3,7 @@
     <app-order-form-min/>
     <app-headers h1="Добавление контактных лиц"/>
     <v-row v-for="contact in personalContacts" :key="contact.key">
-      <personal-contact-item :contact="contact"/>
+      <personal-contact-item :contact="contact" @personalContactRemoved="onRemovedContact"/>
     </v-row>
     <v-row justify="center">
       <v-col md="auto">
@@ -24,8 +24,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <app-nav @clickNext="clickNext"
-                 backPath="data"
+        <app-nav backPath="data"
                  :disableNext="filledContacts.length < 2 || !isValidAllItems"
                  toPath="card-binding"/>
       </v-col>
@@ -38,6 +37,11 @@ import PersonalContactItem from "./PersonalContactItem";
 import {mapGetters} from "vuex"
 
 export default {
+  data() {
+    return {
+      removedContacts: []
+    }
+  },
   components: {
     PersonalContactItem
   },
@@ -51,13 +55,22 @@ export default {
     cancelAdd(key) {
       this.$store.commit('removePersonalContactByKey', key)
     },
-    async clickNext() {
+    onRemovedContact(contact) {
+      if(contact.guid){
+        this.removedContacts.push(contact)
+      }
+    }
+  },
+  async beforeRouteLeave(to, from, next) {
+    if(to.name === 'card-binding') {
+
+      this.removedContacts.forEach((contact) => {
+        this.$store.commit('addPersonalContactForRemove', contact)
+      })
+
       await this.$store.dispatch('setPersonalContacts');
+      next()
     }
   }
 }
 </script>
-
-<style scoped>
-
-</style>

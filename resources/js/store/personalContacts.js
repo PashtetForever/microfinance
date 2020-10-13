@@ -4,10 +4,14 @@ import Vue from 'vue'
 export default {
   state: {
     personalContacts: [],
+    personalContactsForRemoved: []
   },
   getters: {
     personalContacts: s => {
       return s.personalContacts
+    },
+    personalContactsForRemoved: s => {
+      return s.personalContactsForRemoved
     },
     filledContacts: (s) => {
       return s.personalContacts.filter((item) => {
@@ -28,6 +32,13 @@ export default {
   mutations: {
     setPersonalContacts(s, payload) {
       s.personalContacts = payload
+    },
+    addPersonalContactForRemove(s, payload) {
+      s.personalContactsForRemoved.push({
+        GUID: payload.guid,
+        PhoneNumber: null,
+        Name: null
+      })
     },
     addEmptyPersonalContact(s) {
       s.personalContacts.push({
@@ -81,6 +92,8 @@ export default {
           GUID: item.guid ?? null
         }
       })
+      console.log(getters.personalContactsForRemoved)
+      data = data.concat(getters.personalContactsForRemoved);
 
       await api.setPersonalContacts(getters.sessionId, data);
     }

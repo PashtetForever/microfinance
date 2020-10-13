@@ -46,7 +46,7 @@
               </v-col>
             </v-row>
           </v-form>
-          <v-btn @click="$store.commit('removePersonalContactByKey', contactKey)"
+          <v-btn @click="$store.commit('removePersonalContactByKey', contactKey); $emit('personalContactRemoved', contact)"
                  v-if="contactKey > 1">Отменить добавление
           </v-btn>
         </v-card-text>
@@ -71,6 +71,7 @@ export default {
       firstName: this.contact.firstName,
       phone: this.contact.phone,
       contactKey: this.contact.key,
+      guid: this.contact.guid
     }
   },
   computed: {
@@ -124,6 +125,7 @@ export default {
         middleName: this.middleName,
         firstName: this.firstName,
         phone: this.phone,
+        guid: this.guid,
         key: this.contactKey,
         isValid: !this.$v.$invalid
       })

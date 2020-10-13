@@ -73,8 +73,8 @@ export default {
       commit('dateEndLoan', endDate)
     },
     async logoutUser() {
-      await window.localStorage.removeItem('vuex');
-      window.localStorage.vuex = null;
+      await window.sessionStorage.removeItem('vuex');
+      window.sessionStorage.vuex = null;
     },
     async userLogin({commit, dispatch}, payload) {
       const response = await Api.login(payload.login, payload.password, payload.phone);

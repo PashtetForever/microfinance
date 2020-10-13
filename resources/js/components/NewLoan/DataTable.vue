@@ -33,6 +33,7 @@
                     readonly
                     v-bind="attrs"
                     v-on="on"
+                    :rules="isDate"
                     @click:clear="date = null"
                   ></v-text-field>
                 </template>
@@ -113,6 +114,9 @@
         ],
         notEmptyRule: [
           v => !!v || 'Поле обязательно для заполнения',
+        ],
+        isDate: [
+          v => moment(v, 'DD.MM.YYYY', true).isValid() || 'Поле обязательно для заполнения'
         ],
         snilsRule: [
           v => v.length >= 11 || 'СНИЛС заполнен не полностью'
@@ -220,7 +224,3 @@
     }
   }
 </script>
-
-<style scoped>
-
-</style>

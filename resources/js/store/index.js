@@ -15,7 +15,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   plugins: [createPersistedState({
-    storage: window.localStorage,
+    storage: window.sessionStorage,
     paths: ['user', 'contactData', 'userData', 'mandarin', 'personalContacts', 'loan', 'contract']
   })],
   modules: {user, contactData, userData, personalContacts, mandarin, actions, loan, contract}
