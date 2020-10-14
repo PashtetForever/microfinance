@@ -64,6 +64,7 @@ export default {
       commit('loanData', response.loan)
       commit('documents', response.documents)
       commit('loanGuid', response.loan.GUID)
+      commit('isExistLoan', true)
     },
     async signContract({commit, getters}, payload) {
       await api.getSignContract(getters.guid, payload, getters.sessionId)

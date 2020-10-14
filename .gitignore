@@ -23,5 +23,4 @@ yarn-error.log
 /public/*.js
 /public/js/app.js
 /laradock
-/resources/views/app.blade.php
 /public/js/app.js.LICENSE.txt
