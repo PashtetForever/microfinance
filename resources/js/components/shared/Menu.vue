@@ -81,9 +81,9 @@
       ...mapGetters(['isExistLoan', 'isExistSignContract'])
     },
     methods: {
-      logout() {
-        this.$store.dispatch('logoutUser');
-        this.$router.push('/login');
+      async logout() {
+        await this.$router.push('/login');
+        await this.$store.dispatch('logoutUser');
         location.reload();
       }
     }
