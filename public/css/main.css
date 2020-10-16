@@ -644,3 +644,6 @@ span#dayType {
 .v-slider__track-fill {
     border-radius: 6px;
 }
+.v-slider__thumb-label {
+    margin-left: 5px;
+}

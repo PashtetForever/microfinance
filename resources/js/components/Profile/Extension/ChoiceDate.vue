@@ -4,15 +4,7 @@
       <v-col>
         <v-row>
           <v-col>
-            <p><span class="font-weight-bold">Количество возможных продлений:</span> {{contractData.LeftExtends}}</p>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <p><span class="font-weight-bold">Количество дней продления:</span> {{days}}</p>
-          </v-col>
-          <v-col>
-            <p><span class="font-weight-bold">Новая дата возврата займа:</span> {{returnDate.format('L')}}</p>
+            <p>Количество возможных продлений: <span class="font-weight-bold">{{contractData.LeftExtends}}</span></p>
           </v-col>
         </v-row>
         <h2>Выберете срок продления</h2>
@@ -20,13 +12,23 @@
           <v-col>
             <v-slider
               v-model="days"
-              class="align-center"
+              class="align-center mt-5"
               :max="30"
               :min="1"
               :step="1"
               :color="'#fc0101'"
               :track-color="'#f6f6f6'"
-              hide-details/>
+              thumb-label="always"
+              hide-details>
+            </v-slider>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <p>Количество дней продления: <span class="font-weight-bold">{{days}}</span></p>
+          </v-col>
+          <v-col>
+            <p>Новая дата возврата займа: <span class="font-weight-bold">{{returnDate.format('L')}}</span></p>
           </v-col>
         </v-row>
       </v-col>
@@ -34,7 +36,7 @@
     <v-row>
       <v-col>
         <check-sms-form
-          button-name="Продлить займ"
+          :button-name="'Продлить займ до ' + returnDate.format('L')"
           card-title="Продлить займ"
           @successSmsForm="successSmsForm"
         />
@@ -93,5 +95,7 @@
 </script>
 
 <style scoped>
-
+ p {
+   font-size: 20px;
+ }
 </style>
