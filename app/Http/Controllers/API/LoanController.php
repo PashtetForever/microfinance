@@ -57,10 +57,12 @@ class LoanController extends Controller
 
         $signContractFile = $this->api->requestSignContract($request['sessionId'], $request['smsCode'], $loan->loan_guid);
 
-        foreach ($signContractFile['Documents'] as $document) {
+        /*foreach ($signContractFile['Documents'] as $document) {
             $this->documentsService->addDocumentToLoan(
                 $loan, $request['sessionId'], $document->Description, $document->FileName, $request['smsCode']);
-        }
+        }*/
+        $this->documentsService->addDocumentToLoan(
+            $loan, $request['sessionId'], $signContractFile['Description'], $signContractFile['FileName'], $request['smsCode']);
 
         $fillContract->delete();
     }
