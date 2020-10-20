@@ -50,7 +50,7 @@ class Receiver
 
         $contents = (array)json_decode($response->getBody()->getContents());
 
-        if (Arr::exists($contents, 'Result'))
+        if (Arr::exists($contents, 'Result')) {
             if ($contents['Result'] != true) {
                 \Log::error("Ошбика запроса в 1С", [
                     'urn' => $urn,
@@ -58,6 +58,7 @@ class Receiver
                 ]);
                 throw new \DomainException($contents['Message']);
             }
+        }
 
         if(Arr::exists($contents, 'error')) {
             \Log::error("Ошбика запроса в 1С", [

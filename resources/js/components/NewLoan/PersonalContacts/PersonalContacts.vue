@@ -69,8 +69,8 @@ export default {
       })
 
       await this.$store.dispatch('setPersonalContacts');
-      next()
     }
+    next()
   }
 }
 </script>
