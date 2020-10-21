@@ -14,7 +14,7 @@ export default new Router({
     {path: '/login', name: 'login', component: () => import('../components/Login/Auth')},
     {path: '/register', name: 'register', component: () => import('../components/Registration/Registration')},
     {path: '/verify', name: 'verify', component: () => import('../components/Login/CheckVerification')},
-    {path: '/change-password', name: 'change-password', component: () => import('../components/ChangePassword')},
+    {path: '/change-password', name: 'change-password', component: () => import('../components/Login/RestorePassword')},
     {
       path: '/new/',
       component: () => import('../components/NewLoan/NewLoan'),

@@ -46,8 +46,9 @@
               </v-col>
             </v-row>
           </v-form>
-          <v-btn @click="$store.commit('removePersonalContactByKey', contactKey); $emit('personalContactRemoved', contact)"
-                 v-if="contactKey > 1">Отменить добавление
+          <v-btn
+            @click="$store.commit('removePersonalContactByKey', contactKey); $emit('personalContactRemoved', contact)"
+            v-if="contactKey > 1">Отменить добавление
           </v-btn>
         </v-card-text>
       </v-card>

@@ -23,11 +23,11 @@
             placeholder="+7(495) 000-00-00"
           >
         </div>
-        <!--<div class="row">
+        <div class="row">
           <div class="col">
             <router-link to="/change-password">Забыли пароль?</router-link>
           </div>
-        </div>-->
+        </div>
         <button @click="submitForm"
                 :disabled="!valid"
                 type="submit"

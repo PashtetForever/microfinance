@@ -68,14 +68,20 @@
         await this.$store.dispatch('sendPhoneVerifyCode', this.phone);
       },
       async verifyCode() {
-        if(this.$store.dispatch('checkVerificationCode', {phone: this.phone, code: this.smsCode})) {
-          const response = await this.$store.dispatch('restorePassword', {
-            lastName: this.lastName,
-            firstName: this.firstName,
-            middleName: this.middleName,
-            code: this.smsCode,
-            phone: this.phone
-          });
+        if(await this.$store.dispatch('checkVerificationCode', {phone: this.phone, code: this.smsCode})) {
+          try {
+            this.dialog = false
+
+            await this.$store.dispatch('restorePassword', {
+              lastName: this.lastName,
+              firstName: this.firstName,
+              middleName: this.middleName,
+              code: this.smsCode,
+              phone: this.phone
+            });
+
+            await this.$router.push('login')
+          } catch (e) {}
         }
       }
     },
