@@ -37,9 +37,12 @@ export default {
     })
   },
   async beforeRouteLeave(to, from, next) {
-    if(to.name === 'personal-contacts')
-      await this.$store.dispatch('setUserData')
-    next()
+    if (to.name === 'personal-contacts') {
+      try {
+        await this.$store.dispatch('setUserData')
+        next()
+      } catch (e) {}
+    } else next()
   },
   mounted() {
     this.$refs.form.validate()

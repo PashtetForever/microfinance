@@ -54,6 +54,9 @@ export default {
     updatePersonalContact(s, payload) {
       Vue.set(s.personalContacts, payload.key, payload)
     },
+    clearContactsForRemove(s) {
+      s.personalContactsForRemoved = []
+    }
   },
   actions: {
     async loadPersonalContacts({getters, commit}) {
@@ -92,7 +95,7 @@ export default {
           GUID: item.guid ?? null
         }
       })
-      console.log(getters.personalContactsForRemoved)
+
       data = data.concat(getters.personalContactsForRemoved);
 
       await api.setPersonalContacts(getters.sessionId, data);

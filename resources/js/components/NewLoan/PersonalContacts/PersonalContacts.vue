@@ -48,29 +48,34 @@ export default {
   computed: {
     ...mapGetters(['personalContacts', 'filledContacts', 'isValidAllItems'])
   },
-  async mounted() {
-    await this.$store.dispatch('loadPersonalContacts');
-  },
   methods: {
     cancelAdd(key) {
       this.$store.commit('removePersonalContactByKey', key)
     },
     onRemovedContact(contact) {
-      if(contact.guid){
+      if (contact.guid) {
         this.removedContacts.push(contact)
       }
     }
   },
+  async beforeRouteEnter(fo, form, next) {
+    await next(vm => vm.$store.dispatch('loadPersonalContacts'))
+  },
   async beforeRouteLeave(to, from, next) {
-    if(to.name === 'card-binding') {
+    if (to.name === 'card-binding') {
 
       this.removedContacts.forEach((contact) => {
         this.$store.commit('addPersonalContactForRemove', contact)
       })
+      try {
+        await this.$store.dispatch('setPersonalContacts')
+        next()
+      } catch (e) {
+      } finally {
+        this.$store.commit('clearContactsForRemove')
+      }
 
-      await this.$store.dispatch('setPersonalContacts');
-    }
-    next()
+    } else next()
   }
 }
 </script>
