@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Loan\CreateLoanRequest;
 use App\Http\Resources\DocumentResource;
 use App\Http\Resources\LoanResource;
 use App\Models\Loan;
@@ -25,7 +26,7 @@ class LoanController extends Controller
         $this->documentsService = $documentsService;
     }
 
-    public function create(Request $request)
+    public function create(CreateLoanRequest $request)
     {
         return $this->loanService
             ->addLoan($request['userGuid'], $request['sessionId'], $request['sum'], $request['days'], $request['smsCode']);
@@ -57,12 +58,10 @@ class LoanController extends Controller
 
         $signContractFile = $this->api->requestSignContract($request['sessionId'], $request['smsCode'], $loan->loan_guid);
 
-        /*foreach ($signContractFile['Documents'] as $document) {
+        foreach ($signContractFile['Documents'] as $document) {
             $this->documentsService->addDocumentToLoan(
                 $loan, $request['sessionId'], $document->Description, $document->FileName, $request['smsCode']);
-        }*/
-        $this->documentsService->addDocumentToLoan(
-            $loan, $request['sessionId'], $signContractFile['Description'], $signContractFile['FileName'], $request['smsCode']);
+        }
 
         $fillContract->delete();
     }
@@ -72,11 +71,11 @@ class LoanController extends Controller
         $response = $this->api->getLastContractData($request['sessionId'], $request['loanGuid']);
 
         foreach ($response as $key => $item) {
-            if($key == 'ExtendCancelReason')
+            if ($key == 'ExtendCancelReason')
                 continue;
 
             $response[$key] = str_replace(',', '.', $item);
-            if($key == 'PercentSum' || $key == 'PercentSumFull' || $key == 'Sum')
+            if ($key == 'PercentSum' || $key == 'PercentSumFull' || $key == 'Sum')
                 $response[$key] = preg_replace('/\s+/ui', '', $item);
         }
 
@@ -108,7 +107,7 @@ class LoanController extends Controller
                 $loan, $request['sessionId'], $document->Description, $document->FileName, $request['smsCode'], true);
             $files[] = [
                 'name' => $document->Description,
-                'path' => env('MIX_APP_URI') .  '/storage/' . $filePath,
+                'path' => env('MIX_APP_URI') . '/storage/' . $filePath,
                 'smsCode' => $request['smsCode'],
                 'date' => Carbon::now()->format('d.m.Y'),
                 'hide' => "1"

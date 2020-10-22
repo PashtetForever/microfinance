@@ -6,6 +6,7 @@
       <v-text-field
         type="text"
         v-model="code"
+        autofocus="true"
         placeholder="Введите код из СМС">
       </v-text-field>
       <a class="btn btn-nav" @click="checkCode">Подтвердить</a>
