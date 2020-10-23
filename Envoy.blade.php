@@ -19,7 +19,7 @@
 @task('test')
     cd /var/www/zaim-dynai/data/www/zaim-dynai.ru/test/
     echo "Pulling repo..."
-    git pull --force origin master
+    git pull origin master
 
     echo "Run migrations..."
     /opt/php74/bin/php artisan migrate --force --no-interaction
