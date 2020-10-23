@@ -4,6 +4,7 @@ namespace App\Services\Loan;
 use App\Models\Document;
 use App\Models\Loan;
 use App\Services\Exchange1C\API;
+use DB;
 
 class LoanService
 {
@@ -18,31 +19,33 @@ class LoanService
 
     public function addLoan($userGuid, $sessionId, $sum, $days, $smsCode): array
     {
-        $responseCreateLoan = $this->api->requestCreateLoan($sessionId, $sum, $days);
-        $loanGuid = $responseCreateLoan['GUID'];
+        DB::transaction(function () use ($userGuid, $sessionId, $sum, $days, $smsCode){
+            $responseCreateLoan = $this->api->requestCreateLoan($sessionId, $sum, $days);
+            $loanGuid = $responseCreateLoan['GUID'];
 
-        $loan = Loan::create([
-            'loan_guid' => $loanGuid,
-            'user_guid' => $userGuid,
-            'number' => $responseCreateLoan['Num'],
-            'sum' => $sum,
-            'days' => $days
-        ]);
+            $loan = Loan::create([
+                'loan_guid' => $loanGuid,
+                'user_guid' => $userGuid,
+                'number' => $responseCreateLoan['Num'],
+                'sum' => $sum,
+                'days' => $days
+            ]);
 
-        $documentsResponse = (array)$this->api->getFileList($sessionId, $smsCode, $loanGuid)->getData(true);
-        $documents = [];
+            $documentsResponse = (array)$this->api->getFileList($sessionId, $smsCode, $loanGuid)->getData(true);
+            $documents = [];
 
-        foreach ($documentsResponse as $document) {
-            $documents[$this->documentsService->addDocumentToLoan($loan, $sessionId, $document['Description'], $document['FileName'], $smsCode)] = $document['Description'];
-        }
+            foreach ($documentsResponse as $document) {
+                $documents[$this->documentsService->addDocumentToLoan($loan, $sessionId, $document['Description'], $document['FileName'], $smsCode)] = $document['Description'];
+            }
 
-        $contract = $this->api->getFillContract($sessionId, $loanGuid)[0];
-        $this->documentsService->addDocumentToLoan($loan, $sessionId, $contract->Description, $contract->FileName);
+            $contract = $this->api->getFillContract($sessionId, $loanGuid)[0];
+            $this->documentsService->addDocumentToLoan($loan, $sessionId, $contract->Description, $contract->FileName);
 
-        return [
-            'loan' => $responseCreateLoan,
-            'documents' => $documents
-        ];
+            return [
+                'loan' => $responseCreateLoan,
+                'documents' => $documents
+            ];
+        });
     }
 
 

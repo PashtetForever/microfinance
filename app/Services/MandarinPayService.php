@@ -10,9 +10,9 @@ class MandarinPayService
 {
     private Client $client;
 
-    public function __construct($apiUri = 'https://secure.mandarinpay.com')
+    public function __construct(Client $client)
     {
-        $this->client = new Client(['base_uri' => $apiUri]);
+        $this->client = $client;
     }
 
     public function identify($login, $body)

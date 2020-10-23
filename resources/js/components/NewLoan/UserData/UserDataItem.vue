@@ -93,7 +93,7 @@ export default {
     changeInput(value) {
       let valueCode
 
-      if(this.inputValue === 'string' || this.inputValue === 'numeric' || this.inputType === 'date')
+      if(this.inputType === 'string' || this.inputType === 'numeric' || this.inputType === 'date')
         valueCode = value
       else if(this.inputType === 'enum')
         valueCode = value.value
