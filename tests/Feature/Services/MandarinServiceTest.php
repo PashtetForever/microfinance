@@ -55,14 +55,21 @@ class MandarinServiceTest extends TestCase
         ])->withException(new \DomainException());
     }
 
-    public function testBadResponse()
+    public function testBadResponseIdentifyPerson()
     {
-        $this->mockResponse(['error' => 'error', 500]);
+        $this->mockResponse(['error' => 'error'], 500);
 
         $this->post('/api/mandarin/identify-person', [
             'mandarinLogin' => array_rand(config('mandarin.user_login')),
             'data' => []
         ])->withException(new \DomainException());
+    }
+
+    public function testBadResponsePayment()
+    {
+        $this->post('/api/mandarin/repayment-loan-callback', [
+            'request' => 'error'
+        ])->setStatusCode(400)->assertStatus(500);
     }
 
     private function mockResponse(array $data, int $status = 200)

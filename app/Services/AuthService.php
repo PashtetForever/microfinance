@@ -20,7 +20,7 @@ class AuthService
             return;
 
         $phone = $this->phoneToSiteFormat($phone);
-        $code = rand(000001,999999);
+        $code = rand(111111,999999);
 
         $userVerify = new UserVerify([
             'phone' => $phone,

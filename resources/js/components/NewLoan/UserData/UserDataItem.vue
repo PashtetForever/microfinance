@@ -65,7 +65,7 @@ export default {
   computed: {
     ...mapGetters(['userDob']),
     dateFormatted() {
-      return this.date ? moment(this.date).locale('ru').format('DD.MM.YYYY') : ''
+      return this.date ? moment(this.inputValue, 'DD.MM.YYYY').format('DD.MM.YYYY') : ''
     }
   },
   methods: {

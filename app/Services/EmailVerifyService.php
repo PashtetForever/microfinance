@@ -10,7 +10,7 @@ class EmailVerifyService
 {
     public function sendVerifyMail(string $email, string $userGuid)
     {
-        $code = rand(0000, 9999);
+        $code = rand(1111, 9999);
 
         Log::info('Отпрвка письма для проверки пользователя', [
             'user_guid' => $userGuid,

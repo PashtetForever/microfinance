@@ -8,7 +8,7 @@ use Faker\Generator as Faker;
 $factory->define(EmailVerify::class, function (Faker $faker) {
     return [
         'user_guid' => $faker->uuid,
-        'code' => rand(0000, 9999),
+        'code' => rand(1111, 9999),
         'email' => $faker->email
     ];
 });
