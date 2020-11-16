@@ -165,3 +165,28 @@
 
     echo "Oazis Done"
 @endtask
+
+@task('smfv-test')
+    cd /var/www/mkk_legatto/data/www/smfv.ru/test
+    echo "Pulling repo..."
+    git pull origin master
+
+    echo "Run migrations..."
+    /opt/php74/bin/php artisan migrate --force --no-interaction
+
+    echo "Installing composer depencencies..."
+    /opt/php74/bin/php /usr/local/bin/composer install --no-interaction --quiet --no-dev --prefer-dist --optimize-autoloader --ignore-platform-reqs
+
+    /opt/php74/bin/php artisan view:clear --quiet
+    /opt/php74/bin/php artisan cache:clear --quiet
+    /opt/php74/bin/php artisan config:cache --quiet
+    echo "Cache cleared"
+
+    chown -R mkk_legatto:mkk_legatto ./*
+    chown -R mkk_legatto:mkk_legatto ./.*
+
+    echo "Run JS building..."
+    yarn prod
+
+    echo "Smfv Done"
+@endtask

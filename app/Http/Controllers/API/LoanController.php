@@ -85,6 +85,7 @@ class LoanController extends Controller
     public function extendLoan(Request $request)
     {
         $response = $this->api->extendLoan($request['loanGuid'], $request['returnDate']);
+        \Log::info('Продлеваем займ', $request->toArray());
         $this->documentsService->openAllDocuments($request['loanGuid']);
         return $response;
     }

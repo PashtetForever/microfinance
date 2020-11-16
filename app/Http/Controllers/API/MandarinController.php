@@ -75,7 +75,7 @@ class MandarinController extends Controller
     public function paymentExtensionPercent(Request $request)
     {
         $config = config('mandarin');
-
+        \Log::info('Оплата процентов для продления займа', $request->toArray());
         return $this->mandarinPayService->payment
         ($request['mandarinLogin'], $request['orderId'], $request['price'], $request['email'],
             $config['url_return_extension'], $config['url_callback_extension']);
