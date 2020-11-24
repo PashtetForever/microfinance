@@ -28,8 +28,10 @@
     computed: {
       ...mapGetters(['loanData', 'canBeExtended', 'contractData'])
     },
-    async mounted() {
-      await this.$store.dispatch('getContractData')
-    }
+    async beforeRouteEnter(to, from, next) {
+      await next(vm => {
+        vm.$store.dispatch('getContractData')
+      })
+    },
   }
 </script>

@@ -30,6 +30,7 @@
     /opt/php74/bin/php artisan view:clear --quiet
     /opt/php74/bin/php artisan cache:clear --quiet
     /opt/php74/bin/php artisan config:cache --quiet
+    /opt/php74/bin/php artisan config:clear --quiet
     echo "Cache cleared"
 
     chown -R {{$user}}:{{$user}} ./*
@@ -55,6 +56,7 @@
     /opt/php74/bin/php artisan view:clear --quiet
     /opt/php74/bin/php artisan cache:clear --quiet
     /opt/php74/bin/php artisan config:cache --quiet
+/opt/php74/bin/php artisan config:clear --quiet
     echo "Cache cleared"
 
     chown -R {{$user}}:{{$user}} ./*
@@ -80,6 +82,7 @@
     /opt/php74/bin/php artisan view:clear --quiet
     /opt/php74/bin/php artisan cache:clear --quiet
     /opt/php74/bin/php artisan config:cache --quiet
+    /opt/php74/bin/php artisan config:clear --quiet
     echo "Cache cleared"
 
     chown -R {{$user}}:{{$user}} ./*
@@ -105,6 +108,7 @@
     /opt/php74/bin/php artisan view:clear --quiet
     /opt/php74/bin/php artisan cache:clear --quiet
     /opt/php74/bin/php artisan config:cache --quiet
+    /opt/php74/bin/php artisan config:clear --quiet
     echo "Cache cleared"
 
     chown -R {{$user}}:{{$user}} ./*
@@ -130,6 +134,7 @@
     /opt/php74/bin/php artisan view:clear --quiet
     /opt/php74/bin/php artisan cache:clear --quiet
     /opt/php74/bin/php artisan config:cache --quiet
+    /opt/php74/bin/php artisan config:clear --quiet
     echo "Cache cleared"
 
     chown -R {{$user}}:{{$user}} ./*
@@ -155,6 +160,7 @@
     /opt/php74/bin/php artisan view:clear --quiet
     /opt/php74/bin/php artisan cache:clear --quiet
     /opt/php74/bin/php artisan config:cache --quiet
+    /opt/php74/bin/php artisan config:clear --quiet
     echo "Cache cleared"
 
     chown -R {{$user}}:{{$user}} ./*
@@ -180,6 +186,7 @@
     /opt/php74/bin/php artisan view:clear --quiet
     /opt/php74/bin/php artisan cache:clear --quiet
     /opt/php74/bin/php artisan config:cache --quiet
+    /opt/php74/bin/php artisan config:clear --quiet
     echo "Cache cleared"
 
     chown -R mkk_legatto:mkk_legatto ./*
