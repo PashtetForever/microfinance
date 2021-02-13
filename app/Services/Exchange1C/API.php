@@ -3,7 +3,7 @@ namespace App\Services\Exchange1C;
 
 use Illuminate\Support\Facades\Storage;
 
-class API implements ApiInterface
+class API
 {
     private Receiver $receiver;
 
@@ -188,9 +188,7 @@ class API implements ApiInterface
     {
         try {
             return response()->json($this->receiver->request($method, $urn, $data));
-        } catch (\DomainException $exception) {
-            return response()->json(['error' => $exception->getMessage()], 500);
-        } catch (\Exception $exception) {
+        } catch (\DomainException | \Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }

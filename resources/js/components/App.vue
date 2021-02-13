@@ -1,6 +1,6 @@
 <template>
   <v-app id="app">
-    <v-content>
+    <v-main>
       <template v-if="loading">
         <v-overlay :value="loading">
           <v-progress-circular indeterminate size="64" class="align-content-center"/>
@@ -43,7 +43,7 @@
       <v-snackbar v-model="snackbar">{{errorText}}
         <v-btn color="pink" text @click="$store.commit('snackbar', false)">Закрыть</v-btn>
       </v-snackbar>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 

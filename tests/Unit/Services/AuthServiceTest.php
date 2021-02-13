@@ -1,14 +1,13 @@
 <?php
 
-namespace Tests\Auth;
+namespace Tests\Unit\Services;
 
 use App\Models\UserVerify;
 use App\Services\AuthService;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class CorrectAuthServiceTest extends TestCase
+class AuthServiceTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -33,7 +32,7 @@ class CorrectAuthServiceTest extends TestCase
     public function testIncorrectCheckVerifyCode()
     {
         $this->expectException(\DomainException::class);
-        $this->authService->isVerifyCode(111111, 111111);
+        $this->authService->isVerifyCode('111111', '111111');
     }
 
     public function testCorrectPhoneToSiteFormat()

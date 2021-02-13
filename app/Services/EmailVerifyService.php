@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Mail\VerifyEmail;
 use App\Models\EmailVerify;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Log;
 
 class EmailVerifyService
@@ -24,10 +26,10 @@ class EmailVerifyService
             'email' => $email
         ]);
 
-        mail($email, 'mkksentimo.ru: Подтверждение электронной почты', "Ваш код активации: $code", 'From: info@mkksentimo.ru');
+        Mail::to($email)->send(new VerifyEmail($code));
     }
 
-    public function isCorrectVerify(string $userGuid, string $code)
+    public function isCorrectVerify(string $userGuid, string $code): bool
     {
         $row = EmailVerify::where([
             'user_guid' => $userGuid,

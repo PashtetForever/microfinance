@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Services\SendSms\IqSms;
-use App\Services\SendSms\Sender;
+use App\Services\SendSms\SmsSender;
 use Illuminate\Support\ServiceProvider;
 
 class SmsServiceProvider extends ServiceProvider
@@ -15,7 +15,7 @@ class SmsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(Sender::class, function ($app) {
+        $this->app->singleton(SmsSender::class, function ($app) {
             $config = config('sms');
             return new IqSms($config['login'], $config['password'], $config['senderName']);
         });

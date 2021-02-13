@@ -230,5 +230,5 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
-    'mix_url' => env('MIX_PREFIX', 'http://localhost')
+    'mix_url' => env('APP_URL', 'http://localhost')
 ];

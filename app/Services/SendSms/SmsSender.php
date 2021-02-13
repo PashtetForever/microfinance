@@ -1,7 +1,7 @@
 <?php
 namespace App\Services\SendSms;
 
-interface Sender
+interface SmsSender
 {
     public function send($phone, $text);
 }

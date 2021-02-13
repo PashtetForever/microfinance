@@ -1,26 +1,54 @@
 <?php
 
+namespace Tests\Feature\Services\Exchange1C;
+
+use App\Services\Exchange1C\API;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use GuzzleHttp\Psr7\Response;
 
 class ReceiverTest extends TestCase
 {
-    public function testCorrectRequestWithOutResult()
+    use RefreshDatabase, WithFaker;
+
+    public function testCorrectLogin()
     {
-        $this->json('POST', '/api/user/login', ['login' => 'test', 'password' => 'test'])
-            ->assertStatus(200)
-            ->assertJsonStructure(['SessionId', 'GUID', 'LoanPercent']);
+        $mock = \Mockery::mock(API::class);
+        $mock->shouldReceive('login')
+            ->withAnyArgs()
+            ->andReturn($this->createMockResponse(['SessionID' => 'session-id'], 200));
+
+        $this->app->instance(API::class, $mock);
+
+        $response = $this->post('/api/user/login', ['login' => 'test', 'password' => 'test', 'phone' => '+7 (953) 939-38-13']);
+        $response->assertStatus(200);
+        $response->assertJson(['SessionID' => 'session-id']);
     }
 
-    public function testServerErrorRequest()
+    public function testCreateLoanCorrect()
     {
-        $this->json('POST', '/api/user/login', ['some' => 'foo'])
-            ->assertStatus(500)
-            ->assertJsonStructure(['message']);
+        $mock = \Mockery::mock(API::class);
+        $mock->shouldReceive('requestCreateLoan')
+            ->withAnyArgs()
+            ->andReturn($this->createMockResponse([
+                'status' => 'ok',
+                'GUID' => $this->faker->uuid,
+                'Num' => $this->faker->numberBetween(1000, 9000)
+            ], 200));
+
+        $mock->shouldReceive('getFileList')->andReturn($this->createMockResponse([
+            'FileName' => 'path-to-file',
+            'Description' => 'file-name'
+        ], 200));
+
+        $this->app->instance(API::class, $mock);
+
+
     }
-    public function testIncorrectRequestWithResult()
+
+    private function createMockResponse($responseData, $statusCode): Response
     {
-        $this->json('POST', '/api/documents/filelist', ['session_id' => 'foo'])
-            ->assertStatus(500)
-            ->assertJsonStructure(['message']);
+        return new Response($statusCode, ['Content-Type' => 'application/json'], json_encode($responseData));
     }
 }

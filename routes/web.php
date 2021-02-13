@@ -7,11 +7,8 @@ Route::get('/storage/documents/{loanGuid}/{file}', function ($loanGuid, $file) {
     ]);
 });
 
-Route::get('/reset-settings', function () {
-    Artisan::call('config:cache');
-    return 'Done';
-});
-
 Route::get('{any}', function () {
     return view('app');
 })->where('any', '.*');
+
+Route::get('{path}', 'HomeController')->where('path', '(.*)');

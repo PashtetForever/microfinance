@@ -65,13 +65,6 @@ class MandarinServiceTest extends TestCase
         ])->withException(new \DomainException());
     }
 
-    public function testBadResponsePayment()
-    {
-        $this->post('/api/mandarin/repayment-loan-callback', [
-            'request' => 'error'
-        ])->setStatusCode(400)->assertStatus(500);
-    }
-
     private function mockResponse(array $data, int $status = 200)
     {
         $client = m::mock(Client::class);

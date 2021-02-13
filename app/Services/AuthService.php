@@ -1,15 +1,15 @@
 <?php
 namespace App\Services;
 
-use App\Services\SendSms\Sender;
+use App\Services\SendSms\SmsSender;
 use App\Models\UserVerify;
 use Carbon\Carbon;
 
 class AuthService
 {
-    private Sender $sender;
+    private SmsSender $sender;
 
-    public function __construct(Sender $sender)
+    public function __construct(SmsSender $sender)
     {
         $this->sender = $sender;
     }
@@ -33,7 +33,7 @@ class AuthService
 
     public function isVerifyCode(string $phone, string $code)
     {
-        if(env('APP_DEBUG'))
+        if(env('APP_DEBUG') && env('APP_ENV') != 'testing')
             return true;
 
         $foundRow = UserVerify::where([

@@ -1,6 +1,6 @@
 <?php
 
-namespace UseCases;
+namespace Tests\Unit\Services;
 
 use App\Models\EmailVerify;
 use App\Services\EmailVerifyService;

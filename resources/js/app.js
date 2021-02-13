@@ -1,5 +1,4 @@
-require('./bootstrap');
-
+import '@mdi/font/css/materialdesignicons.css'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from './store'

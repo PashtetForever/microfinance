@@ -6,7 +6,7 @@ namespace App\Services\SendSms;
 
 use GuzzleHttp\Client;
 
-class IqSms implements Sender
+class IqSms implements SmsSender
 {
     private string $login;
     private string $password;
