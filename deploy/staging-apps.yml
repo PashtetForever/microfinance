@@ -1,0 +1,8 @@
+---
+
+- name: Развертываение приложения тестовых версий
+  hosts: isp_server
+  remote_user: root
+
+  roles:
+    - { role: deploy, app_paths: "{{ staging_app_paths }}" }

@@ -1,0 +1,8 @@
+---
+
+- name: Развертываение приложения production версий
+  hosts: isp_server
+  remote_user: root
+
+  roles:
+    - { role: deploy, app_paths: "{{ productions_app_paths }}" }

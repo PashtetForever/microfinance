@@ -24,3 +24,5 @@ yarn-error.log
 /public/js/app.js
 /laradock
 /public/js/app.js.LICENSE.txt
+
+deploy/pass

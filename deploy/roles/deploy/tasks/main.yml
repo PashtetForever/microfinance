@@ -1,0 +1,39 @@
+---
+
+- name: Git pull
+  with_items: "{{ app_paths }}"
+  git:
+    repo: "{{ git_repository }}"
+    dest: "{{ item }}"
+    force: yes
+    accept_hostkey: yes
+
+- name: Установка зависимотей Composer
+  with_items: "{{ app_paths }}"
+  composer:
+    command: install
+    working_dir: "{{ item }}"
+    executable: "/opt/php74/bin/php"
+    prefer-dist: yes
+    ignore_platform_reqs: yes
+    no_plugins: yes
+    no_scripts: yes
+
+- name: Установка зависимостей NPM
+  with_items: "{{ app_paths }}"
+  npm:
+    path: "{{ item }}"
+    ignore_scripts: yes
+    production: yes
+
+- name: Выполнение миграций и чистка кеша
+  with_items: "{{ app_paths }}"
+  command: cd {{ item }} && /opt/php74/bin/php artisan migrate --force --no-interaction
+
+- name: Изменение праав на сервере
+  with_items: "{{ app_paths }}"
+  command: cd {{ item }} && chown -R zaim-dynai:zaim-dynai ./* && chown -R zaim-dynai:zaim-dynai ./*
+
+- name: Выполнение сборки фронтенда
+  with_items: "{{ app_paths }}"
+  command: cd {{ item }} && npm run prod
