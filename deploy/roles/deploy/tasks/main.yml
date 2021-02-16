@@ -30,10 +30,10 @@
   with_items: "{{ app_paths }}"
   command: cd {{ item }} && /opt/php74/bin/php artisan migrate --force --no-interaction
 
-- name: Изменение праав на сервере
-  with_items: "{{ app_paths }}"
-  command: cd {{ item }} && chown -R zaim-dynai:zaim-dynai ./* && chown -R zaim-dynai:zaim-dynai ./*
-
 - name: Выполнение сборки фронтенда
   with_items: "{{ app_paths }}"
   command: cd {{ item }} && npm run prod
+
+- name: Изменение праав на сервере
+  with_items: "{{ app_paths }}"
+  command: cd {{ item }} && chown -R zaim-dynai:zaim-dynai ./* && chown -R zaim-dynai:zaim-dynai ./*

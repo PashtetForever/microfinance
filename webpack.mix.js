@@ -6,11 +6,11 @@ mix.sass('resources/sass/app.scss', 'public/css'); //todo: Стили не ми�
 if(mix.inProduction()) {
   mix.version();
   mix.babel(['public/js/app.js'], 'public/js/app.es5.js')
-  /*mix.webpackConfig({
+  mix.webpackConfig({
     output: {
       publicPath: '/cabinet/public/'
     }
-  });*/
+  });
 } else {
   mix.sourceMaps(false, 'source-map')
   mix.browserSync('dynai.test');
