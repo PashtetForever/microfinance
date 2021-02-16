@@ -8,7 +8,7 @@ if(mix.inProduction()) {
   mix.babel(['public/js/app.js'], 'public/js/app.es5.js')
   mix.webpackConfig({
     output: {
-      publicPath: '/cabinet/public/'
+      publicPath: '/test/public/'
     }
   });
 } else {
