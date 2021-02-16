@@ -24,7 +24,7 @@
   npm:
     path: "{{ item }}"
     ignore_scripts: yes
-    production: yes
+    production: no
 
 - name: Выполнение миграций и чистка кеша
   with_items: "{{ app_paths }}"
