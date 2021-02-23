@@ -5,12 +5,12 @@ export default class {
   static async request(method, url, data) {
 
     store.commit('setLoading', true);
-    url = process.env.MIX_APP_URI + url;
 
     return await axios({
       method,
       url,
-      data
+      data,
+      baseURL: process.env.APP_URL
     })
       .then((response) => {
         return response.data.original ?? response.data;

@@ -1,49 +1,27 @@
-const mix = require('laravel-mix');
+const mix = require('laravel-mix')
+const path = require('path')
 
 mix.js('resources/js/app.js', 'public/js').vue();
-mix.sass('resources/sass/app.scss', 'public/css'); //todo: Стили не минифицируются
+mix.sass('resources/sass/app.scss', 'public/css').options({
+  processCssUrls: false,
+});
 
 if(mix.inProduction()) {
   mix.version();
-  mix.babel(['public/js/app.js'], 'public/js/app.es5.js')
+  mix.babel(['public/js/app.js'], 'public/js/app.es5.js');
   mix.webpackConfig({
     output: {
-      publicPath: '/test/public/'
+      publicPath: process.env.APP_SUBDIRECTORY
+    },
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, 'resources/js')
+      }
     }
-  });
-} else {
+  })
+}
+
+else {
   mix.sourceMaps(false, 'source-map')
-  mix.browserSync('dynai.test');
+  mix.browserSync(process.env.APP_URL);
 }
-
-/*if (process.env.APP_ENV === 'production') {
-  mix.js('resources/js/app.js', 'public/js')
-    .babel(['public/js/app.js'], 'public/js/app.es5.js')
-    .sass('resources/sass/app.scss', 'public/css')
-    .version();
-  mix.webpackConfig({
-    output: {
-      filename: '[name].js',
-      chunkFilename: 'js/[name].app.js',
-      publicPath: '/cabinet/public/'
-    }
-  });
-}
-if (process.env.APP_ENV === 'staging') {
-  mix.js('resources/js/app.js', 'public/js')
-    .babel(['public/js/app.js'], 'public/js/app.es5.js')
-    .sass('resources/sass/app.scss', 'public/css')
-    .version();
-
-  mix.webpackConfig({output: {filename: '[name].js', chunkFilename: 'js/[name].app.js', publicPath: '/test/public/'}});
-}
-if (process.env.APP_ENV === 'local') {
-  //mix.browserSync('dynai.test')
-  //mix.sourceMaps(false, 'source-map');
-
-  mix
-    .js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
-
-
-}*/

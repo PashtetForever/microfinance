@@ -1,5 +1,4 @@
 /.idea
-/_laradock
 /node_modules
 /public/hot
 /public/storage
@@ -22,7 +21,6 @@ yarn-error.log
 /yarn-error.log
 /public/*.js
 /public/js/app.js
-/laradock
 /public/js/app.js.LICENSE.txt
 
 deploy/pass

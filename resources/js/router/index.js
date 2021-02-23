@@ -9,7 +9,7 @@ Vue.use(Router);
 
 export default new Router({
   mode: 'history',
-  base: process.env.MIX_ROUTER_PATH,
+  base: process.env.APP_SUBDIRECTORY,
   routes: [
     {path: '/login', name: 'login', component: () => import('../components/Login/Auth')},
     {path: '/register', name: 'register', component: () => import('../components/Registration/Registration')},

@@ -2,18 +2,19 @@
 
 $mainContrastColor: #D72024;
 
-.container {
+.container{
     max-width: 1140px !important;
     padding: 0;
 }
 
-.background-form .calc-wrapper {
+.background-form .calc-wrapper{
     border: 3px solid $mainContrastColor;
     margin: 90px 0 0;
     border-radius: 6px;
 }
 
-.star {
+.star{
     color: $mainContrastColor;
     font-weight: bold;
 }
+
